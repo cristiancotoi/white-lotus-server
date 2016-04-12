@@ -1,5 +1,5 @@
 /**
- * Created by Sandeep on 01/06/14.
+ * .
  */
 
 // Load Our Modules
@@ -15,7 +15,7 @@ var app = express();
 //connect to our database
 //Ideally you will obtain DB details from a config file
 
-var dbName='personDB';
+var dbName='whitelotus';
 
 var connectionString='mongodb://localhost:27017/'+dbName;
 
