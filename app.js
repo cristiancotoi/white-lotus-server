@@ -19,7 +19,17 @@ var app = express();
 
 var dbName='whitelotus';
 
-var connectionString='mongodb://localhost:27017/'+dbName;
+// default to a 'localhost' configuration:
+var connectionString = '127.0.0.1:27017/' + dbName;
+
+// if OPENSHIFT env variables are present, use the available connection info:
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+}
 
 mongoose.connect(connectionString);
 
