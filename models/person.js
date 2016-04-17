@@ -25,7 +25,7 @@ var personSchema = new Schema({
         },
         tz: Number,
         longitude: Number,
-        // analystId: String,
+        analystId: String,
         gender: String
     },
     {
