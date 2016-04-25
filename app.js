@@ -1,37 +1,21 @@
-/**
- * .
- */
+const http = require('http'),
+    fs = require('fs'),
+    path = require('path'),
+    contentTypes = require('./utils/content-types'),
+    sysInfo = require('./utils/sys-info'),
+    env = process.env,
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    cors = require('cors');
 
-// Load Our Modules
-
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var cors = require('cors');
+let port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
+let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var persons = require('./routes/persons');
 var pSquare = require('./routes/psquare');
 
 var app = express();
-
-//connect to our database
-//Ideally you will obtain DB details from a config file
-
-var dbName='whitelotus';
-
-// default to a 'localhost' configuration:
-var connectionString = '127.0.0.1:27017/' + dbName;
-
-// if OPENSHIFT env variables are present, use the available connection info:
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-        process.env.OPENSHIFT_APP_NAME;
-}
-
-mongoose.connect(connectionString);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -39,5 +23,36 @@ app.use(cors());
 
 app.use('/api', persons);
 app.use('/api', pSquare);
+app.use(express.static('static'));
+app.get('/health', function(req, res) {
+    res.writeHead(200);
+    res.end();
+});
+
+
+function getSysInfo(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
+    res.end(JSON.stringify(sysInfo[req.originalUrl.slice(6)]()));
+}
+app.get('/info/poll', getSysInfo);
+app.get('/info/gen', getSysInfo);
+
+let dbName='whitelotus';
+let connectionString = '127.0.0.1:27017/' + dbName;
+// MONGODB_URL should also include trailing '/'
+if(process.env.MONGODB_URL) {
+    connectionString = process.env.MONGODB_URL + dbName;
+}
+
+mongoose.connect(connectionString, {
+        db: { nativeParser: true }
+    }
+);
+
+/*var server = */app.listen(port, ipAddress, function () {
+    console.log(`Application worker ${process.pid} started...`);
+    console.log('Express server listening on ' + ipAddress + ':' + port);
+});
 
 module.exports = app;
