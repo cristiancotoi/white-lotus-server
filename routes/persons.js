@@ -1,12 +1,9 @@
-/**
- * .
- */
+'use strict';
 
 var Person = require('../models/person');
 var express = require('express');
 
 //configure routes
-
 var router = express.Router();
 
 router.route('/persons')

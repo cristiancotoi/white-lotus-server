@@ -28,7 +28,12 @@ app.get('/health', function(req, res) {
     res.writeHead(200);
     res.end();
 });
-
+app.get('/routes', function(req, res) {
+    var router = express.Router();
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
+    res.end(JSON.stringify(router.stack));
+});
 
 function getSysInfo(req, res) {
     res.setHeader('Content-Type', 'application/json');
@@ -43,6 +48,14 @@ let connectionString = '127.0.0.1:27017/' + dbName;
 // MONGODB_URL should also include trailing '/'
 if(process.env.MONGODB_URL) {
     connectionString = process.env.MONGODB_URL + dbName;
+}
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+    connectionString =
+        process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
 }
 
 mongoose.connect(connectionString, {

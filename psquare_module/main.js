@@ -2,9 +2,9 @@
  * Created by Cristian on 13/04/2016.
  */
 
-var Person=require('../models/person');
+var Person = require('../models/person');
 
-var pSquare = function(date) {
+var pSquare = function (date) {
     var numbers = {
         '0': {
             'id': '0',
@@ -64,16 +64,16 @@ var pSquare = function(date) {
     var op = [0, 0, 0, 0];
 
     /*function getDaySum() {
-        return sumDigits(date.day);
-    }
+     return sumDigits(date.day);
+     }
 
-    function getMonthSum() {
-        return sumDigits(date.month);
-    }
+     function getMonthSum() {
+     return sumDigits(date.month);
+     }
 
-    function getYearSum() {
-        return sumDigits(date.year);
-    }*/
+     function getYearSum() {
+     return sumDigits(date.year);
+     }*/
 
     function multiplyNumber(number, count) {
         if (count == 0) return '';
@@ -85,15 +85,15 @@ var pSquare = function(date) {
     }
 
     /*function logNumbers() {
-        for (var i = 1; i <= 3; i += 1) {
-            var line = "";
-            for (var j = 0; j < 3; j += 1) {
-                line += getLongText(numbers[i + j * 3]) + '\t';
-            }
-            console.log(i, line.trim());
-        }
-        console.log(0, getLongText(numbers[0]), '\n');
-    }*/
+     for (var i = 1; i <= 3; i += 1) {
+     var line = "";
+     for (var j = 0; j < 3; j += 1) {
+     line += getLongText(numbers[i + j * 3]) + '\t';
+     }
+     console.log(i, line.trim());
+     }
+     console.log(0, getLongText(numbers[0]), '\n');
+     }*/
 
     function getLongText(digit) {
         if (typeof digit == 'object') {
