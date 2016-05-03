@@ -9,6 +9,8 @@ const http = require('http'),
     mongoose = require('mongoose'),
     cors = require('cors');
 
+mongoose.Promise = require('bluebird');
+
 let port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
 let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 

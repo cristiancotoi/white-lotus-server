@@ -1,10 +1,13 @@
-/**
- * Created by Cristian on 13/04/2016.
- */
+'use strict';
+
+var Promise = require("bluebird");
 
 var Person = require('../models/person');
+var OperationalNumber = require('../models/psquare/op-number');
+var SpiritLevel = require('../models/psquare/spirit-level');
 
-var pSquare = function (date) {
+var pSquare = function (person, response) {
+    var date = person.date;
     var numbers = {
         '0': {
             'id': '0',
@@ -154,14 +157,50 @@ var pSquare = function (date) {
         }
     }
 
-    computeSquareNumbers();
+    function aggregate() {
+        computeSquareNumbers();
 
-    return {
-        dateStr: '' + date.day + date.month + date.year,
-        op: op,
-        numbers: numbers,
-        square: digitsSquare
-    };
+        var promises = [];
+
+        var result = {
+            dateStr: '' + date.day + date.month + date.year,
+            op: op,
+            numbers: numbers,
+            square: digitsSquare
+        };
+
+        var spiritPromise = SpiritLevel.find({
+            "min": {
+                $lt: op[0]
+            },
+            "max": {
+                $gt: op[0]
+            }
+        }).exec();
+
+        promises.push(spiritPromise.then(function (spiritLevel) {
+            result.spiritLevel = spiritLevel[0];
+        }));
+
+        var opPromise = OperationalNumber.find().exec();
+
+        promises.push(opPromise.then(function (operationalNumbers) {
+            for (let i = 0; i < op.length; i++) {
+                op[i] = {
+                    position: i + 1,
+                    number: op[i],
+                    details: operationalNumbers[i]
+                };
+            }
+        }));
+
+        Promise.all(promises).then(function () {
+            // All DB queries are finished - returning the result
+            response.json(result);
+        });
+    }
+
+    aggregate();
 };
 
 module.exports = pSquare;
