@@ -157,18 +157,7 @@ var pSquare = function (person, response) {
         }
     }
 
-    function aggregate() {
-        computeSquareNumbers();
-
-        var promises = [];
-
-        var result = {
-            dateStr: '' + date.day + date.month + date.year,
-            op: op,
-            numbers: numbers,
-            square: digitsSquare
-        };
-
+    function getSpiritLevel(promises, result) {
         var spiritPromise = SpiritLevel.find({
             "min": {
                 $lt: op[0]
@@ -181,22 +170,44 @@ var pSquare = function (person, response) {
         promises.push(spiritPromise.then(function (spiritLevel) {
             result.spiritLevel = spiritLevel[0];
         }));
+    }
 
+    function getOpNumbersDescriptions(promises) {
         var opPromise = OperationalNumber.find().exec();
 
         promises.push(opPromise.then(function (operationalNumbers) {
-            for (let i = 0; i < op.length; i++) {
+            for (var i = 0; i < op.length; i++) {
                 op[i] = {
                     position: i + 1,
                     number: op[i],
                     details: operationalNumbers[i]
                 };
             }
+            op.sort(function (a, b) {
+                if (a.position < b.position) return -1;
+                else if (a.position < b.position) return 1;
+                return 0;
+            });
         }));
+    }
+
+    function aggregate() {
+        computeSquareNumbers();
+
+        var promises = [];
+
+        var resultData = {
+            dateStr: '' + date.day + date.month + date.year,
+            op: op,
+            numbers: numbers,
+            square: digitsSquare
+        };
+        getSpiritLevel(promises, resultData);
+        getOpNumbersDescriptions(promises);
 
         Promise.all(promises).then(function () {
             // All DB queries are finished - returning the result
-            response.json(result);
+            response.json(resultData);
         });
     }
 

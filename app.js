@@ -6,10 +6,8 @@ const http = require('http'),
     env = process.env,
     express = require('express'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
+    connectToDb = require('./utils/db-utils'),
     cors = require('cors');
-
-mongoose.Promise = require('bluebird');
 
 let port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
 let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
@@ -45,27 +43,9 @@ function getSysInfo(req, res) {
 app.get('/info/poll', getSysInfo);
 app.get('/info/gen', getSysInfo);
 
-let dbName='whitelotus';
-let connectionString = '127.0.0.1:27017/' + dbName;
-// MONGODB_URL should also include trailing '/'
-if(process.env.MONGODB_URL) {
-    connectionString = process.env.MONGODB_URL + dbName;
-}
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-    connectionString =
-        process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-        process.env.OPENSHIFT_APP_NAME;
-}
+connectToDb();
 
-mongoose.connect(connectionString, {
-        db: { nativeParser: true }
-    }
-);
-
-/*var server = */app.listen(port, ipAddress, function () {
+app.listen(port, ipAddress, function () {
     console.log(`Application worker ${process.pid} started...`);
     console.log('Express server listening on ' + ipAddress + ':' + port);
 });
