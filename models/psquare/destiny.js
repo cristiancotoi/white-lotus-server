@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-        number: {type: Number, min: 0, max: 100},
+        number: {type: Number, min: 1, max: 10},
         description: String
     },
     {
-        collection: 'general'
+        collection: 'destiny'
     });
 
-module.exports = mongoose.model('GeneralNumbers', schema);
+module.exports = mongoose.model('Destiny', schema);

@@ -20,7 +20,8 @@ router.route('/persons')
         person.save(function (err) {
             if (err)
                 res.send(err);
-            res.send({message: 'Person Added'});
+            else
+                res.send({message: 'Person Added'});
         });
     });
 

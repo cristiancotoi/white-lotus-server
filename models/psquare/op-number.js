@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var opSchema = new Schema({
+var schema = new Schema({
         number: {type: Number, min: 1, max: 10},
         description: String
     },
@@ -11,4 +11,4 @@ var opSchema = new Schema({
         collection: 'op'
     });
 
-module.exports = mongoose.model('OperationalNumber', opSchema);
+module.exports = mongoose.model('OperationalNumber', schema);
