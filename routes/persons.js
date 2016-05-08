@@ -11,7 +11,8 @@ router.route('/persons')
         Person.find(function (err, persons) {
             if (err)
                 res.send(err);
-            res.json(persons);
+            else
+                res.json(persons);
         });
     })
 
@@ -22,6 +23,22 @@ router.route('/persons')
                 res.send(err);
             else
                 res.send({message: 'Person Added'});
+        });
+    });
+
+router.route('/portfolio')
+    .post(function (req, res) {
+        var body = req.body;
+        if (body.analystId == undefined) {
+            res.send("Bad request: " + JSON.stringify(body));
+            return;
+        }
+
+        Person.find(body, function (err, persons) {
+            if (err)
+                res.send(err);
+            else
+                res.json(persons);
         });
     });
 
