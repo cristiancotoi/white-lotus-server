@@ -18,7 +18,7 @@ var personSchema = new Schema({
         surname: String,
         date: {
             year: {type: Number, min: 1900, max: 9999},
-            month: {type: Number, min: 0, max: 11},
+            month: {type: Number, min: 1, max: 12},
             day: {type: Number, min: 1, max: 31},
             hour: {type: Number, min: 0, max: 23},
             minutes: {type: Number, min: 0, max: 59}

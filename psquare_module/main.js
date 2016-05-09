@@ -10,6 +10,9 @@ var InteriorVibration = require('../models/psquare/int-vibration');
 var ExteriorVibration = require('../models/psquare/ext-vibration');
 
 var pSquare = function (person, response) {
+    if(person === null || person === undefined) {
+        return;
+    }
     var date = person.date;
     var numbers = {
         0: {id: 0, count: 0},
