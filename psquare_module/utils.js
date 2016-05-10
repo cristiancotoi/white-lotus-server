@@ -25,7 +25,8 @@ var utils = function (date) {
     }
 
     function getYearSum() {
-        return doubleSumDigits(date.year);
+        // triple sum, because 1999 -> 28 -> 10 -> 1
+        return sumDigits(doubleSumDigits(date.year));
     }
 
     function getCosmicVibration() {
@@ -35,6 +36,8 @@ var utils = function (date) {
     }
 
     return {
+        sumDigits: sumDigits,
+        doubleSumDigits: doubleSumDigits,
         getDaySum: getDaySum,
         getMonthSum: getMonthSum,
         getCosmicVibration: getCosmicVibration,

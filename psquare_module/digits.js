@@ -1,8 +1,6 @@
 'use strict';
 
-var psUtils = require('./utils');
-
-var pSquare = function () {
+var digits = function () {
     var numbers = {
         0: {id: 0, count: 0},
         1: {id: 1, count: 0},
@@ -58,4 +56,4 @@ var pSquare = function () {
     };
 };
 
-module.exports = pSquare;
+module.exports = digits;
