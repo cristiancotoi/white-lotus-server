@@ -14,8 +14,8 @@ router.route('/psquare/:id')
         Person.findOne({_id: req.params.id}, function (err, person) {
             if (err)
                 res.send(err);
-
-            pSquare(person, res);
+            else
+                pSquare(person, res);
         });
     });
 

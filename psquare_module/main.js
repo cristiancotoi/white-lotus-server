@@ -2,83 +2,33 @@
 
 var Promise = require("bluebird");
 
-var Person = require('../models/person');
+//var Person = require('../models/person');
+var User = require('../models/user');
+
 var OperationalNumber = require('../models/psquare/op-number');
 var SpiritLevel = require('../models/psquare/spirit-level');
 var Destiny = require('../models/psquare/destiny');
 var InteriorVibration = require('../models/psquare/int-vibration');
 var ExteriorVibration = require('../models/psquare/ext-vibration');
 
+var psUtils = require('./utils');
+var digits = require('./digits')();
+
 var pSquare = function (person, response) {
     if(person === null || person === undefined) {
         return;
     }
+
     var date = person.date;
-    var numbers = {
-        0: {id: 0, count: 0},
-        1: {id: 1, count: 0},
-        2: {id: 2, count: 0},
-        3: {id: 3, count: 0},
-        4: {id: 4, count: 0},
-        5: {id: 5, count: 0},
-        6: {id: 6, count: 0},
-        7: {id: 7, count: 0},
-        8: {'id': 8, count: 0},
-        9: {'id': 9, count: 0}
-    };
-    var len = Object.keys(numbers).length;
-
+    var utils = psUtils(date);
+    var len = digits.length;
     var digitsSquare = [];
-
     var op = [
         {position: 1, number: -1},
         {position: 2, number: -1},
         {position: 3, number: -1},
         {position: 4, number: -1}
     ];
-
-    function getDaySum() {
-        //Double sum to make sure we only get 1 digit
-        return sumDigits(sumDigits(date.day));
-    }
-
-    function getMonthSum() {
-        return sumDigits(date.month);
-    }
-
-    function getYearSum() {
-        return sumDigits(sumDigits(date.year));
-    }
-
-    function getCosmicVibration() {
-        return sumDigits(sumDigits(
-            date.year.toString().substr(2,2)
-        ));
-    }
-
-    function multiplyNumber(number, count) {
-        if (count == 0) return '';
-        var output = '';
-        for (var i = 0; i < count; i += 1) {
-            output += number;
-        }
-        return output;
-    }
-
-    function getLongText(digit) {
-        if (typeof digit == 'object') {
-            return multiplyNumber(digit.id, digit.count);
-        } else {
-            var o = numbers[digit];
-            return multiplyNumber(o.id, o.count);
-        }
-    }
-
-    function clearNumbers() {
-        for (var i = 0; i < len; i += 1) {
-            numbers[i].count = 0;
-        }
-    }
 
     function sumDigits(number) {
         var sNumber = "" + number;
@@ -89,20 +39,20 @@ var pSquare = function (person, response) {
         return output;
     }
 
-    function computeSquareNumbers() {
+    function computeSquareDigits() {
         var i, c;
         var sNumber = "" + date.day + date.month + date.year;
         var sLen;
         var firstN = sNumber.charAt(0);
 
-        clearNumbers();
+        digits.clear();
 
         // Calculate op1 and store digits in birth date
         op[0].number = 0;
         for (i = 0, sLen = sNumber.length; i < sLen; i += 1) {
             c = parseInt(sNumber.charAt(i));
             op[0].number += c;
-            numbers[c].count++;
+            digits.increment(c);
         }
 
         // Calculate op 2, 3, 4
@@ -116,22 +66,22 @@ var pSquare = function (person, response) {
         for (i = 0, sLen = sNumber.length; i < sLen; i += 1) {
             c = sNumber.charAt(i);
 
-            numbers[c].count++;
+            digits.increment(c);
         }
 
         digitsSquare = [];
         for (i = 0; i < len; i += 1) {
-            digitsSquare.push(getLongText(i));
+            digitsSquare.push(digits.getLongText(i));
         }
     }
 
     function getSpiritLevel(result) {
         var spiritPromise = SpiritLevel.find({
             "min": {
-                $lt: op[0].number
+                $lte: op[0].number
             },
             "max": {
-                $gt: op[0].number
+                $gte: op[0].number
             }
         }).exec();
 
@@ -151,7 +101,7 @@ var pSquare = function (person, response) {
 
     function getInteriorVibration(result) {
         return InteriorVibration
-            .find({number: getDaySum()})
+            .find({number: utils.getDaySum()})
             .exec()
             .then(function (data) {
                 result['interior vibration'] = data[0];
@@ -160,14 +110,14 @@ var pSquare = function (person, response) {
 
     function getExteriorVibration(result) {
         return ExteriorVibration
-            .find({number: getMonthSum()})
+            .find({number: utils.getMonthSum()})
             .exec()
             .then(function (data) {
                 result['exterior vibration'] = data[0];
             });
     }
 
-    function getOpNumbersDescriptions() {
+    function getOpDigitsDescriptions() {
         var opPromise = OperationalNumber.find().exec();
 
         return opPromise.then(function (operationalNumbers) {
@@ -178,18 +128,18 @@ var pSquare = function (person, response) {
     }
 
     function aggregate() {
-        computeSquareNumbers();
+        computeSquareDigits();
 
         var promises = [];
 
         var resultData = {
             dateStr: '' + date.day + date.month + date.year,
             op: op,
-            numbers: numbers,
+            digits: digits,
             square: digitsSquare
         };
         promises.push(getSpiritLevel(resultData));
-        promises.push(getOpNumbersDescriptions());
+        promises.push(getOpDigitsDescriptions());
         promises.push(getDestiny(resultData));
         promises.push(getInteriorVibration(resultData));
         promises.push(getExteriorVibration(resultData));
