@@ -15,14 +15,15 @@ var personSchema = new Schema({
         name: String,
         surname: String,
         date: {
-            year: {type: Number, min: 1900, max: 9999},
+            year: {type: Number, min: 1, max: 9999},
             month: {type: Number, min: 1, max: 12},
             day: {type: Number, min: 1, max: 31},
             hour: {type: Number, min: 0, max: 23},
             minutes: {type: Number, min: 0, max: 59}
         },
         tz: Number,
-        longitude: Number,
+        birth_city: String,
+        longitude: {type: Number, min: -360.0, max: 360.0},
         analystId: String,
         gender: String
     },
