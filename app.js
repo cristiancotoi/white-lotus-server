@@ -17,6 +17,7 @@ let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var persons = require('./routes/persons');
 var pSquare = require('./routes/psquare');
+var bazi = require('./routes/bazi');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use(cors());
 
 app.use('/api', persons);
 app.use('/api', pSquare);
+app.use('/api', bazi);
 app.use(express.static('static'));
 app.get('/health', function(req, res) {
     res.writeHead(200);

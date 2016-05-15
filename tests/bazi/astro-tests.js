@@ -34,7 +34,6 @@ describe('BaZi astrology calculations', function () {
 
         var calculator = AstroCalc();
         var result = calculator.getData(date);
-        console.log(result);
         expect(result).to.containSubset({
             MM: 1,
             YY: 1985,
@@ -53,7 +52,6 @@ describe('BaZi astrology calculations', function () {
 
         var calculator = AstroCalc();
         var result = calculator.getData(date);
-        console.log(result);
         expect(result).to.containSubset({
             MM: 12,
             YY: 1948,
@@ -72,7 +70,6 @@ describe('BaZi astrology calculations', function () {
 
         var calculator = AstroCalc();
         var result = calculator.getData(date);
-        console.log(result);
         expect(result).to.containSubset({
             MM: 1,
             YY: 2004,

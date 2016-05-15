@@ -24,10 +24,12 @@ function connectToDb() {
             process.env.OPENSHIFT_APP_NAME;
     }
 
-    mongoose.connect(connectionString, {
-            db: {nativeParser: true}
-        }
-    );
+    if(!mongoose.connection.readyState) {
+        mongoose.connect(connectionString, {
+                db: {nativeParser: true}
+            }
+        );
+    }
 }
 
 module.exports = connectToDb;

@@ -1,7 +1,8 @@
 'use strict';
 
-var Utils = require('./utils');
+var Utils = require('./age');
 var BaZiCalculator = require('./bazi-calculator');
+var Retriever = require('./data-retriever');
 
 var baziModule = function (person, response) {
     if(person === null || person === undefined) {
@@ -10,24 +11,27 @@ var baziModule = function (person, response) {
 
     var date = person.date;
     var utils = Utils(date);
+    var retriever = Retriever(response);
 
     function calculate() {
         var chartData = BaZiCalculator(date).compute();
+
         var resultData = {
             name: person.name,
             surname: person.surname,
-            //age: utils.getAge(),
-            //luck_start_year: -1,
+            age: utils.getAge(),
             analysis: {},
             age_string: utils.getAgeString(),
             sex: '',
 
             chart: chartData,
-            dm: {},
-            luck_pillars: {}
+            dm: {}
         };
 
-        response.json(resultData);
+        // Append data about phases, hs, eb to the result.
+        // All these are appended based on the fact
+        // that eventually all appear in chart/analysis
+        retriever.getAllInto(resultData);
     }
 
     calculate();
