@@ -4,7 +4,9 @@ var _ = require("underscore");
 var AstroCalc = require('./astro');
 
 
-function BaZiCalculator(input) {
+function BaZiCalculator(person) {
+    console.log('person');
+    console.log(person);
     var astroCalc = AstroCalc();
     var monthStem, monthBranch, dayStem, dayBranch, hourStem, hourBranch;
     var FW, LP;
@@ -91,12 +93,12 @@ function BaZiCalculator(input) {
 
     return {
         compute: function () {
-            if (input == '') {
+            if (person == '') {
                 //console.log("Date is invalid");
                 return;
             }
 
-            var astroData = astroCalc.getData(input);
+            var astroData = astroCalc.getData(person);
             var trueLong = astroData.trueLong;
 
             var yearStem, yearBranch, yearStemIndex, yearBranchIndex;
@@ -137,7 +139,6 @@ function BaZiCalculator(input) {
             }
             monthStemIndex = monthStemIndex % 10;
             monthStem = gon[monthStemIndex];
-            //indexS = monthStemIndex;
 
 
             var JZJD = astroData.JZJD,
@@ -216,10 +217,6 @@ function BaZiCalculator(input) {
             return {
                 chart: chart,
                 luck: luck,
-                /*"An": new Binomial(ys, yb),
-                 "Luna": new Binomial(ms, mb),
-                 "Zi": new Binomial(ds, db),
-                 "Ora": new Binomial(hs, hb),*/
                 comment1: messages.str1,
                 comment2: messages.str2,
                 'an start': LP,

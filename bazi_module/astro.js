@@ -12,18 +12,18 @@ var astro = function () {
         return angle;
     }
 
-    function getAstroData(input) {
+    function getAstroData(person) {
         var date, d;
         var TZ, DD, MM, YY, HR, MN, GEN, LON;
-        if (!_.isUndefined(input) && !_.isUndefined(input.day)) {
-            //console.log('New');
-            MM = input.month;
-            DD = input.day;
-            YY = input.year;
-            HR = input.hour;
-            MN = input.minute;
+        if (!_.isUndefined(person) && !_.isUndefined(person.date)) {
+            date = person.date;
+            MM = date.month;
+            DD = date.day;
+            YY = date.year;
+            HR = date.hour;
+            MN = _.isUndefined(date.minutes) ? date.minute : date.minutes;
         } else {
-            date = input.date;
+            date = person.date;
             MM = date.MM;
             DD = date.DD;
             YY = date.YY;
@@ -36,9 +36,9 @@ var astro = function () {
                 err: "Invalid year"
             };
         }
-        TZ = _.isUndefined(input.tz) ? 0 : input.tz;
-        GEN = input.sex == 'M' ? 1 : -1;
-        LON = _.isUndefined(input.longitude) ? 0 : input.longitude;
+        TZ = _.isUndefined(person.tz) ? 0 : person.tz;
+        GEN = person.gender == 'M' ? 1 : -1;
+        LON = _.isUndefined(person.longitude) ? 0 : person.longitude;
 
         var A, AAA, DL, J1, julianDay, JZJD, trueLongitude, L0, M, S, T;
         HR = HR + (MN / 60);
@@ -137,7 +137,7 @@ var astro = function () {
     }
 
     function isNearNumber(number, compareWithNumber, precision) {
-        precision = _.isUndefined(precision) ? 0.05: precision;
+        precision = _.isUndefined(precision) ? 0.05 : precision;
         return number > (compareWithNumber - precision) && number < (compareWithNumber + precision);
     }
 

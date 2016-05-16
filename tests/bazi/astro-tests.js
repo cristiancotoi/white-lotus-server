@@ -9,13 +9,15 @@ describe('BaZi astrology calculations', function () {
     this.timeout(2000);
 
     it('calculate for 22 4 1984 22 50', function () {
-        var date = {
-            day: 22, month: 4, year: 1984, hour: 22, minute: 50,
-            tz: 2, longitude: 28, sex: 'M'
+        var person = {
+            date: {
+                day: 22, month: 4, year: 1984, hour: 22, minute: 50
+            },
+            tz: 2, longitude: 28, gender: 'M'
         };
 
         var calculator = AstroCalc();
-        var result = calculator.getData(date);
+        var result = calculator.getData(person);
         expect(result).to.containSubset({
             MM: 4,
             YY: 1984,
@@ -27,13 +29,15 @@ describe('BaZi astrology calculations', function () {
     });
 
     it('calculate for 27 1 1985 23 55', function () {
-        var date = {
-            day: 27, month: 1, year: 1985, hour: 23, minute: 50,
-            tz: 2, longitude: 28, sex: 'F'
+        var person = {
+            date: {
+                day: 27, month: 1, year: 1985, hour: 23, minute: 50
+            },
+            tz: 2, longitude: 28, gender: 'F'
         };
 
         var calculator = AstroCalc();
-        var result = calculator.getData(date);
+        var result = calculator.getData(person);
         expect(result).to.containSubset({
             MM: 1,
             YY: 1985,
@@ -45,13 +49,15 @@ describe('BaZi astrology calculations', function () {
     });
 
     it('calculate for 24 12 1948 1 20', function () {
-        var date = {
-            day: 24, month: 12, year: 1948, hour: 1, minute: 20,
-            tz: 2, longitude: 28, sex: 'F'
+        var person = {
+            date: {
+                day: 24, month: 12, year: 1948, hour: 1, minute: 20
+            },
+            tz: 2, longitude: 28, gender: 'F'
         };
 
         var calculator = AstroCalc();
-        var result = calculator.getData(date);
+        var result = calculator.getData(person);
         expect(result).to.containSubset({
             MM: 12,
             YY: 1948,
@@ -63,13 +69,15 @@ describe('BaZi astrology calculations', function () {
     });
 
     it('calculate for 24 1 2004 3 40', function () {
-        var date = {
-            day: 24, month: 1, year: 2004, hour: 3, minute: 40,
-            tz: 2, longitude: 28, sex: 'F'
+        var person = {
+            date: {
+                day: 24, month: 1, year: 2004, hour: 3, minute: 40
+            },
+            tz: 2, longitude: 28, gender: 'F'
         };
 
         var calculator = AstroCalc();
-        var result = calculator.getData(date);
+        var result = calculator.getData(person);
         expect(result).to.containSubset({
             MM: 1,
             YY: 2004,
