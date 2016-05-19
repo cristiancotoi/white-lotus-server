@@ -7,11 +7,19 @@ var EB = require('../models/bazi/earthly-branch');
 var Binomial = require('../models/bazi/binomial');
 
 var binomial = function (response) {
+    function arrToMap(arr, keyName) {
+        var result = {};
+        _.each(arr, function (element) {
+            result[element[keyName]] = element;
+        });
+        return result;
+    }
+
     function getPhases(resultData) {
         var promise = Phases.find().exec();
 
         return promise.then(function (phases) {
-            resultData.phases = phases;
+            resultData.phases = arrToMap(phases, "presc");
         });
     }
 
@@ -19,7 +27,7 @@ var binomial = function (response) {
         var promise = HS.find().exec();
 
         return promise.then(function (heavenlyStems) {
-            resultData.heavenlyStems = heavenlyStems;
+            resultData.heavenlyStems = arrToMap(heavenlyStems, "presc");
         });
     }
 
@@ -27,7 +35,7 @@ var binomial = function (response) {
         var promise = EB.find().exec();
 
         return promise.then(function (earthlyBranches) {
-            resultData.earthlyBranches = earthlyBranches;
+            resultData.earthlyBranches = arrToMap(earthlyBranches, "presc");
         });
     }
 
@@ -35,7 +43,7 @@ var binomial = function (response) {
         var promise = Binomial.find({hs: pillar.hs, eb: pillar.eb}).exec();
 
         return promise.then(function (binomial) {
-            resultChart[position] = binomial[0];
+            resultChart[position] = binomial[0].toObject();
         });
     }
 
@@ -60,9 +68,11 @@ var binomial = function (response) {
         promises.push(getBinomial(
             resultData.detailedChart, 'day',
             chart.day));
-        promises.push(getBinomial(
-            resultData.detailedChart, 'hour',
-            chart.hour));
+        if(!_.isUndefined(chart.hour.hs)) {
+            promises.push(getBinomial(
+                resultData.detailedChart, 'hour',
+                chart.hour));
+        }
         for (var i = 0; i < luckLen; i++) {
             promises.push(getBinomial(
                 resultData.detailedLuck, i,

@@ -36,6 +36,33 @@ describe('BaZi calculator calculation', function () {
         });
     });
 
+    it('calculate for 22 4 1984 X X', function () {
+        var person = {
+            date: {
+                day: 22, month: 4, year: 1984
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        var calculator = BaZiCalculator(person);
+        var result = calculator.compute();
+        expect(result).to.containSubset({
+            chart: {
+                year: {hs: '甲 L+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']},
+                month: {
+                    hs: '戊 P+',
+                    eb: '辰 chén',
+                    hidStems: ['戊 P+', '乙 L-', '癸 A-']
+                },
+                day: {hs: '丙 F+', eb: '戌 xū', hidStems: ['戊 P+', '辛 M-', '丁 F-']},
+                hour: {hs: undefined, eb: undefined, hidStems: []}
+            },
+            comment1: '',
+            comment2: '',
+            fw: 1
+        });
+    });
+
     it('calculate for 27 1 1985 23 55', function () {
         var person = {
             date: {
@@ -207,14 +234,11 @@ describe('BaZi calculator calculation', function () {
     it('calculate for 7 6 1955 17:30 (prod data)', function () {
         var person = {
             date: {minutes: 30, hour: 17, year: 1955, month: 6, day: 7},
-            __v: 0,
-            analystId: 'cristian.cotoi@gmail.com',
             gender: 'M',
             longitude: 28,
             tz: 2,
             surname: 'Aurel',
-            name: 'Cotoi',
-            _id: '5713659d6f1d54a01e356e24'
+            name: 'Cotoi'
         };
 
         var calculator = BaZiCalculator(person);

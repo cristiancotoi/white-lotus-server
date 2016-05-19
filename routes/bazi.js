@@ -3,7 +3,7 @@
 var Person = require('../models/person');
 
 var express = require('express');
-var bazi = require('../bazi_module/main');
+var BaZiMain = require('../bazi_module/main');
 
 
 var router = express.Router();
@@ -13,8 +13,9 @@ router.route('/bazi/:id')
         Person.findOne({_id: req.params.id}, function (err, person) {
             if (err)
                 res.send(err);
-            else
-                bazi(person, res);
+            else {
+                BaZiMain(person, res);
+            }
         });
     });
 

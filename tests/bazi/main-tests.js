@@ -10,7 +10,7 @@ var BaZiMain = require('./../../bazi_module/main');
 var _ = require("underscore");
 
 describe('BaZiMain basic calculations', function () {
-    this.timeout(3000);
+    this.timeout(2000);
     before(function () {
         connectToDb();
     });
@@ -34,7 +34,7 @@ describe('BaZiMain basic calculations', function () {
         BaZiMain(person, {json: asserts});
     });
 
-    it('check chart data quality', function (done) {
+    it('check chart data quality for 24 12 1948', function (done) {
         var person = {
             date: {
                 day: 24, month: 12, year: 1948, hour: 1, minute: 20
@@ -44,9 +44,31 @@ describe('BaZiMain basic calculations', function () {
         };
 
         function asserts(result) {
-            expect(result.phases.length).to.equal(5);
-            expect(result.heavenlyStems.length).to.equal(10);
-            expect(result.earthlyBranches.length).to.equal(12);
+            expect(_.size(result.phases)).to.equal(5);
+            expect(_.size(result.heavenlyStems)).to.equal(10);
+            expect(_.size(result.earthlyBranches)).to.equal(12);
+            done();
+        }
+
+        BaZiMain(person, {json: asserts});
+    });
+
+    it('check chart calculations for date without hour and minutes', function (done) {
+        var person = {
+            date: {year: 1984, month: 4, day: 23},
+            gender: 'M',
+            longitude: 28,
+            tz: 2
+        };
+
+        function asserts(result) {
+            //console.log(result.chart);
+            expect(_.size(result.phases)).to.equal(5);
+            expect(_.size(result.heavenlyStems)).to.equal(10);
+            expect(_.size(result.earthlyBranches)).to.equal(12);
+            console.log(result.chart.chart);
+            expect(result.chart.chart.hour.hs).to.equal(undefined);
+            expect(result.chart.chart.hour.eb).to.equal(undefined);
             done();
         }
 

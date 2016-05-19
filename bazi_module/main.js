@@ -10,24 +10,12 @@ var baziModule = function (person, response) {
         return;
     }
 
-/*    var date = _.clone(person.date);
-    if(!_.isUndefined(person.tz)) {
-        console.log('appending to date');
-        date.tz = person.tz;
-        date.longitude = person.longitude;
-        date.sex = person.gender;
-        console.log('date');
-        console.log(date);
-        console.log(person);
-    }*/
     var utils = Utils(person.date);
     var retriever = Retriever(response);
 
     function calculate() {
         var chartData = BaZiCalculator(person).compute();
-
         var resultData = {
-            /*date: date,*/
             name: person.name,
             surname: person.surname,
             age: utils.getAge(),

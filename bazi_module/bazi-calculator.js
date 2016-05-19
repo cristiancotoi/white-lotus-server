@@ -5,8 +5,6 @@ var AstroCalc = require('./astro');
 
 
 function BaZiCalculator(person) {
-    console.log('person');
-    console.log(person);
     var astroCalc = AstroCalc();
     var monthStem, monthBranch, dayStem, dayBranch, hourStem, hourBranch;
     var FW, LP;
@@ -14,7 +12,7 @@ function BaZiCalculator(person) {
     var monthStemIndex;
     var dayStemIndex, hs0, hs1, hb0;
     var luckPStems = [], luckPBranches = [];
-    var hourHidS, dayHidS, monthHidS, yearHidS;
+    var hourHidS = [], dayHidS, monthHidS, yearHidS;
 
     var gon = ["癸 A-", "甲 L+", "乙 L-", "丙 F+", "丁 F-", "戊 P+", "己 P-",
         "庚 M+", "辛 M-", "壬 A+", "癸 A-"];
@@ -140,43 +138,47 @@ function BaZiCalculator(person) {
             monthStemIndex = monthStemIndex % 10;
             monthStem = gon[monthStemIndex];
 
-
             var JZJD = astroData.JZJD,
                 HR = astroData.HR;
             dayStemIndex = "" + Math.floor(JZJD + 0.5);
             dayStem = gon[dayStemIndex.substring(6, 7)];
             var db0 = Math.floor(JZJD - 12 * Math.floor((JZJD + 0.5) / 12) + 0.5) + 2;
             dayBranch = ji[db0];
-            hs0 = 1;
-            hs1 = 0;
-            for (i = 1; i < 5; i++) {
-                if ((eval(dayStemIndex.substring(6, 7)) == i) || (eval(dayStemIndex.substring(6, 7)) == i + 5)) {
-                    hs1 = hs0;
+
+            if (!astroData.skipHour) {
+                hs0 = 1;
+                hs1 = 0;
+                for (i = 1; i < 5; i++) {
+                    if ((eval(dayStemIndex.substring(6, 7)) == i) || (eval(dayStemIndex.substring(6, 7)) == i + 5)) {
+                        hs1 = hs0;
+                    }
+                    hs0 = hs0 + 2;
                 }
-                hs0 = hs0 + 2;
-            }
-            if ((eval(dayStemIndex.substring(6, 7)) == 0) || (eval(dayStemIndex.substring(6, 7)) == 5)) {
-                hs1 = 9;
-            }
-            if ((HR == 23) || (HR > 23 && HR < 24)) {
-                hs1 = hs1 + 2;
-            }
-            if (((HR == 23) || (HR > 23 && HR < 24)) || ((HR == 0) || (HR > 0 && HR < 1) || (HR == 24))) {
-                hourBranch = ji[1];
-            }
-            hb0 = 2;
-            for (i = 1; i < 23; i++) {
-                if ((HR == i) || (HR > i && HR < i + 2)) {
-                    hourBranch = ji[hb0];
-                    hs1 = hs1 + hb0 - 1;
+                if ((eval(dayStemIndex.substring(6, 7)) == 0) || (eval(dayStemIndex.substring(6, 7)) == 5)) {
+                    hs1 = 9;
                 }
-                i = i + 1;
-                hb0 = hb0 + 1;
+                if ((HR == 23) || (HR > 23 && HR < 24)) {
+                    hs1 = hs1 + 2;
+                }
+                if (((HR == 23) || (HR > 23 && HR < 24)) || ((HR == 0) || (HR > 0 && HR < 1) || (HR == 24))) {
+                    hourBranch = ji[1];
+                }
+                hb0 = 2;
+                for (i = 1; i < 23; i++) {
+                    if ((HR == i) || (HR > i && HR < i + 2)) {
+                        hourBranch = ji[hb0];
+                        hs1 = hs1 + hb0 - 1;
+                    }
+                    i = i + 1;
+                    hb0 = hb0 + 1;
+                }
+                if (hs1 > 10) {
+                    hs1 = hs1 - 10
+                }
+                hourStem = gon[hs1];
+
+                hourHidS = getHiddenStems(hourBranch);
             }
-            if (hs1 > 10) {
-                hs1 = hs1 - 10
-            }
-            hourStem = gon[hs1];
             LP = (Math.floor(LP * 100) / 100);
 
 
@@ -188,7 +190,6 @@ function BaZiCalculator(person) {
                 luckPBranches[i] = ji[luckPBranches[0]];
             }
 
-            hourHidS = getHiddenStems(hourBranch);
             dayHidS = getHiddenStems(dayBranch);
             monthHidS = getHiddenStems(monthBranch);
             yearHidS = getHiddenStems(yearBranch);

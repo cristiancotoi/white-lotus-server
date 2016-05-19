@@ -14,6 +14,7 @@ var astro = function () {
 
     function getAstroData(person) {
         var date, d;
+        var skipHour = false;
         var TZ, DD, MM, YY, HR, MN, GEN, LON;
         if (!_.isUndefined(person) && !_.isUndefined(person.date)) {
             date = person.date;
@@ -36,15 +37,27 @@ var astro = function () {
                 err: "Invalid year"
             };
         }
-        TZ = _.isUndefined(person.tz) ? 0 : person.tz;
         GEN = person.gender == 'M' ? 1 : -1;
-        LON = _.isUndefined(person.longitude) ? 0 : person.longitude;
+
+        if (_.isUndefined(HR)) {
+            HR = 0;
+            MN = 0;
+            TZ = 0;
+            LON = 0;
+            skipHour = true;
+        } else {
+            TZ = _.isUndefined(person.tz) ? 0 : person.tz;
+            LON = _.isUndefined(person.longitude) ? 0 : person.longitude;
+        }
 
         var A, AAA, DL, J1, julianDay, JZJD, trueLongitude, L0, M, S, T;
-        HR = HR + (MN / 60);
-        if ((LON > -181) && (LON < 181)) {
-            HR = HR + (LON / 15 - TZ);
-        }
+
+        //if (!_.isUndefined(HR)) {
+            HR = HR + (MN / 60);
+            if ((LON > -181) && (LON < 181)) {
+                HR = HR + (LON / 15 - TZ);
+            }
+        //}
         AAA = 1;
         if (YY <= 1585) AAA = 0;
         julianDay = -1 * Math.floor(7 * (Math.floor((MM + 9) / 12) + YY) / 4);
@@ -80,7 +93,8 @@ var astro = function () {
         return {
             MM: MM, YY: YY, HR: HR,
             GEN: GEN, JZJD: JZJD,
-            trueLong: trueLongitude
+            trueLong: trueLongitude,
+            skipHour: skipHour
         };
     }
 
