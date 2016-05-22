@@ -114,6 +114,47 @@ describe('BaZiMain basic calculations', function () {
         BaZiMain(person, {json: asserts});
     });
 
+    it('check chart contents for 30 11 1990 3:4 Magnus Carlsen', function (done) {
+        var person = {
+            date: {
+                day: 30, month: 11, year: 1990, hour: 3, minute: 4
+            },
+            tz: 1, longitude: 10, gender: 'M'
+        };
+
+
+        function asserts(result) {
+            expect(result.chart).to.containSubset({
+                chart:  {
+                    "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
+                    "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
+                    "month": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "丁 F-"},
+                    "year": {"eb": "午 wǔ", "hidStems": ["丁 F-", "己 P-", ""], "hs": "庚 M+"}
+                },
+                'an start': 2.47,
+                luck: [
+                    {"eb": "子 zǐ", "hs": "戊 P+"},
+                    {"eb": "丑 chǒu", "hs": "己 P-"},
+                    {"eb": "寅 yín", "hs": "庚 M+"},
+                    {"eb": "卯 mǎo", "hs": "辛 M-"},
+                    {"eb": "辰 chén", "hs": "壬 A+"},
+                    {"eb": "巳 sì", "hs": "癸 A-"},
+                    {"eb": "午 wǔ", "hs": "甲 L+"},
+                    {"eb": "未 wèi", "hs": "乙 L-"},
+                    {"eb": "申 shēn", "hs": "丙 F+"}
+                ],
+                fw: 1
+            });
+
+            expect(_.size(result.detailedChart)).to.equal(4);
+
+            //console.log(result.detailedChart);
+            done();
+        }
+
+        BaZiMain(person, {json: asserts});
+    });
+
     it('check luck', function (done) {
         var person = {
             date: {

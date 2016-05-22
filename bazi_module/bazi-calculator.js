@@ -92,27 +92,26 @@ function BaZiCalculator(person) {
     return {
         compute: function () {
             if (person == '') {
-                //console.log("Date is invalid");
-                return;
+                throw new Error('Date is invalid');
             }
 
             var astroData = astroCalc.getData(person);
             var trueLong = astroData.trueLong;
 
             var yearStem, yearBranch, yearStemIndex, yearBranchIndex;
-            if ((trueLong < 315) && (astroData.MM == 1 || astroData.MM == 2)) {
-                yearStemIndex = astroData.YY - 4;
-                yearBranchIndex = astroData.YY - 4;
+            if ((trueLong < 315) && (astroData.month == 1 || astroData.month == 2)) {
+                yearStemIndex = astroData.year - 4;
+                yearBranchIndex = astroData.year - 4;
             } else {
-                yearStemIndex = astroData.YY - 3;
-                yearBranchIndex = astroData.YY - 3;
+                yearStemIndex = astroData.year - 3;
+                yearBranchIndex = astroData.year - 3;
             }
             yearStemIndex = yearStemIndex % 10;
             yearBranchIndex = yearBranchIndex % 12;
             yearStem = gon[yearStemIndex];
 
             // Calculate forward step
-            FW = (yearStemIndex % 2 == 0) ? (-1) * astroData.GEN : astroData.GEN;
+            FW = (yearStemIndex % 2 == 0) ? (-1) * astroData.gender : astroData.gender;
             yearBranch = ji[yearBranchIndex];
 
 
@@ -139,7 +138,7 @@ function BaZiCalculator(person) {
             monthStem = gon[monthStemIndex];
 
             var JZJD = astroData.JZJD,
-                HR = astroData.HR;
+                HR = astroData.hour;
             dayStemIndex = "" + Math.floor(JZJD + 0.5);
             dayStem = gon[dayStemIndex.substring(6, 7)];
             var db0 = Math.floor(JZJD - 12 * Math.floor((JZJD + 0.5) / 12) + 0.5) + 2;
@@ -218,6 +217,7 @@ function BaZiCalculator(person) {
             return {
                 chart: chart,
                 luck: luck,
+                astro: astroData,
                 comment1: messages.str1,
                 comment2: messages.str2,
                 'an start': LP,

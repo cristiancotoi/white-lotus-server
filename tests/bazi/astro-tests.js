@@ -8,30 +8,77 @@ var AstroCalc = require('./../../bazi_module/astro');
 describe('BaZi astrology calculations', function () {
     this.timeout(2000);
 
-    it('calculate for 22 4 1984 22 50', function () {
+    it('test hour subtraction without dst', function () {
+        var date = {
+            day: 22, month: 4, year: 1984, hour: 22, minute: 50
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.subtractHour(date, 0);
+        expect(result).to.containSubset({
+            day: 22, month: 4, year: 1984, hour: 22, minute: 50
+        });
+    });
+
+    it('test hour subtraction with dst within same day', function () {
+        var date = {
+            day: 22, month: 4, year: 1984, hour: 22, minute: 50
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.subtractHour(date, 1);
+        expect(result).to.containSubset({
+            day: 22, month: 4, year: 1984, hour: 21, minute: 50
+        });
+    });
+
+    it('test hour subtraction with dst moving to previous day', function () {
+        var date = {
+            day: 23, month: 4, year: 1984, hour: 0, minute: 5
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.subtractHour(date, 1);
+        expect(result).to.containSubset({
+            day: 22, month: 4, year: 1984, hour: 23, minute: 5
+        });
+    });
+
+    it('test hour and minutes subtraction', function () {
+        var date = {
+            day: 23, month: 4, year: 1984, hour: 0, minute: 5
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.subtractHour(date, 1, 15);
+        expect(result).to.containSubset({
+            day: 22, month: 4, year: 1984, hour: 22, minute: 50
+        });
+    });
+
+    it('calculate for 23 4 1984 0 5', function () {
         var person = {
             date: {
-                day: 22, month: 4, year: 1984, hour: 22, minute: 50
+                day: 23, month: 4, year: 1984, hour: 0, minute: 5
             },
-            tz: 2, longitude: 28, gender: 'M'
+            tz: 2, longitude: 28, gender: 'M', dst_active_at_birth: true
         };
 
         var calculator = AstroCalc();
         var result = calculator.getData(person);
         expect(result).to.containSubset({
-            MM: 4,
-            YY: 1984,
-            HR: 22.7,
-            GEN: 1,
-            JZJD: 2445813.4458333333,
-            trueLong: 32.89808597697629
+            month: 4,
+            year: 1984,
+            hour: 22.95,
+            hour_int: 22,
+            gender: 1
         });
     });
 
-    it('calculate for 27 1 1985 23 55', function () {
+    it('calculate for 28 1 1985 0 5', function () {
         var person = {
             date: {
-                day: 27, month: 1, year: 1985, hour: 23, minute: 50
+                day: 28, month: 1, year: 1985, hour: 0, minute: 5
             },
             tz: 2, longitude: 28, gender: 'F'
         };
@@ -39,12 +86,34 @@ describe('BaZi astrology calculations', function () {
         var calculator = AstroCalc();
         var result = calculator.getData(person);
         expect(result).to.containSubset({
-            MM: 1,
-            YY: 1985,
-            HR: 23.7,
-            GEN: -1,
-            JZJD: 2446093.4875,
-            trueLong: 307.9230460731087
+            month: 1,
+            year: 1985,
+            hour: 23.95,
+            hour_int: 23,
+            minute: 57,
+            gender: -1
+        });
+    });
+
+    it('calculate for 28 1 1985 0 10', function () {
+        var person = {
+            date: {
+                // 0:10 brings this close to the edge of the previous day
+                day: 28, month: 1, year: 1985, hour: 0, minute: 10
+            },
+            tz: 2, longitude: 28.04, gender: 'F'
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.getData(person);
+        console.log(result);
+        expect(result).to.containSubset({
+            month: 1,
+            year: 1985,
+            hour: 0.03333333333333333,
+            hour_int: 0,
+            minute: 2,
+            gender: -1
         });
     });
 
@@ -53,18 +122,20 @@ describe('BaZi astrology calculations', function () {
             date: {
                 day: 24, month: 12, year: 1948, hour: 1, minute: 20
             },
-            tz: 2, longitude: 28, gender: 'F'
+            tz: 2, longitude: 28, gender: 'F', dst_active_at_birth: false
         };
 
         var calculator = AstroCalc();
         var result = calculator.getData(person);
         expect(result).to.containSubset({
-            MM: 12,
-            YY: 1948,
-            HR: 1.2,
-            GEN: -1,
+            month: 12,
+            year: 1948,
+            hour: 1.2,
+            hour_int: 1,
+            minute: 12,
+            gender: -1/*,
             JZJD: 2432909.55,
-            trueLong: 272.0739100092069
+            trueLong: 272.0739100092069*/
         });
     });
 
@@ -73,19 +144,56 @@ describe('BaZi astrology calculations', function () {
             date: {
                 day: 24, month: 1, year: 2004, hour: 3, minute: 40
             },
-            tz: 2, longitude: 28, gender: 'F'
+            tz: 2, longitude: 27.59, gender: 'F'
         };
 
         var calculator = AstroCalc();
         var result = calculator.getData(person);
         expect(result).to.containSubset({
-            MM: 1,
-            YY: 2004,
-            HR: 3.533333333333333,
-            GEN: -1,
+            month: 1,
+            year: 2004,
+            hour: 3.5,
+            hour_int: 3,
+            minute: 30,
+            gender: -1/*,
             JZJD: 2453028.6472222223,
-            trueLong: 303.39651704783387
+            trueLong: 303.39651704783387*/
         });
+    });
+
+    it('check dst difference', function () {
+        var person = {
+            date: {
+                day: 23, month: 4, year: 1984, hour: 0, minute: 5
+            },
+            tz: 2, longitude: 28, gender: 'M', dst_active_at_birth: true
+        };
+        var personWithoutDst = {
+            date: {
+                day: 22, month: 4, year: 1984, hour: 23, minute: 5
+            },
+            tz: 2, longitude: 28, gender: 'M', dst_active_at_birth: false
+        };
+
+        var calculator = AstroCalc();
+        var resultWithDst = calculator.getData(person);
+        var resultWithoutDst = calculator.getData(personWithoutDst);
+        expect(resultWithDst).to.deep.equal(resultWithoutDst);
+    });
+
+    it('check dst & longitude difference', function () {
+        var person = {
+            date: {
+                day: 23, month: 4, year: 1984, hour: 0, minute: 5
+            },
+            tz: 2, longitude: 28, gender: 'M', dst_active_at_birth: true
+        };
+
+        var calculator = AstroCalc();
+        var resultWithDst = calculator.getData(person);
+        expect(resultWithDst.minute).to.equal(57);
+        expect(Math.floor(resultWithDst.hour)).to.equal(22);
+        expect(resultWithDst.day).to.equal(22);
     });
 
 });

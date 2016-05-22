@@ -5,7 +5,7 @@ var expect = chai.expect; // we are using the "expect" style of Chai
 
 var BaZiCalculator = require('./../../bazi_module/bazi-calculator');
 
-describe('BaZi calculator calculation', function () {
+describe('BaZi calculator math', function () {
     this.timeout(2000);
 
     it('calculate for 22 4 1984 22 50', function () {
@@ -63,10 +63,10 @@ describe('BaZi calculator calculation', function () {
         });
     });
 
-    it('calculate for 27 1 1985 23 55', function () {
+    it('calculate for 28 1 1985 0 5', function () {
         var person = {
             date: {
-                day: 27, month: 1, year: 1985, hour: 23, minute: 50
+                day: 28, month: 1, year: 1985, hour: 0, minute: 5
             },
             tz: 2, longitude: 28, gender: 'F'
         };
@@ -197,6 +197,39 @@ describe('BaZi calculator calculation', function () {
         });
     });
 
+    it('calculate for 30 11 1990 3:4 Magnus Carlsen', function () {
+        var person = {
+            date: {
+                day: 30, month: 11, year: 1990, hour: 3, minute: 4
+            },
+            tz: 1, longitude: 10, gender: 'M'
+        };
+
+        var calculator = BaZiCalculator(person);
+        var result = calculator.compute();
+        expect(result).to.containSubset({
+            "an start": 2.47,
+            "chart": {
+                "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
+                "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
+                "month": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "丁 F-"},
+                "year": {"eb": "午 wǔ", "hidStems": ["丁 F-", "己 P-", ""], "hs": "庚 M+"}
+            },
+            "fw": 1,
+            "luck": [
+                {"eb": "子 zǐ", "hs": "戊 P+"},
+                {"eb": "丑 chǒu", "hs": "己 P-"},
+                {"eb": "寅 yín", "hs": "庚 M+"},
+                {"eb": "卯 mǎo", "hs": "辛 M-"},
+                {"eb": "辰 chén", "hs": "壬 A+"},
+                {"eb": "巳 sì", "hs": "癸 A-"},
+                {"eb": "午 wǔ", "hs": "甲 L+"},
+                {"eb": "未 wèi", "hs": "乙 L-"},
+                {"eb": "申 shēn", "hs": "丙 F+"}
+            ]
+        });
+    });
+
     it('calculate for 7 6 1955 17:30', function () {
         var person = {
             date: {
@@ -207,7 +240,6 @@ describe('BaZi calculator calculation', function () {
 
         var calculator = BaZiCalculator(person);
         var result = calculator.compute();
-        //console.log(result);
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '乙 L-', eb: '未 wèi', hidStems: ['己 P-', '丁 F-', '乙 L-']},
@@ -243,7 +275,6 @@ describe('BaZi calculator calculation', function () {
 
         var calculator = BaZiCalculator(person);
         var result = calculator.compute();
-        //console.log(result);
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '乙 L-', eb: '未 wèi', hidStems: ['己 P-', '丁 F-', '乙 L-']},

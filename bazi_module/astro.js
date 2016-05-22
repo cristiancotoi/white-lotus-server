@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require("underscore");
+var moment = require("moment");
 
 var astro = function () {
     function normalizeAngle(angle) {
@@ -12,64 +13,80 @@ var astro = function () {
         return angle;
     }
 
+    function getMoment(dateObj) {
+        return moment([
+            dateObj.year,
+            dateObj.month - 1,
+            dateObj.day,
+            dateObj.hour,
+            dateObj.minute
+        ]);
+    }
+
+    function subtractHour(dateObj, hours, minutes) {
+        var result = getMoment(dateObj);
+        result.subtract(hours, 'hour');
+        result.subtract(minutes, 'minute');
+        dateObj.year = result.year();
+        dateObj.month = result.month() + 1;
+        dateObj.day = result.date();
+        dateObj.hour = result.hour();
+        dateObj.hour_int = result.hour();
+        dateObj.minute = result.minute();
+        return dateObj;
+    }
+
     function getAstroData(person) {
         var date, d;
-        var skipHour = false;
-        var TZ, DD, MM, YY, HR, MN, GEN, LON;
-        if (!_.isUndefined(person) && !_.isUndefined(person.date)) {
-            date = person.date;
-            MM = date.month;
-            DD = date.day;
-            YY = date.year;
-            HR = date.hour;
-            MN = _.isUndefined(date.minutes) ? date.minute : date.minutes;
-        } else {
-            date = person.date;
-            MM = date.MM;
-            DD = date.DD;
-            YY = date.YY;
-            HR = date.HR;
-            MN = date.MN;
-        }
-        //console.log('' + DD + '/' + MM + '/' + YY + ' ' + HR + ':' + MN);
-        if (YY < 1900) {
+        date = person.date;
+        var result = {
+            year: date.year,
+            month: date.month,
+            day: date.day,
+            hour: date.hour,
+            minute: _.isUndefined(date.minutes) ? date.minute : date.minutes,
+            skipHour: false
+        };
+
+        if (result.year < 1900) {
             return {
                 err: "Invalid year"
             };
         }
-        GEN = person.gender == 'M' ? 1 : -1;
+        result.gender = person.gender == 'M' ? 1 : -1;
 
-        if (_.isUndefined(HR)) {
-            HR = 0;
-            MN = 0;
-            TZ = 0;
-            LON = 0;
-            skipHour = true;
+        if (_.isUndefined(result.hour)) {
+            result.hour = 0;
+            result.minute = 0;
+            result.timeZone = 0;
+            result.longitude = 0;
+            result.skipHour = true;
         } else {
-            TZ = _.isUndefined(person.tz) ? 0 : person.tz;
-            LON = _.isUndefined(person.longitude) ? 0 : person.longitude;
+            result.timeZone = _.isUndefined(person.tz) ? 0 : person.tz;
+            result.longitude = _.isUndefined(person.longitude) ? 0 : person.longitude;
+            var dst = person.dst_active_at_birth ? 1 : 0;
+            var minutesDiff = 0;
+            if ((result.longitude > -181) && (result.longitude < 181)) {
+                minutesDiff = -1 * (result.longitude * 4 - result.timeZone * 60);
+            }
+            result = subtractHour(result, dst, minutesDiff);
         }
 
-        var A, AAA, DL, J1, julianDay, JZJD, trueLongitude, L0, M, S, T;
+        var A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
 
-        //if (!_.isUndefined(HR)) {
-            HR = HR + (MN / 60);
-            if ((LON > -181) && (LON < 181)) {
-                HR = HR + (LON / 15 - TZ);
-            }
-        //}
+        result.hour = result.hour + (result.minute / 60);
         AAA = 1;
-        if (YY <= 1585) AAA = 0;
-        julianDay = -1 * Math.floor(7 * (Math.floor((MM + 9) / 12) + YY) / 4);
+        if (result.year <= 1585) AAA = 0;
+        julianDay = -1 * Math.floor(7 * (Math.floor((result.month + 9) / 12) + result.year) / 4);
         S = 1;
-        if ((MM - 9) < 0) S = -1;
-        A = Math.abs(MM - 9);
-        J1 = Math.floor(YY + S * Math.floor(A / 7));
+        if ((result.month - 9) < 0) S = -1;
+        A = Math.abs(result.month - 9);
+        J1 = Math.floor(result.year + S * Math.floor(A / 7));
         J1 = -1 * Math.floor((Math.floor(J1 / 100) + 1) * 3 / 4);
-        julianDay = julianDay + Math.floor(275 * MM / 9) + DD + (AAA * J1);
-        julianDay = julianDay + 1721027 + 2 * AAA + 367 * YY - 0.5;
-        JZJD = julianDay + (HR / 24);
-        julianDay = julianDay + (HR / 24) - (TZ / 24);
+        julianDay = julianDay + Math.floor(275 * result.month / 9) + result.day + (AAA * J1);
+        julianDay = julianDay + 1721027 + 2 * AAA + 367 * result.year - 0.5;
+        result.JZJD = julianDay + (result.hour / 24);
+        julianDay = julianDay + (result.hour / 24) - (result.timeZone / 24);
 
         // Julian centuries from 2000
         T = (julianDay - 2451545.0) / 36525;
@@ -88,14 +105,9 @@ var astro = function () {
         trueLongitude = L0 + DL;
 
         // bring trueLong within [0..360] interval
-        trueLongitude = normalizeAngle(trueLongitude);
+        result.trueLong = normalizeAngle(trueLongitude);
 
-        return {
-            MM: MM, YY: YY, HR: HR,
-            GEN: GEN, JZJD: JZJD,
-            trueLong: trueLongitude,
-            skipHour: skipHour
-        };
+        return result;
     }
 
     function nextHSIndex(hsIndex, step) {
@@ -218,6 +230,7 @@ var astro = function () {
         nextEBIndex: nextEBIndex,
         getMonthBranch: getMonthBranchData,
         getSector: getSector,
+        subtractHour: subtractHour,
         isLongitudeInBetweenSeasons: isLongitudeInBetweenSeasons
     };
 };

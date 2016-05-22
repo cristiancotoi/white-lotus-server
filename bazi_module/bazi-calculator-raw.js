@@ -29,20 +29,20 @@ function BaZiCalculatorFactory_raw(input) {
             } else {
                 Logger.log("Date from components");
                 var date = input.date;
-                MM = date.MM;
-                DD = date.DD;
-                YY = date.YY;
-                HR = date.HR;
-                MN = date.MN;
+                MM = date.month;
+                DD = date.day;
+                YY = date.year;
+                HR = date.hour;
+                MN = date.minute;
             }
             if (YY < 1900) {
                 Logger.log("Anul nasterii trebuie sa fie mai mare de 1900");
                 return;
             }
             Logger.log('%s/%s/%s %s:%s', DD, MM, YY, HR, MN);
-            TZ = input.tz;
-            GEN = input.sex=='M'?1:-1;
-            LON = input.longitude;
+            timeZone = input.tz;
+            gender = input.sex=='M'?1:-1;
+            longitude = input.longitude;
 
             var gon = Array("癸 A-", "甲 L+", "乙 L-", "丙 F+", "丁 F-", "戊 P+", "己 P-",
                 "庚 M+", "辛 M-", "壬 A+", "癸 A-");
@@ -51,7 +51,7 @@ function BaZiCalculatorFactory_raw(input) {
 
             with(Math) {
                 HR = HR + (MN / 60);
-                if ((LON > -181) & (LON < 181)) HR = HR + (LON / 15 - TZ);
+                if ((longitude > -181) & (longitude < 181)) HR = HR + (longitude / 15 - timeZone);
                 AAA = 1;
                 if (YY <= 1585) AAA = 0;
                 JD = -1 * floor(7 * (floor((MM + 9) / 12) + YY) / 4);
@@ -63,7 +63,7 @@ function BaZiCalculatorFactory_raw(input) {
                 JD = JD + floor(275 * MM / 9) + DD + (AAA * J1);
                 JD = JD + 1721027 + 2 * AAA + 367 * YY - 0.5;
                 JZJD = JD + (HR / 24);
-                JD = JD + (HR / 24) - (TZ / 24);
+                JD = JD + (HR / 24) - (timeZone / 24);
                 T = (JD - 2451545.0) / 36525;
                 d = 2 * PI / 360;
                 M = 357.52910 + 35999.05030 * T - 0.0001559 * T * T - 0.00000048 * T * T * T;
@@ -93,9 +93,9 @@ function BaZiCalculatorFactory_raw(input) {
                     yb0 = yb0 - 12;
                 }
                 if ((ys0 == 0 || ys0 == 2 || ys0 == 4 || ys0 == 6 || ys0 == 8 || ys0 == 10)) {
-                    FW = -1 * GEN
+                    FW = -1 * gender
                 } else {
-                    FW = 1 * GEN
+                    FW = 1 * gender
                 }
                 yb = ji[yb0];
                 ms0 = 1

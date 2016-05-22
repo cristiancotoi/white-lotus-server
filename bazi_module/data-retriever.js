@@ -82,6 +82,9 @@ var binomial = function (response) {
         Promise.all(promises).then(function () {
             // All DB queries are finished - returning the result
             response.json(resultData);
+
+        }, function(err) {
+            console.log(err);
         });
         return resultData;
     }

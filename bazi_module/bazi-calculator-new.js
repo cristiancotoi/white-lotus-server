@@ -138,31 +138,31 @@ function BaZiCalculatorFactory(input) {
             } else {
                 console.info("Date from components");
                 date = input.date;
-                MM = date.MM;
-                DD = date.DD;
-                YY = date.YY;
-                HR = date.HR;
-                MN = date.MN;
+                MM = date.month;
+                DD = date.day;
+                YY = date.year;
+                HR = date.hour;
+                MN = date.minute;
             }
             if (YY < 1900) {
                 console.info("Anul nasterii trebuie sa fie mai mare de 1900");
                 return;
             }
             console.info('%s/%s/%s %s:%s', DD, MM, YY, HR, MN);
-            TZ = input.tz;
-            GEN = input.sex=='M'?1:-1;
+            timeZone = input.tz;
+            gender = input.sex=='M'?1:-1;
             longitude = input.longitude;
 
             HR = HR + (MN / 60);
             //if ((longitude > -181) & (longitude < 181)) {
             if ((longitude > -181) && (longitude < 181)) {
-                HR = HR + (longitude / 15 - TZ);
+                HR = HR + (longitude / 15 - timeZone);
             } else {
                 throw 'Invalid longitude';
             }
             AAA = 1;
             // Unused if
-            //if (YY <= 1585) AAA = 0;
+            //if (year <= 1585) AAA = 0;
             julianDay = -1 * Math.floor(7 * (Math.floor((MM + 9) / 12) + YY) / 4);
             S = 1;
             if ((MM - 9) < 0) S = -1;
@@ -172,7 +172,7 @@ function BaZiCalculatorFactory(input) {
             julianDay = julianDay + Math.floor(275 * MM / 9) + DD + (AAA * J1);
             julianDay = julianDay + 1721027 + 2 * AAA + 367 * YY - 0.5;
             JZJD = julianDay + (HR / 24);
-            julianDay = julianDay + (HR / 24) - (TZ / 24);
+            julianDay = julianDay + (HR / 24) - (timeZone / 24);
 
             // Julian centuries from 2000
             T = (julianDay - 2451545.0) / 36525;
@@ -207,7 +207,7 @@ function BaZiCalculatorFactory(input) {
             yearStem = gon[yearStemIndex];
             yearBranchIndex = yearBranchIndex % 12;
             yearBranch = ji[yearBranchIndex];
-            FW = (yearStemIndex % 2 == 0)?(-1 * GEN):GEN;
+            FW = (yearStemIndex % 2 == 0)?(-1 * gender):gender;
             monthStemIndex = 1;
             for (i = 0; i < 6; i++) {
                 if ((yearStemIndex == i) || (yearStemIndex == i + 5)) {

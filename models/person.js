@@ -23,6 +23,7 @@ var personSchema = new Schema({
         },
         tz: Number,
         birth_city: String,
+        dst_active_at_birth: Boolean,
         longitude: {type: Number, min: -360.0, max: 360.0},
         analystId: String,
         gender: String
