@@ -30,6 +30,9 @@ describe('Pythagorean Square basic calculations', function () {
             expect(result.square).to.have.members(['', '11', '22', '33', '444', '', '', '7', '8', '99']);
             expect(result.spiritLevel.level).to.equal(3);
             expect(result.destiny.number).to.equal(4);
+
+            expect(result['sq combos'].length).to.equal(6);
+            expect(result.sqMeaning.length).to.equal(10);
             done();
         }
 

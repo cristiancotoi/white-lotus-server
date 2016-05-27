@@ -57,4 +57,69 @@ describe('Pythagorean Square digits tests', function () {
         expect(digits.getLongText(5)).to.equal('5');
     });
 
+    it('combo matching per digit', function () {
+        var digits = Digits();
+        var combo = {
+            description: 'Înclinație spre actorie.',
+            max9: 2,
+            min9: 2,
+            max6: 0,
+            min6: 0,
+            max4: 99,
+            min4: 1,
+            max2: 0,
+            min2: 0
+        };
+        digits.increment(4);
+        digits.increment(6);
+        digits.increment(9);
+        digits.increment(9);
+
+        expect(digits.comboMatchesDigit(combo, 4)).to.equal(true);
+        expect(digits.comboMatchesDigit(combo, 9)).to.equal(true);
+        expect(digits.comboMatchesDigit(combo, 5)).to.equal(true);
+        expect(digits.comboMatchesDigit(combo, 6)).to.equal(false);
+    });
+
+    it('combo not matching square', function () {
+        var digits = Digits();
+        var combo = {
+            description: 'Înclinație spre actorie.',
+            max9: 2,
+            min9: 2,
+            max6: 0,
+            min6: 0,
+            max4: 99,
+            min4: 1,
+            max2: 0,
+            min2: 0
+        };
+        digits.increment(4);
+        digits.increment(6);
+        digits.increment(9);
+        digits.increment(9);
+
+        expect(digits.comboMatchesSquare(combo)).to.equal(false);
+    });
+
+    it('combo matching square', function () {
+        var digits = Digits();
+        var combo = {
+            max9: 2,
+            min9: 2,
+            max6: 3,
+            min6: 1,
+            max4: 99,
+            min4: 1,
+            max2: 0,
+            min2: 0
+        };
+        digits.increment(4);
+        digits.increment(6);
+        digits.increment(9);
+        digits.increment(9);
+
+        expect(digits.comboMatchesSquare(combo)).to.equal(true);
+    });
+
 });

@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require("underscore");
+
 var digits = function () {
     var numbers = {
         0: {id: 0, count: 0},
@@ -22,7 +24,6 @@ var digits = function () {
     }
 
 
-
     function multiplyNumber(number, count) {
         if (count == 0) return '';
         var output = '';
@@ -41,18 +42,44 @@ var digits = function () {
         }
     }
 
+    function comboMatchesDigit(combo, digitId) {
+        var count = numbers[digitId].count;
+        var result;
+        if (_.isUndefined(combo['min' + digitId]) || _.isUndefined(combo['min' + digitId])) {
+            // If no rule is present we consider this a whildcard '*' so it matches
+            result = true;
+        } else {
+            result = combo['min' + digitId] <= count && count <= combo['max' + digitId];
+        }
+        return result;
+    }
+
+    function comboMatchesSquare(combo) {
+        var result = true;
+        for (var i = 0; i <= 9; i++) {
+            var matchDigit = comboMatchesDigit(combo, i);
+            if (!matchDigit) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
 
     return {
-        increment: function(digit) {
+        increment: function (digit) {
             numbers[digit].count++;
         },
-        get: function(digit) {
+        get: function (digit) {
             return numbers[digit];
         },
         clear: clearNumbers,
 
         length: 10,
-        getLongText: getLongText
+        getLongText: getLongText,
+
+        comboMatchesDigit: comboMatchesDigit,
+        comboMatchesSquare: comboMatchesSquare
     };
 };
 
