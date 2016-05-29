@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
         line: {type: Number},
+        type: String,
         name: String,
         description: String,
         wellbeing: String,

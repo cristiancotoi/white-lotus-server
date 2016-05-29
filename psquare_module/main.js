@@ -21,8 +21,8 @@ var pSquare = function (person, response) {
     ];
 
     var utils = Utils(date);
-    var retriever = Retriever(utils, response);
     var digits = Digits();
+    var retriever = Retriever(utils, digits, response);
     var len = digits.length;
 
     function computeSquareDigits() {
@@ -68,6 +68,7 @@ var pSquare = function (person, response) {
             dateStr: '' + date.day + date.month + date.year,
             op: op,
             digits: digits,
+            digitWeights: digits.getDigits(),
             square: digitsSquare
         };
 

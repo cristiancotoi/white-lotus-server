@@ -12,10 +12,14 @@ var InteriorVibration = require('../models/psquare/int-vibration');
 var ExteriorVibration = require('../models/psquare/ext-vibration');
 var CosmicVibration = require('../models/psquare/cosmic-vibration');
 
+var GeneralNumbers = require('../models/psquare/general');
+var Line = require('../models/psquare/lines');
+var LineWeight = require('../models/psquare/lines-weight');
+
 var SquareMeaning = require('../models/psquare/sq-meaning');
 var SquareCombo = require('../models/psquare/sq-combo');
 
-var dataRetriever = function (utils, response) {
+var dataRetriever = function (utils, digits, response) {
     function getSpiritLevel(result, level) {
         var spiritPromise = SpiritLevel.find({
             "min": {
@@ -79,13 +83,13 @@ var dataRetriever = function (utils, response) {
 
     function getSqMeaning(resultSqMeaning, digit, count) {
         var promise = SquareMeaning.find({
-            "number": {$eq: digit},
+            "number": digit,
             "min": {$lte: count},
             "max": {$gte: count}
         }).exec();
 
         return promise.then(function (sqMeaning) {
-            resultSqMeaning[digit] = sqMeaning/*[0].toObject()*/;
+            resultSqMeaning[digit] = sqMeaning;
         });
     }
 
@@ -110,6 +114,65 @@ var dataRetriever = function (utils, response) {
             });
     }
 
+    function getLineWeight(lineName, result) {
+        var lWeight = digits.getLineWeight(lineName);
+        return LineWeight
+            .find({
+                line: lineName,
+                "min": {$lte: lWeight.count},
+                "max": {$gte: lWeight.count}
+            })
+            .exec()
+            .then(function (lineWeight) {
+                result[lineName] = _.isUndefined(lineWeight[0]) ?
+                {
+                    line: lineName
+                } : lineWeight[0].toObject();
+                result[lineName].weight = lWeight;
+            });
+    }
+
+    function getLines(result) {
+        return Line
+            .find()
+            .exec()
+            .then(function (data) {
+                result.lines = {};
+                for (var i = 0; i < data.length; i++) {
+                    result.lines[data[i].line] = data[i];
+                }
+            });
+    }
+
+    function getNumbers(result) {
+        return GeneralNumbers
+            .find()
+            .exec()
+            .then(function (data) {
+                result.generalDigits = data;
+            });
+    }
+
+    function postProcessing(result) {
+        result.priorities = [];
+        _.each(result.linesWeight, function (lw) {
+            result.priorities.push({
+                weight: lw.weight.sum,
+                title: result.lines[lw.line].name,
+                number: lw.line
+            });
+        });
+        _.each(result.generalDigits, function (gd) {
+            result.priorities.push({
+                weight: digits.getLineWeight(gd.number).sum,
+                title: gd.title,
+                number: gd.number
+            });
+        });
+
+        return result;
+    }
+
     function aggregate(resultData, op) {
         var promises = [];
         resultData.sqMeaning = [];
@@ -120,7 +183,12 @@ var dataRetriever = function (utils, response) {
         promises.push(getInteriorVibration(resultData));
         promises.push(getExteriorVibration(resultData));
         promises.push(getCosmicVibration(resultData));
+
+        promises.push(getLines(resultData));
+
         promises.push(getCombos(resultData));
+
+        promises.push(getNumbers(resultData));
 
         var digits = resultData.digits;
         var digitLen = digits.length;
@@ -130,8 +198,25 @@ var dataRetriever = function (utils, response) {
             promises.push(getSqMeaning(resultData.sqMeaning, digit.id, digit.count));
         }
 
+
+        var lines = [
+            '123', '456', '789',
+            '147', '258', '369',
+            '159', '357'
+        ];
+        resultData.linesWeight = {};
+        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            var lineName = lines[lineIndex];
+            // We push down the line index, because for some lines
+            // some intervals have no descriptions
+            promises.push(
+                getLineWeight(lineName, resultData.linesWeight)
+            );
+        }
+
         Promise.all(promises).then(function () {
             // All DB queries are finished - returning the result
+            resultData = postProcessing(resultData);
             response.json(resultData);
         });
     }

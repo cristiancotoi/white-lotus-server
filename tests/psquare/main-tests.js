@@ -3,6 +3,8 @@ var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 var expect = chai.expect; // we are using the "expect" style of Chai
 
+var _ = require('underscore');
+
 var connectToDb = require('./../../utils/db-utils');
 
 var pSquare = require('./../../psquare_module/main');
@@ -32,6 +34,8 @@ describe('Pythagorean Square basic calculations', function () {
             expect(result.destiny.number).to.equal(4);
 
             expect(result['sq combos'].length).to.equal(6);
+            expect(_.size(result.lines)).to.equal(8);
+            expect(_.size(result.linesWeight)).to.equal(8);
             expect(result.sqMeaning.length).to.equal(10);
             done();
         }

@@ -3,7 +3,6 @@
 const http = require('http'),
     fs = require('fs'),
     path = require('path'),
-    morgan = require('morgan'),
     contentTypes = require('./utils/content-types'),
     sysInfo = require('./utils/sys-info'),
     env = process.env,
@@ -25,7 +24,7 @@ var app = express();
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
 
 // setup the logger
-app.use(morgan('combined', {stream: accessLogStream}));
+//app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

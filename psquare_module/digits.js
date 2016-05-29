@@ -66,6 +66,32 @@ var digits = function () {
         return result;
     }
 
+    function getDigits() {
+        var result = [];
+        _.each(numbers, function(n) {
+            result[n.id] = n.count;
+        });
+        return result;
+    }
+
+    /**
+     * @param line 3 letters string
+     */
+    function getLineWeight(line) {
+        if(_.isUndefined(line)) {
+            throw new Error('Param cannot be undefined');
+        }
+        var word = '' + line;
+        var result = {count: 0, sum: 0, line: ''};
+        for (var i = 0, len = word.length; i < len; i++) {
+            var digit = numbers[word[i]];
+            result.count += digit.count;
+            result.sum += digit.count * digit.id;
+        }
+        result.line = line;
+        return result;
+    }
+
     return {
         increment: function (digit) {
             numbers[digit].count++;
@@ -79,7 +105,10 @@ var digits = function () {
         getLongText: getLongText,
 
         comboMatchesDigit: comboMatchesDigit,
-        comboMatchesSquare: comboMatchesSquare
+        comboMatchesSquare: comboMatchesSquare,
+
+        getLineWeight: getLineWeight,
+        getDigits: getDigits
     };
 };
 
