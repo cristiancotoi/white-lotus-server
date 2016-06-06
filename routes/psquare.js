@@ -1,21 +1,38 @@
 'use strict';
 
+var User = require('../models/user');
 var Person = require('../models/person');
 var OperationalNumber = require('../models/psquare/op-number');
 
 var express = require('express');
 var pSquare = require('../psquare_module/main');
 
+function getUser(analystId) {
+    return User
+        .find({analystId: analystId})
+        .exec()
+        .then(function (data) {
+            return data[0];
+        });
+}
 
 var router = express.Router();
 
 router.route('/psquare/:id')
     .get(function (req, res) {
         Person.findOne({_id: req.params.id}, function (err, person) {
-            if (err)
+            if (err) {
                 res.send(err);
-            else
-                pSquare(person, res);
+            }
+            else {
+                getUser(analystId)
+                    .then(function (user) {
+                        var userLevel = _.isUndefined(user) ? 1 : user.level;
+                        pSquare(person, res).make(userLevel);
+                    }, function(err) {
+                        res.send(err);
+                    });
+            }
         });
     });
 

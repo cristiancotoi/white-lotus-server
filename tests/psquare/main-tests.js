@@ -29,18 +29,19 @@ describe('Pythagorean Square basic calculations', function () {
                     {number: 9}
                 ]
             });
+
             expect(result.square).to.have.members(['', '11', '22', '33', '444', '', '', '7', '8', '99']);
             expect(result.spiritLevel.level).to.equal(3);
             expect(result.destiny.number).to.equal(4);
 
-            expect(result['sq combos'].length).to.equal(6);
+            expect(result['sq combos'].length).to.equal(5);
             expect(_.size(result.lines)).to.equal(8);
             expect(_.size(result.linesWeight)).to.equal(8);
             expect(result.sqMeaning.length).to.equal(10);
             done();
         }
 
-        pSquare({date: date}, {json: asserts});
+        pSquare({date: date}, {json: asserts}).make(99);
     });
 
     it('check vibrations for 23/4/1984', function (done) {
@@ -57,7 +58,7 @@ describe('Pythagorean Square basic calculations', function () {
             done();
         }
 
-        pSquare({date: date}, {json: asserts});
+        pSquare({date: date}, {json: asserts}).make(3);
     });
 
     it('check basic calculations for 28/1/1985', function (done) {
@@ -80,7 +81,7 @@ describe('Pythagorean Square basic calculations', function () {
             done();
         }
 
-        pSquare({date: date}, {json: asserts});
+        pSquare({date: date}, {json: asserts}).make(1);
     });
 
     it('check vibrations for 28/1/1985', function (done) {
@@ -97,7 +98,7 @@ describe('Pythagorean Square basic calculations', function () {
             done();
         }
 
-        pSquare({date: date}, {json: asserts});
+        pSquare({date: date}, {json: asserts}).make(3);
     });
 
     it('check op positions', function (done) {
@@ -113,6 +114,6 @@ describe('Pythagorean Square basic calculations', function () {
             done();
         }
 
-        pSquare({date: date}, {json: asserts});
+        pSquare({date: date}, {json: asserts}).make(1);
     });
 });

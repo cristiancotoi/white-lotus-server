@@ -6,7 +6,8 @@
   "main": "start.js",
   "scripts": {
     "start": "node --use_strict start.js",
-    "test": "mocha tests --recursive"
+    "test": "mocha tests --recursive",
+    "wtest": "mocha tests --recursive --watch"
   },
   "author": "Cristian Cotoi <cristian.cotoi@gmail.com>",
   "license": "ISC",

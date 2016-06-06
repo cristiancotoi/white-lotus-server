@@ -62,11 +62,9 @@ describe('BaZiMain basic calculations', function () {
         };
 
         function asserts(result) {
-            //console.log(result.chart);
             expect(_.size(result.phases)).to.equal(5);
             expect(_.size(result.heavenlyStems)).to.equal(10);
             expect(_.size(result.earthlyBranches)).to.equal(12);
-            console.log(result.chart.chart);
             expect(result.chart.chart.hour.hs).to.equal(undefined);
             expect(result.chart.chart.hour.eb).to.equal(undefined);
             done();
@@ -107,7 +105,6 @@ describe('BaZiMain basic calculations', function () {
                 fw: -1
             });
             expect(_.size(result.detailedChart)).to.equal(4);
-            //console.log(result.detailedChart);
             done();
         }
 
@@ -148,7 +145,6 @@ describe('BaZiMain basic calculations', function () {
 
             expect(_.size(result.detailedChart)).to.equal(4);
 
-            //console.log(result.detailedChart);
             done();
         }
 
@@ -166,7 +162,6 @@ describe('BaZiMain basic calculations', function () {
 
         function asserts(result) {
             expect(result.detailedLuck[0]).to.not.be.null;
-            //console.log(result.detailedLuck);
             done();
         }
 

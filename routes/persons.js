@@ -1,5 +1,6 @@
 'use strict';
 
+var User = require('../models/user');
 var Person = require('../models/person');
 var express = require('express');
 
@@ -34,12 +35,35 @@ router.route('/portfolio')
             return;
         }
 
-        Person.find(body, function (err, persons) {
-            if (err)
+        User
+            .find({analystId: body.analystId})
+            .exec()
+            .then(function (users) {
+                var user = users[0];
+                if (!users.length) {
+                    // If user doesn't exist, create a new one
+                    var newUser = new User();
+                    newUser.analystId = body.analystId;
+                    newUser.roles = ['apprentice'];
+                    newUser.level = 1;
+                    newUser.save(function (ok) {
+                    }, function (err) {
+                        console.log(err);
+                    })
+                }
+                return user;
+            })
+            .then(function (user) {
+                Person.find(body, function (err, persons) {
+                    if (err)
+                        res.send(err);
+                    else
+                        res.json(persons);
+                });
+            }, function (err) {
+                console.log('Error' + err);
                 res.send(err);
-            else
-                res.json(persons);
-        });
+            });
     });
 
 router.route('/persons/:id')

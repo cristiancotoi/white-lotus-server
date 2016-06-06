@@ -20,6 +20,16 @@ var SquareMeaning = require('../models/psquare/sq-meaning');
 var SquareCombo = require('../models/psquare/sq-combo');
 
 var dataRetriever = function (utils, digits, response) {
+    function getUser(analystId) {
+        return User
+            .find({analystId: analystId})
+            .exec()
+            .then(function (data) {
+                return data[0];
+            });
+    }
+
+
     function getSpiritLevel(result, level) {
         var spiritPromise = SpiritLevel.find({
             "min": {
@@ -173,45 +183,47 @@ var dataRetriever = function (utils, digits, response) {
         return result;
     }
 
-    function aggregate(resultData, op) {
+    function aggregate(resultData, op, userLevel) {
         var promises = [];
-        resultData.sqMeaning = [];
 
         promises.push(getSpiritLevel(resultData, op[0].number));
         promises.push(getOpDigitsDescriptions(op));
         promises.push(getDestiny(resultData, utils.sumDigits(op[1].number)));
-        promises.push(getInteriorVibration(resultData));
-        promises.push(getExteriorVibration(resultData));
-        promises.push(getCosmicVibration(resultData));
 
-        promises.push(getLines(resultData));
-
-        promises.push(getCombos(resultData));
-
-        promises.push(getNumbers(resultData));
-
-        var digits = resultData.digits;
-        var digitLen = digits.length;
-        // Start from 1, as we don't have 0 yet
-        for (var i = 1; i < digitLen; i++) {
-            var digit = digits.get(i);
-            promises.push(getSqMeaning(resultData.sqMeaning, digit.id, digit.count));
+        if (userLevel >= 3) {
+            promises.push(getInteriorVibration(resultData));
+            promises.push(getExteriorVibration(resultData));
+            promises.push(getCosmicVibration(resultData));
         }
 
+        if (userLevel >= 5) {
+            promises.push(getLines(resultData));
+            promises.push(getCombos(resultData));
+            promises.push(getNumbers(resultData));
 
-        var lines = [
-            '123', '456', '789',
-            '147', '258', '369',
-            '159', '357'
-        ];
-        resultData.linesWeight = {};
-        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            var lineName = lines[lineIndex];
-            // We push down the line index, because for some lines
-            // some intervals have no descriptions
-            promises.push(
-                getLineWeight(lineName, resultData.linesWeight)
-            );
+            var digits = resultData.digits;
+            var digitLen = digits.length;
+            // Start from 1, as we don't have 0 yet
+            resultData.sqMeaning = [];
+            for (var i = 1; i < digitLen; i++) {
+                var digit = digits.get(i);
+                promises.push(getSqMeaning(resultData.sqMeaning, digit.id, digit.count));
+            }
+
+            var lines = [
+                '123', '456', '789',
+                '147', '258', '369',
+                '159', '357'
+            ];
+            resultData.linesWeight = {};
+            for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                var lineName = lines[lineIndex];
+                // We push down the line index, because for some lines
+                // some intervals have no descriptions
+                promises.push(
+                    getLineWeight(lineName, resultData.linesWeight)
+                );
+            }
         }
 
         Promise.all(promises).then(function () {
@@ -221,8 +233,19 @@ var dataRetriever = function (utils, digits, response) {
         });
     }
 
+    function getAllInto(resultData, op, userLevel) {
+/*
+        getUser(analystId)
+            .then(function (user) {
+                var userLevel = _.isUndefined(user) ? 1 : user.level;
+*/
+                aggregate(resultData, op, userLevel);
+            //});
+    }
+
     return {
-        getAllInto: aggregate
+        aggregate: aggregate,
+        getAllInto: getAllInto
     };
 };
 

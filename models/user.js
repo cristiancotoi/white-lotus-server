@@ -5,11 +5,15 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
         analystId: String,
-        role: String,
-        level: {type: Number, min: 1, max: 12}
+        roles: [String],
+        level: {type: Number, min: 1, max: 99},
+        creationDate: {type: Date, default: Date.now}
     },
     {
         collection: 'users'
     });
 
-module.exports = mongoose.model('User', schema);
+try {
+    module.exports = mongoose.model('User', schema);
+} catch (e) {
+}

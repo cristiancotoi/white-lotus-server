@@ -106,7 +106,6 @@ describe('BaZi astrology calculations', function () {
 
         var calculator = AstroCalc();
         var result = calculator.getData(person);
-        console.log(result);
         expect(result).to.containSubset({
             month: 1,
             year: 1985,

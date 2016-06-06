@@ -55,7 +55,7 @@ var astro = function () {
         }
         result.gender = person.gender == 'M' ? 1 : -1;
 
-        if (_.isUndefined(result.hour)) {
+        if (_.isUndefined(result.hour) || result.hour == null) {
             result.hour = 0;
             result.minute = 0;
             result.timeZone = 0;
