@@ -4,6 +4,7 @@ var User = require('../models/user');
 var Person = require('../models/person');
 var OperationalNumber = require('../models/psquare/op-number');
 
+var _ = require('underscore');
 var express = require('express');
 var pSquare = require('../psquare_module/main');
 
@@ -25,7 +26,7 @@ router.route('/psquare/:id')
                 res.send(err);
             }
             else {
-                getUser(analystId)
+                getUser(person.analystId)
                     .then(function (user) {
                         var userLevel = _.isUndefined(user) ? 1 : user.level;
                         pSquare(person, res).make(userLevel);
