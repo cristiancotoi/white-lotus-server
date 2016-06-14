@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require("underscore");
-var moment = require("moment");
+//var moment = require("moment");
+var moment = require("moment-timezone");
 
 var astro = function () {
     function normalizeAngle(angle) {
@@ -14,13 +15,17 @@ var astro = function () {
     }
 
     function getMoment(dateObj) {
-        return moment([
+        if (dateObj.skipHour) {
+            moment.tz.setDefault('UTC');
+        }
+        var result = moment([
             dateObj.year,
             dateObj.month - 1,
             dateObj.day,
             dateObj.hour,
             dateObj.minute
         ]);
+        return result;
     }
 
     function subtractHour(dateObj, hours, minutes) {
@@ -37,7 +42,7 @@ var astro = function () {
     }
 
     function getAstroData(person) {
-        var date, d;
+        var date, d, birthDateMoment;
         date = person.date;
         var result = {
             year: date.year,
@@ -71,6 +76,7 @@ var astro = function () {
             }
             result = subtractHour(result, dst, minutesDiff);
         }
+        birthDateMoment = getMoment(result);
 
         var A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
 
@@ -106,6 +112,7 @@ var astro = function () {
 
         // bring trueLong within [0..360] interval
         result.trueLong = normalizeAngle(trueLongitude);
+        result.moment = birthDateMoment;
 
         return result;
     }

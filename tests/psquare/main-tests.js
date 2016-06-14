@@ -22,7 +22,7 @@ describe('Pythagorean Square basic calculations', function () {
 
         function asserts(result) {
             expect(result).to.containSubset({
-                op:[
+                op: [
                     {number: 31},
                     {number: 4},
                     {number: 27},
@@ -38,6 +38,16 @@ describe('Pythagorean Square basic calculations', function () {
             expect(_.size(result.lines)).to.equal(8);
             expect(_.size(result.linesWeight)).to.equal(8);
             expect(result.sqMeaning.length).to.equal(10);
+
+            expect(result.lifeCycle['1'].number).to.equal(4);
+            expect(result.lifeCycle['2'].number).to.equal(5);
+            expect(result.lifeCycle['3'].number).to.equal(4);
+            expect(result.lifeCycle).to.containSubset({
+                '1': {min: 0, max: 31, number: 4},
+                '2': {min: 32, max: 58, number: 5},
+                '3': {min: 59, max: 999, number: 4}
+            });
+            expect(_.size(result.lifeCycleDesc)).to.equal(2);
             done();
         }
 
@@ -68,7 +78,7 @@ describe('Pythagorean Square basic calculations', function () {
 
         function asserts(result) {
             expect(result).to.containSubset({
-                op:[
+                op: [
                     {number: 34},
                     {number: 7},
                     {number: 30},

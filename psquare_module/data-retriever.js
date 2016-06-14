@@ -19,6 +19,9 @@ var LineWeight = require('../models/psquare/lines-weight');
 var SquareMeaning = require('../models/psquare/sq-meaning');
 var SquareCombo = require('../models/psquare/sq-combo');
 
+var LifeCycle = require('../models/psquare/life-cycles');
+var LifeCycleDesc = require('../models/psquare/life-cycles-description');
+
 var dataRetriever = function (utils, digits, response) {
     function getUser(analystId) {
         return User
@@ -163,6 +166,49 @@ var dataRetriever = function (utils, digits, response) {
             });
     }
 
+    function getLifeCycle(result, utils, destinyNumber) {
+        return LifeCycle
+            .find({number: destinyNumber})
+            .exec()
+            .then(function (data) {
+                result.lifeCycle = {
+                    1: {
+                        min: data[0].min1, max: data[0].max1, number: utils.getMonthSum()
+                    },
+                    2: {
+                        min: data[0].min2, max: data[0].max2, number: utils.getDaySum()
+                    },
+                    3: {
+                        min: data[0].min3, max: data[0].max3, number: utils.getYearFullSum()
+                    }
+                };
+            });
+    }
+
+    function getLifeCycleDescriptions(result) {
+        var promises = [];
+        result.lifeCycleDesc = {};
+        var deduper = {};
+        deduper[utils.getMonthSum()] = '';
+        deduper[utils.getDaySum()] = '';
+        deduper[utils.getYearFullSum()] = '';
+        _.each(_.keys(deduper), function (key) {
+            promises.push(
+                LifeCycleDesc
+                    .find({number: key})
+                    .exec()
+                    .then(function (data) {
+                        result.lifeCycleDesc[key] = data[0].toObject();
+                    })
+            );
+        });
+        return promises;
+    }
+
+    /**
+     * Data re-processing.
+     * @param result
+     */
     function postProcessing(result) {
         result.priorities = [];
         _.each(result.linesWeight, function (lw) {
@@ -179,7 +225,10 @@ var dataRetriever = function (utils, digits, response) {
                 number: gd.number
             });
         });
-
+        _.each(result.lifeCycle, function (lc) {
+            lc.start = utils.getMoment().add(lc.min, 'years').format('DD-MM-YYYY');
+            lc.end = utils.getMoment().add(lc.max, 'years').format('DD-MM-YYYY');
+        });
         return result;
     }
 
@@ -224,23 +273,23 @@ var dataRetriever = function (utils, digits, response) {
                     getLineWeight(lineName, resultData.linesWeight)
                 );
             }
+            promises.push(getLifeCycle(resultData, utils, utils.sumDigits(op[1].number)));
+
+            // descriptions will return an array of promises so we concat it
+            promises = promises.concat(getLifeCycleDescriptions(resultData, utils));
         }
 
-        Promise.all(promises).then(function () {
-            // All DB queries are finished - returning the result
-            resultData = postProcessing(resultData);
-            response.json(resultData);
-        });
+        Promise.all(promises)
+            .then(function () {
+                postProcessing(resultData);
+
+                // All DB queries are finished - returning the result
+                response.json(resultData);
+            });
     }
 
     function getAllInto(resultData, op, userLevel) {
-/*
-        getUser(analystId)
-            .then(function (user) {
-                var userLevel = _.isUndefined(user) ? 1 : user.level;
-*/
-                aggregate(resultData, op, userLevel);
-            //});
+        aggregate(resultData, op, userLevel);
     }
 
     return {

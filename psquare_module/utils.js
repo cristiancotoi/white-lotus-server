@@ -1,6 +1,28 @@
 'use strict';
 
-var utils = function (date) {
+var moment = require('moment');
+var _ = require('underscore');
+
+var utils = function (date, tz) {
+    function getMoment() {
+        var result = moment()
+            .year(date.year)
+            .month(date.month)
+            .date(date.day);
+        if (!_.isUndefined(date.hour) & date.hour != null) {
+            result
+                .hour(date.hour)
+                .minute(date.minute);
+        }
+        if (_.isFunction(result.tz) && !_.isUndefined(tz)) {
+            try {
+                result.tz(tz);
+            } catch (ex) {
+            }
+        }
+        return result;
+    }
+
     function sumDigits(number) {
         var sNumber = "" + number;
         var output = 0;
@@ -31,7 +53,7 @@ var utils = function (date) {
 
     function getCosmicVibration() {
         return sumDigits(sumDigits(
-            date.year.toString().substr(2,2)
+            date.year.toString().substr(2, 2)
         ));
     }
 
@@ -70,6 +92,8 @@ var utils = function (date) {
     }
 
     return {
+        getMoment: getMoment,
+
         sumDigits: sumDigits,
         doubleSumDigits: doubleSumDigits,
         getDaySum: getDaySum,

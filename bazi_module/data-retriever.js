@@ -6,6 +6,8 @@ var HS = require('../models/bazi/heavenly-stem');
 var EB = require('../models/bazi/earthly-branch');
 var Binomial = require('../models/bazi/binomial');
 
+var DM = require('../models/bazi/day-master');
+
 var binomial = function (response) {
     function arrToMap(arr, keyName) {
         var result = {};
@@ -47,6 +49,15 @@ var binomial = function (response) {
         });
     }
 
+    function getDM(resultChart) {
+        var dmName = resultChart.chart.chart.day.hs;
+        var promise = DM.find({id: dmName}).exec();
+
+        return promise.then(function (dm) {
+            resultChart.dm = dm[0].toObject();
+        });
+    }
+
     function aggregate(resultData) {
         var promises = [];
         var chart = resultData.chart.chart;
@@ -78,6 +89,8 @@ var binomial = function (response) {
                 resultData.detailedLuck, i,
                 luck[i]));
         }
+
+        promises.push(getDM(resultData));
 
         Promise.all(promises).then(function () {
             // All DB queries are finished - returning the result

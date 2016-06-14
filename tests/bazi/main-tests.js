@@ -92,7 +92,7 @@ describe('BaZiMain basic calculations', function () {
                 },
                 comment1: '',
                 comment2: '',
-                'an start': 0.36,
+                startYear: 0.36,
                 luck: [{hs: '辛 M-', eb: '巳 sì'},
                     {hs: '庚 M+', eb: '辰 chén'},
                     {hs: '己 P-', eb: '卯 mǎo'},
@@ -122,13 +122,13 @@ describe('BaZiMain basic calculations', function () {
 
         function asserts(result) {
             expect(result.chart).to.containSubset({
-                chart:  {
+                chart: {
                     "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
                     "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
                     "month": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "丁 F-"},
                     "year": {"eb": "午 wǔ", "hidStems": ["丁 F-", "己 P-", ""], "hs": "庚 M+"}
                 },
-                'an start': 2.47,
+                startYear: 2.47,
                 luck: [
                     {"eb": "子 zǐ", "hs": "戊 P+"},
                     {"eb": "丑 chǒu", "hs": "己 P-"},
@@ -162,6 +162,32 @@ describe('BaZiMain basic calculations', function () {
 
         function asserts(result) {
             expect(result.detailedLuck[0]).to.not.be.null;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts});
+    });
+
+    it('check dm', function (done) {
+        var person = {
+            date: {
+                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+
+        function asserts(result) {
+            expect(result.dm).to.containSubset({
+                happiness: 'Să facă parte dintr-un grup, să aparțină unui loc',
+                'path to happiness': 'Să fie fertili, să fie sursa vieții.',
+                negative: 'Prea moale, supus sacrificiului, posesiv, dominat, idealist, dependent, hedonist, încăpațânat, rasfațat, pesimist ',
+                positive: 'Are încredere în sine, multe relații, inventiv, grijuliu, tolerant, productiv, descurcăreț, creativ, capabil, flexibil, delicat, matern, inovator, intuitiv, răbdător',
+                physique: 'Moale și elastic',
+                description: 'Ca orice element de pământ, este inflexibil și încăpățânat, dar comparativ cu un pământ yang (muntele), pământul yin acceptă compromisurile și se poate negocia cu ei.\nPersoană plină de grație, moderație, tolerantă, cu înclinații intelectuale, învață și înțelege repede, își schimbă cu ușurință părerile, adaptabilă.\nPentru acești oameni, este important să fie fertili, să sprijine totul. Grijulii, cu inimă bună, descurcăreți și creativi, poți conta pe ei. Le lipsește capacitatea de a lua decizii rapide și spontane.\nPersoane muncitoare, mereu se perfecționează.\nSuportă destul de multe abuzuri și nu-și retrag sprijinul chiar dacă trec prin momente neplăcute.',
+                element: 'Grădină',
+                id: '己 P-'
+            });
             done();
         }
 

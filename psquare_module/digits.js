@@ -42,6 +42,14 @@ var digits = function () {
         }
     }
 
+    function getAllDigitsLongNames() {
+        var digitsSquare = [];
+        for (var i = 0, len = 10; i < len; i += 1) {
+            digitsSquare.push(getLongText(i));
+        }
+        return digitsSquare;
+    }
+
     function comboMatchesDigit(combo, digitId) {
         var count = numbers[digitId].count;
         var result;
@@ -68,7 +76,7 @@ var digits = function () {
 
     function getDigits() {
         var result = [];
-        _.each(numbers, function(n) {
+        _.each(numbers, function (n) {
             result[n.id] = n.count;
         });
         return result;
@@ -78,7 +86,7 @@ var digits = function () {
      * @param line 3 letters string
      */
     function getLineWeight(line) {
-        if(_.isUndefined(line)) {
+        if (_.isUndefined(line)) {
             throw new Error('Param cannot be undefined');
         }
         var word = '' + line;
@@ -103,6 +111,7 @@ var digits = function () {
 
         length: 10,
         getLongText: getLongText,
+        getAllDigitsLongNames: getAllDigitsLongNames,
 
         comboMatchesDigit: comboMatchesDigit,
         comboMatchesSquare: comboMatchesSquare,

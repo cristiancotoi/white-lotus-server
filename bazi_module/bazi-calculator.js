@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require("underscore");
+var moment = require("moment");
 var AstroCalc = require('./astro');
 
 
@@ -197,6 +198,9 @@ function BaZiCalculator(person) {
             indexB = mb.index;
             indexS = monthStemIndex;
             var luck = [];
+            var birthDateMoment = moment(astroData.moment);
+            var firstLuckStart = birthDateMoment.add(LP, 'years');
+            var nextLuckStart;
             for (i = 0; i < 9; i++) {
                 indexB = astroCalc.nextEBIndex(indexB, FW);
                 luckPBranches[i] = ji[indexB];
@@ -204,7 +208,13 @@ function BaZiCalculator(person) {
                 indexS = astroCalc.nextHSIndex(indexS, FW);
                 luckPStems[i] = gon[indexS];
 
-                luck[i] = {hs: gon[indexS], eb: ji[indexB]}
+                nextLuckStart = moment(firstLuckStart).add(10, 'years');
+                luck[i] = {
+                    hs: gon[indexS], eb: ji[indexB],
+                    start: firstLuckStart.format('DD-MM-YYYY'),
+                    end: nextLuckStart.format('DD-MM-YYYY')
+                };
+                firstLuckStart = moment(nextLuckStart);
             }
 
             var chart = {
@@ -220,7 +230,7 @@ function BaZiCalculator(person) {
                 astro: astroData,
                 comment1: messages.str1,
                 comment2: messages.str2,
-                'an start': LP,
+                startYear: LP,
                 fw: FW
             };
         }

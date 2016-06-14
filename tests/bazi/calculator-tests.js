@@ -31,7 +31,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 4.03,
+            startYear: 4.03,
             fw: 1
         });
     });
@@ -86,7 +86,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 7.64,
+            startYear: 7.64,
             fw: -1
         });
     });
@@ -114,7 +114,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 5.69,
+            startYear: 5.69,
             luck: [{hs: '癸 A-', eb: '亥 hài'},
                 {hs: '壬 A+', eb: '戌 xū'},
                 {hs: '辛 M-', eb: '酉 yǒu'},
@@ -151,7 +151,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 3.86,
+            startYear: 3.86,
             luck: [{hs: '丙 F+', eb: '寅 yín'},
                 {hs: '丁 F-', eb: '卯 mǎo'},
                 {hs: '戊 P+', eb: '辰 chén'},
@@ -183,7 +183,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 0.9,
+            startYear: 0.9,
             luck: [{hs: '庚 M+', eb: '辰 chén'},
                 {hs: '辛 M-', eb: '巳 sì'},
                 {hs: '壬 A+', eb: '午 wǔ'},
@@ -208,7 +208,7 @@ describe('BaZi calculator math', function () {
         var calculator = BaZiCalculator(person);
         var result = calculator.compute();
         expect(result).to.containSubset({
-            "an start": 2.47,
+            startYear: 2.47,
             "chart": {
                 "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
                 "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
@@ -249,7 +249,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 0.36,
+            startYear: 0.36,
             luck: [{hs: '辛 M-', eb: '巳 sì'},
                 {hs: '庚 M+', eb: '辰 chén'},
                 {hs: '己 P-', eb: '卯 mǎo'},
@@ -284,7 +284,7 @@ describe('BaZi calculator math', function () {
             },
             comment1: '',
             comment2: '',
-            'an start': 0.36,
+            startYear: 0.36,
             luck: [{hs: '辛 M-', eb: '巳 sì'},
                 {hs: '庚 M+', eb: '辰 chén'},
                 {hs: '己 P-', eb: '卯 mǎo'},
@@ -298,4 +298,33 @@ describe('BaZi calculator math', function () {
         });
     });
 
+    it('calculate for 22 4 1984 22 50', function () {
+        var person = {
+            date: {
+                day: 22, month: 4, year: 1984, hour: 22, minute: 50
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        var calculator = BaZiCalculator(person);
+        var result = calculator.compute();
+        expect(result.luck[1].start).to.equal('22-04-1998');
+        expect(result.luck[1].end).to.equal('22-04-2008');
+    });
+
+    it('calculate for 26 6 1986', function () {
+        var person = {
+            date: {
+                day: 26, month: 6, year: 1986
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        var calculator = BaZiCalculator(person);
+        var result = calculator.compute();
+        expect(result.luck[0].start).to.equal('26-01-1990');
+        expect(result.luck[0].end).to.equal('26-01-2000');
+        expect(result.luck[1].start).to.equal('26-01-2000');
+        expect(result.luck[1].end).to.equal('26-01-2010');
+    });
 });

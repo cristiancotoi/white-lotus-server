@@ -7,6 +7,7 @@ var Digits = require('./digits');
 var Retriever = require('./data-retriever');
 
 
+
 var pSquare = function (person, response) {
     if (person === null || person === undefined) {
         return;
@@ -21,20 +22,15 @@ var pSquare = function (person, response) {
         {position: 4, number: -1}
     ];
 
-    var utils = Utils(date);
+    var utils = Utils(date, person.tz);
     var digits = Digits();
     var retriever = Retriever(utils, digits, response);
-    var len = digits.length;
 
     function computeSquareDigits() {
         digits.clear();
         utils.extractDigitsFromBirthDay(date, op, digits);
         utils.extractDigitsFromOP(op, digits);
-
-        digitsSquare = [];
-        for (var i = 0; i < len; i += 1) {
-            digitsSquare.push(digits.getLongText(i));
-        }
+        digitsSquare = digits.getAllDigitsLongNames();
     }
 
     function aggregate(userLevel) {

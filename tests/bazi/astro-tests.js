@@ -3,6 +3,7 @@ var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 var expect = chai.expect; // we are using the "expect" style of Chai
 
+var moment = require('moment');
 var AstroCalc = require('./../../bazi_module/astro');
 
 describe('BaZi astrology calculations', function () {
@@ -177,6 +178,8 @@ describe('BaZi astrology calculations', function () {
         var calculator = AstroCalc();
         var resultWithDst = calculator.getData(person);
         var resultWithoutDst = calculator.getData(personWithoutDst);
+        delete resultWithDst.moment;
+        delete resultWithoutDst.moment;
         expect(resultWithDst).to.deep.equal(resultWithoutDst);
     });
 
@@ -193,6 +196,19 @@ describe('BaZi astrology calculations', function () {
         expect(resultWithDst.minute).to.equal(57);
         expect(Math.floor(resultWithDst.hour)).to.equal(22);
         expect(resultWithDst.day).to.equal(22);
+    });
+
+    it('check moment object export', function () {
+        var person = {
+            date: {
+                day: 28, month: 6, year: 1986
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.getData(person);
+        expect(moment(result.moment).toISOString()).to.contain('1986-06-28T00:00');
     });
 
 });

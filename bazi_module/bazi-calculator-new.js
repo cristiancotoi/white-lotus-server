@@ -459,7 +459,7 @@ function BaZiCalculatorFactory(input) {
                 "Ora": new Binomial(hs, hb),
                 comment1: str1,
                 comment2: str2,
-                'an start': LP
+                startYear: LP
             };
             /*form.ys.value = ys; // year HS
              form.ms.value = ms; // month HS
@@ -527,7 +527,7 @@ function testCalculator(){
     console.info(output.Luna.getCompressedVersion());
     console.info(output.Zi.getCompressedVersion());
     console.info(output.Ora.getCompressedVersion());
-    console.info(output['an start']);
+    console.info(output[startYear]);
 }
 
 function testCalculatorFromComponents(){
@@ -550,5 +550,5 @@ function testCalculatorFromComponents(){
     console.info(output.Luna.getCompressedVersion());
     console.info(output.Zi.getCompressedVersion());
     console.info(output.Ora.getCompressedVersion());
-    console.info(output['an start']);
+    console.info(output[startYear]);
 }
