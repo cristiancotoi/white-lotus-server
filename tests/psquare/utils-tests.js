@@ -43,4 +43,36 @@ describe('Pythagorean Square utility tests', function () {
         expect(Utils({year: 1959}).getYearFullSum()).to.equal(6);
         expect(Utils({year: 1999}).getYearFullSum()).to.equal(1);
     });
+
+    it('check moment quality without hour', function () {
+        expect(Utils({
+            year: 1950,
+            month: 1,
+            day: 1
+        })
+            .getMoment()
+            .toISOString()).to.equal('1950-01-01T00:00:00.000Z');
+    });
+
+    it('check moment quality max month', function () {
+        expect(Utils({
+            year: 1950,
+            month: 12,
+            day: 1
+        })
+            .getMoment()
+            .toISOString()).to.equal('1950-12-01T00:00:00.000Z');
+    });
+
+    it('check moment quality with time', function () {
+        expect(Utils({
+            year: 1950,
+            month: 12,
+            day: 1,
+            hour: 5,
+            minute: 50
+        })
+            .getMoment()
+            .toISOString()).to.equal('1950-12-01T05:50:00.000Z');
+    });
 });

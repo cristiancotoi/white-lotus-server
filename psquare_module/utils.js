@@ -1,14 +1,16 @@
 'use strict';
 
-var moment = require('moment');
+var moment = require("moment-timezone");
 var _ = require('underscore');
 
 var utils = function (date, tz) {
     function getMoment() {
-        var result = moment()
-            .year(date.year)
-            .month(date.month)
-            .date(date.day);
+        moment.tz.setDefault('UTC');
+        var result = moment([
+            date.year,
+            date.month - 1,
+            date.day
+        ]);
         if (!_.isUndefined(date.hour) & date.hour != null) {
             result
                 .hour(date.hour)

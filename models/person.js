@@ -27,7 +27,8 @@ var personSchema = new Schema({
         longitude: {type: Number, min: -360.0, max: 360.0},
         analystId: String,
         gender: String,
-        notes: String
+        notes: String,
+        lastUpdated: {type: Date, default: Date.now}
     },
     {
         collection: collName

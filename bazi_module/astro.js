@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require("underscore");
-//var moment = require("moment");
 var moment = require("moment-timezone");
 
 var astro = function () {
