@@ -144,6 +144,88 @@ describe('BaZiMain basic calculations', function () {
             });
 
             expect(_.size(result.detailedChart)).to.equal(4);
+            expect(result.godsScore).to.containSubset({
+                '乙 L-': {
+                    visible: 50,
+                    mainHidden: 0,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'L',
+                    total: 50
+                },
+                '庚 M+': {
+                    visible: 50,
+                    mainHidden: 0,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'M',
+                    total: 50
+                },
+                '壬 A+': {
+                    visible: 0,
+                    mainHidden: 140,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'A',
+                    total: 140
+                },
+                '戊 P+': {
+                    visible: 0,
+                    mainHidden: 0,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'P',
+                    total: 0
+                },
+                '甲 L+': {
+                    visible: 0,
+                    mainHidden: 0,
+                    prison: 30,
+                    grave: 0,
+                    phase: 'L',
+                    total: 30
+                },
+                '癸 A-': {
+                    visible: 0,
+                    mainHidden: 0,
+                    prison: 20,
+                    grave: 0,
+                    phase: 'A',
+                    total: 20
+                },
+                '丁 F-': {
+                    visible: 50,
+                    mainHidden: 35,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'F',
+                    total: 85
+                },
+                '己 P-': {
+                    visible: 0,
+                    mainHidden: 30,
+                    prison: 15,
+                    grave: 0,
+                    phase: 'P',
+                    total: 45
+                },
+                '丙 F+': {
+                    visible: 0,
+                    mainHidden: 0,
+                    prison: 0,
+                    grave: 0,
+                    phase: 'F',
+                    total: 0
+                },
+                '辛 M-': {
+                    visible: 0,
+                    mainHidden: 0,
+                    prison: 0,
+                    grave: 10,
+                    phase: 'M',
+                    total: 10
+                }
+            });
 
             done();
         }

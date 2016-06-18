@@ -1,6 +1,6 @@
 'use strict';
 
-var Utils = require('./age');
+var Utils = require('./utils');
 var BaZiCalculator = require('./bazi-calculator');
 var Retriever = require('./data-retriever');
 var _ = require("underscore");
@@ -27,8 +27,6 @@ var baziModule = function (person, response) {
             dm: {}
         };
 
-        //console.log(person);
-        /*console.log(resultData.chart);*/
         // Append data about phases, hs, eb to the result.
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis

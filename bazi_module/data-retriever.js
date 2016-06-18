@@ -7,6 +7,9 @@ var EB = require('../models/bazi/earthly-branch');
 var Binomial = require('../models/bazi/binomial');
 
 var DM = require('../models/bazi/day-master');
+var GodsStrength = require('../models/bazi/gods-strength');
+
+var GodsCalculator = require('../bazi_module/gods-calculator');
 
 var binomial = function (response) {
     function arrToMap(arr, keyName) {
@@ -49,13 +52,44 @@ var binomial = function (response) {
         });
     }
 
-    function getDM(resultChart) {
-        var dmName = resultChart.chart.chart.day.hs;
+    function getDM(resultData) {
+        var dmName = resultData.chart.chart.day.hs;
         var promise = DM.find({id: dmName}).exec();
 
         return promise.then(function (dm) {
-            resultChart.dm = dm[0].toObject();
+            resultData.dm = dm[0].toObject();
         });
+    }
+
+    function getGodsStrengthsForSeason(resultData) {
+        var seasonName = resultData.chart.chart.month.eb;
+        var promise = GodsStrength.find({id: seasonName}).exec();
+
+        return promise.then(function (strength) {
+            resultData.godsStrength = strength[0].toObject();
+        });
+    }
+
+    function postProcessing(resultData) {
+        var calculator = GodsCalculator();
+        var stems = resultData.heavenlyStems;
+        var godsScore = calculator.getStemsStrength(
+            resultData.detailedChart,
+            stems,
+            resultData.earthlyBranches);
+        var scoreForSeason = resultData.godsStrength;
+        _.each(godsScore, function (score) {
+            var scoreMultiplier = scoreForSeason[score.phase.toLowerCase()];
+            score.visible *= scoreMultiplier;
+            score.mainHidden *= scoreMultiplier;
+            score.prison *= scoreMultiplier;
+            score.grave *= scoreMultiplier;
+            score.total *= scoreMultiplier;
+        });
+        resultData.godsScore = godsScore;
+
+        // Lighten up the load we send to the client
+        delete resultData.godsStrength;
     }
 
     function aggregate(resultData) {
@@ -79,7 +113,7 @@ var binomial = function (response) {
         promises.push(getBinomial(
             resultData.detailedChart, 'day',
             chart.day));
-        if(!_.isUndefined(chart.hour.hs)) {
+        if (!_.isUndefined(chart.hour.hs)) {
             promises.push(getBinomial(
                 resultData.detailedChart, 'hour',
                 chart.hour));
@@ -91,12 +125,15 @@ var binomial = function (response) {
         }
 
         promises.push(getDM(resultData));
+        promises.push(getGodsStrengthsForSeason(resultData));
 
         Promise.all(promises).then(function () {
+            postProcessing(resultData);
+
             // All DB queries are finished - returning the result
             response.json(resultData);
 
-        }, function(err) {
+        }, function (err) {
             console.log(err);
         });
         return resultData;
