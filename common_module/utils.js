@@ -16,8 +16,20 @@ var utils = function () {
         }
     }
 
+    function getUser(analystId) {
+        var User = require('../models/user');
+
+        return User
+            .find({analystId: analystId})
+            .exec()
+            .then(function (data) {
+                return data[0];
+            });
+    }
+
     return {
-        stripDbIds: stripDbIds
+        stripDbIds: stripDbIds,
+        getUser: getUser
     };
 };
 

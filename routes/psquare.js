@@ -8,14 +8,7 @@ var _ = require('underscore');
 var express = require('express');
 var pSquare = require('../psquare_module/main');
 
-function getUser(analystId) {
-    return User
-        .find({analystId: analystId})
-        .exec()
-        .then(function (data) {
-            return data[0];
-        });
-}
+var CommonUtils = require('../common_module/utils');
 
 var router = express.Router();
 
@@ -26,7 +19,7 @@ router.route('/psquare/:id')
                 res.send(err);
             }
             else {
-                getUser(person.analystId)
+                CommonUtils().getUser(person.analystId)
                     .then(function (user) {
                         var userLevel = _.isUndefined(user) ? 1 : user.level;
                         pSquare(person, res).make(userLevel);

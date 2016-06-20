@@ -89,7 +89,7 @@ var binomial = function (response) {
         });
     }
 
-    function postProcessing(resultData) {
+    function applyGodsStrengthMultiplier(resultData) {
         var stems = resultData.heavenlyStems;
         var godsScore = calculator.getStemsStrength(
             resultData.detailedChart,
@@ -110,7 +110,13 @@ var binomial = function (response) {
         delete resultData.godsStrength;
     }
 
-    function aggregate(resultData) {
+    function postProcessing(resultData, userLevel) {
+        if (userLevel >= 3) {
+            applyGodsStrengthMultiplier(resultData);
+        }
+    }
+
+    function aggregate(resultData, userLevel) {
         var promises = [];
         var chart = resultData.chart.chart;
         var luck = resultData.chart.luck;
@@ -143,11 +149,17 @@ var binomial = function (response) {
         }
 
         promises.push(getDM(resultData));
-        promises.push(getGodsStrengthsForSeason(resultData));
-        promises.push(getBranchRelations(resultData));
+
+        if (userLevel >= 3) {
+            promises.push(getGodsStrengthsForSeason(resultData));
+        }
+
+        if (userLevel >= 5) {
+            promises.push(getBranchRelations(resultData));
+        }
 
         Promise.all(promises).then(function () {
-            postProcessing(resultData);
+            postProcessing(resultData, userLevel);
             var utils = CommonUtils();
             utils.stripDbIds(resultData);
             // All DB queries are finished - returning the result

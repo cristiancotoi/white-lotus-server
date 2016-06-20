@@ -3,8 +3,10 @@
 var Person = require('../models/person');
 
 var express = require('express');
-var BaZiMain = require('../bazi_module/main');
+var _ = require('underscore');
 
+var BaZiMain = require('../bazi_module/main');
+var CommonUtils = require('../common_module/utils');
 
 var router = express.Router();
 
@@ -14,7 +16,13 @@ router.route('/bazi/:id')
             if (err)
                 res.send(err);
             else {
-                BaZiMain(person, res);
+                CommonUtils().getUser(person.analystId)
+                    .then(function (user) {
+                        var userLevel = _.isUndefined(user) ? 1 : user.level;
+                        BaZiMain(person, res).make(userLevel);
+                    }, function(err) {
+                        res.send(err);
+                    });
             }
         });
     });

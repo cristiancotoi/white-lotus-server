@@ -31,7 +31,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check chart data quality for 24 12 1948', function (done) {
@@ -50,7 +50,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check chart calculations for date without hour and minutes', function (done) {
@@ -70,7 +70,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check chart contents after calculations', function (done) {
@@ -108,7 +108,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check chart contents for 30 11 1990 3:4 Magnus Carlsen', function (done) {
@@ -230,7 +230,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check luck', function (done) {
@@ -247,7 +247,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check dm', function (done) {
@@ -273,7 +273,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
     });
 
     it('check relations', function (done) {
@@ -319,7 +319,43 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts});
+        BaZiMain(person, {json: asserts}).make(99);
+    });
+
+    it('check relations are not present for user level 1', function (done) {
+        var person = {
+            date: {
+                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+
+        function asserts(result) {
+            expect(result.godsScore).to.be.undefined;
+            expect(result.branchRelations).to.be.undefined;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(1);
+    });
+
+    it('check relations are not present for user level 3', function (done) {
+        var person = {
+            date: {
+                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+
+        function asserts(result) {
+            expect(result.godsScore).to.exist;
+            expect(result.branchRelations).to.be.undefined;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(3);
     });
 
 });
