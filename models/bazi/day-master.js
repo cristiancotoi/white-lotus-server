@@ -10,7 +10,7 @@ var schema = new Schema({
         physique: String,
         positive: String,
         negative: String,
-        'path to happiness': String,
+        path_to_happiness: String,
         happiness: String
     },
     {

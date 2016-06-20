@@ -327,4 +327,17 @@ describe('BaZi calculator math', function () {
         expect(result.luck[1].start).to.equal('26-01-2000');
         expect(result.luck[1].end).to.equal('26-01-2010');
     });
+
+    it('calculate for 26 6 1986 with hour and without tz', function () {
+        var person = {
+            date: {
+                day: 26, month: 6, year: 1986, hour: 15, minute: 50
+            },
+            gender: 'M'
+        };
+
+        var calculator = BaZiCalculator(person);
+        var result = calculator.compute();
+        expect(result.luck.length).to.be.above(8);
+    });
 });

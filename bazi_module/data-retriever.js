@@ -1,6 +1,9 @@
 'use strict';
 
 var _ = require("underscore");
+
+var CommonUtils = require('../common_module/utils');
+
 var Phases = require('../models/bazi/phase');
 var HS = require('../models/bazi/heavenly-stem');
 var EB = require('../models/bazi/earthly-branch');
@@ -8,14 +11,18 @@ var Binomial = require('../models/bazi/binomial');
 
 var DM = require('../models/bazi/day-master');
 var GodsStrength = require('../models/bazi/gods-strength');
+var BranchRelation = require('../models/bazi/branch-relation');
 
 var GodsCalculator = require('../bazi_module/gods-calculator');
 
 var binomial = function (response) {
+    var calculator = GodsCalculator();
+
+
     function arrToMap(arr, keyName) {
         var result = {};
         _.each(arr, function (element) {
-            result[element[keyName]] = element;
+            result[element[keyName]] = element.toObject();
         });
         return result;
     }
@@ -48,7 +55,7 @@ var binomial = function (response) {
         var promise = Binomial.find({hs: pillar.hs, eb: pillar.eb}).exec();
 
         return promise.then(function (binomial) {
-            resultChart[position] = binomial[0].toObject();
+            resultChart[position] = binomial[0].toObject()
         });
     }
 
@@ -70,8 +77,19 @@ var binomial = function (response) {
         });
     }
 
+    function getBranchRelations(resultData) {
+        var promise = BranchRelation.find().exec();
+
+        return promise.then(function (allRelations) {
+            resultData.branchRelations =
+                calculator.getMatchingRelations(
+                    resultData.chart.chart,
+                    allRelations
+                );
+        });
+    }
+
     function postProcessing(resultData) {
-        var calculator = GodsCalculator();
         var stems = resultData.heavenlyStems;
         var godsScore = calculator.getStemsStrength(
             resultData.detailedChart,
@@ -126,14 +144,17 @@ var binomial = function (response) {
 
         promises.push(getDM(resultData));
         promises.push(getGodsStrengthsForSeason(resultData));
+        promises.push(getBranchRelations(resultData));
 
         Promise.all(promises).then(function () {
             postProcessing(resultData);
-
+            var utils = CommonUtils();
+            utils.stripDbIds(resultData);
             // All DB queries are finished - returning the result
             response.json(resultData);
 
         }, function (err) {
+            console.log('Error waiting for promises');
             console.log(err);
         });
         return resultData;

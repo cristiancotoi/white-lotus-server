@@ -15,6 +15,11 @@ var baziModule = function (person, response) {
 
     function calculate() {
         var chartData = BaZiCalculator(person).compute();
+        chartData.chart.year.name = 'year';
+        chartData.chart.month.name = 'month';
+        chartData.chart.day.name = 'day';
+        chartData.chart.hour.name = 'hour';
+
         var resultData = {
             name: person.name,
             surname: person.surname,

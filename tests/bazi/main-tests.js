@@ -262,7 +262,7 @@ describe('BaZiMain basic calculations', function () {
         function asserts(result) {
             expect(result.dm).to.containSubset({
                 happiness: 'Să facă parte dintr-un grup, să aparțină unui loc',
-                'path to happiness': 'Să fie fertili, să fie sursa vieții.',
+                path_to_happiness: 'Să fie fertili, să fie sursa vieții.',
                 negative: 'Prea moale, supus sacrificiului, posesiv, dominat, idealist, dependent, hedonist, încăpațânat, rasfațat, pesimist ',
                 positive: 'Are încredere în sine, multe relații, inventiv, grijuliu, tolerant, productiv, descurcăreț, creativ, capabil, flexibil, delicat, matern, inovator, intuitiv, răbdător',
                 physique: 'Moale și elastic',
@@ -270,6 +270,52 @@ describe('BaZiMain basic calculations', function () {
                 element: 'Grădină',
                 id: '己 P-'
             });
+            done();
+        }
+
+        BaZiMain(person, {json: asserts});
+    });
+
+    it('check relations', function (done) {
+        var person = {
+            date: {
+                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+        var output = [
+            {
+                "relation": {
+                    "eb1": "亥 hài",
+                    "category": "Origine",
+                    "categoryDescription": "Reprezintă punctul de pornire al elementelor. Oamenii cu aceste ramuri în hartă sunt aventurieri și nomazi în interior. Nu se opresc din dezvoltare și sunt mereu tineri în inima lor."
+                }, "matchingPillars": [
+                [{
+                    "pillar": "day",
+                    "branch": "亥 hài"
+                }]]
+            },
+            {
+                "relation": {
+                    "eb1": "未 wèi",
+                    "eb2": "午 wǔ",
+                    "category": "Armonie",
+                    "description": "Cele două produc Foc",
+                    "result": "F",
+                    "categoryDescription": "Combinații interne, apar în stâlpul de noroc sau anul curent. Acestea când se combină formează un element, care poate fi favorabil sau nu SZ."
+                }, "matchingPillars": [
+                [{
+                    "pillar": "year",
+                    "branch": "未 wèi"
+                }, {
+                    "pillar": "month",
+                    "branch": "午 wǔ"
+                }]]
+            }];
+
+        function asserts(result) {
+            expect(result.branchRelations).to.containSubset(output);
             done();
         }
 
