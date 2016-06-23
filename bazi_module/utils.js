@@ -4,10 +4,10 @@ var moment = require('moment');
 var _ = require("underscore");
 
 var utils = function (date) {
-    var _b = moment(date);
+    var _birthDay = moment(date);
 
     function getMoment() {
-        return _b;
+        return _birthDay;
     }
 
     function getAge(now, unit) {
@@ -15,7 +15,16 @@ var utils = function (date) {
         if (_.isUndefined(now)) {
             now = moment();
         }
-        return now.diff(_b, u, false);
+        return now.diff(_birthDay, u, false);
+    }
+
+    function getCurrentLuckPillar(pillarStart, now) {
+        if (_.isUndefined(now)) {
+            now = moment();
+        }
+        var luckStart = moment(_birthDay).add(pillarStart, 'years');
+        var yearsDiff = now.diff(luckStart, 'year', false);
+        return Math.floor(yearsDiff / 10);
     }
 
     function getAgeString(now) {
@@ -29,6 +38,7 @@ var utils = function (date) {
 
     return {
         getAge: getAge,
+        getCurrentLuckPillar: getCurrentLuckPillar,
         getAgeString: getAgeString,
         getMoment: getMoment
     };

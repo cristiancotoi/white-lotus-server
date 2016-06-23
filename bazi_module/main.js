@@ -29,6 +29,7 @@ var baziModule = function (person, response) {
             sex: person.sex,
 
             chart: chartData,
+            currentLuckPillar: utils.getCurrentLuckPillar(chartData.startYear),
             dm: {}
         };
 

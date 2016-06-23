@@ -88,4 +88,31 @@ describe('BaZi utils age calculation', function () {
         expect(mom.minutes()).to.equal(50);
     });
 
+    it('check current luck pillar simple test', function () {
+        var date = {
+            day: 22, month: 0, year: 1984, hours: 22, minutes: 50
+        };
+
+        var utils = Utils(date);
+        expect(utils.getCurrentLuckPillar(4)).to.equal(2);
+    });
+
+    it('check current luck pillar edge case - before', function () {
+        var date = {
+            day: 22, month: 3, year: 1984, hours: 22, minutes: 50
+        };
+
+        var utils = Utils(date);
+        expect(utils.getCurrentLuckPillar(4, moment([2018, 3, 22]))).to.equal(2);
+    });
+
+    it('check current luck pillar edge case - after', function () {
+        var date = {
+            day: 22, month: 3, year: 1984, hours: 22, minutes: 50
+        };
+
+        var utils = Utils(date);
+        expect(utils.getCurrentLuckPillar(4, moment([2018, 3, 24]))).to.equal(3);
+    });
+
 });
