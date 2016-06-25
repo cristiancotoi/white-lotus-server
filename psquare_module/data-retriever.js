@@ -22,6 +22,8 @@ var SquareCombo = require('../models/psquare/sq-combo');
 var LifeCycle = require('../models/psquare/life-cycles');
 var LifeCycleDesc = require('../models/psquare/life-cycles-description');
 
+var LuckChart = require('../models/psquare/luck-chart');
+
 var dataRetriever = function (utils, digits, response) {
     function getUser(analystId) {
         return User
@@ -205,6 +207,17 @@ var dataRetriever = function (utils, digits, response) {
         return promises;
     }
 
+    function getLuckChart(result) {
+        return LuckChart
+            .find()
+            .exec()
+            .then(function (data) {
+                result.luckChartDigits.descriptions = _.map(data, function(item) {
+                    return item.toObject();
+                });
+            });
+    }
+
     /**
      * Data re-processing.
      * @param result
@@ -239,16 +252,17 @@ var dataRetriever = function (utils, digits, response) {
         promises.push(getOpDigitsDescriptions(op));
         promises.push(getDestiny(resultData, utils.sumDigits(op[1].number)));
 
+        promises.push(getInteriorVibration(resultData));
+        promises.push(getExteriorVibration(resultData));
+        promises.push(getCosmicVibration(resultData));
+
         if (userLevel >= 3) {
-            promises.push(getInteriorVibration(resultData));
-            promises.push(getExteriorVibration(resultData));
-            promises.push(getCosmicVibration(resultData));
+            promises.push(getNumbers(resultData));
         }
 
         if (userLevel >= 5) {
             promises.push(getLines(resultData));
             promises.push(getCombos(resultData));
-            promises.push(getNumbers(resultData));
 
             var digits = resultData.digits;
             var digitLen = digits.length;
@@ -277,6 +291,8 @@ var dataRetriever = function (utils, digits, response) {
 
             // descriptions will return an array of promises so we concat it
             promises = promises.concat(getLifeCycleDescriptions(resultData, utils));
+
+            promises.push(getLuckChart(resultData));
         }
 
         Promise.all(promises)

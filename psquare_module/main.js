@@ -7,7 +7,6 @@ var Digits = require('./digits');
 var Retriever = require('./data-retriever');
 
 
-
 var pSquare = function (person, response) {
     if (person === null || person === undefined) {
         return;
@@ -36,12 +35,15 @@ var pSquare = function (person, response) {
     function aggregate(userLevel) {
         computeSquareDigits();
 
+        var luckChartDigits = utils.getLuckChartDigits();
         var resultData = {
             dateStr: '' + date.day + date.month + date.year,
             op: op,
             digits: digits,
             digitWeights: digits.getDigits(),
-            square: digitsSquare
+            square: digitsSquare,
+            luckChartDigits: luckChartDigits,
+            luckYears: utils.getYearsMatrix(luckChartDigits.digits.length)
         };
 
         retriever.getAllInto(resultData, op, userLevel);

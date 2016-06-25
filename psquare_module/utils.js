@@ -93,6 +93,54 @@ var utils = function (date, tz) {
         return i;
     }
 
+    function getLuckChartDigits() {
+        var luckChartNumber = date.year * date.month * date.day;
+        var sLen, i;
+        var luckChartDigits = [];
+        var sNumber = '' + luckChartNumber;
+
+        for (i = 0, sLen = sNumber.length; i < sLen; i += 1) {
+            luckChartDigits.push({
+                position: i + 1,
+                value: parseInt(sNumber.charAt(i))
+            });
+        }
+
+        return {
+            number: luckChartNumber,
+            digits: luckChartDigits
+        };
+    }
+
+    function getYearsMatrix(colCount, count) {
+        if (_.isUndefined(count)) {
+            count = 80;
+        }
+        if(colCount !== parseInt(colCount, 10)){
+            throw "Invalid parameter: " + colCount;
+        }
+
+        var rowIdx, colIdx;
+        var resultMatrix = [];
+        var year = date.year;
+        var instances = 0;
+
+        for (rowIdx = 0; rowIdx < 100; rowIdx++) {
+            var row = [];
+            for (colIdx = 0; colIdx < colCount; colIdx++, instances++) {
+                row[colIdx] = year;
+                year++;
+            }
+            resultMatrix.push(row);
+
+            if (instances >= count) {
+                break;
+            }
+        }
+
+        return resultMatrix;
+    }
+
     return {
         getMoment: getMoment,
 
@@ -104,7 +152,10 @@ var utils = function (date, tz) {
         getYearFullSum: getYearSum,
 
         extractDigitsFromBirthDay: extractDigitsFromBirthDay,
-        extractDigitsFromOP: extractDigitsFromOP
+        extractDigitsFromOP: extractDigitsFromOP,
+
+        getLuckChartDigits: getLuckChartDigits,
+        getYearsMatrix: getYearsMatrix
     };
 };
 
