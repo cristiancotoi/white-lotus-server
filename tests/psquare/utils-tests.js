@@ -166,4 +166,80 @@ describe('Pythagorean Square utility tests', function () {
             expect(ex).to.equal('Invalid parameter: [object Object]');
         }
     });
+
+    it('check challenges for pre-2000', function () {
+        var utils = Utils({
+            year: 1984,
+            month: 12,
+            day: 1
+        });
+        var challenges = utils.getChallenges();
+        expect(challenges).to.containSubset([
+            {position: 1, value: 2},
+            {position: 2, value: 3},
+            {position: 3, value: 1},
+            {position: 4, value: 1}]
+        );
+    });
+
+    it('check challenges for post-2000', function () {
+        var utils = Utils({
+            year: 2000,
+            month: 12,
+            day: 29
+        });
+        var challenges = utils.getChallenges();
+        expect(challenges).to.containSubset([
+            {position: 1, value: 1},
+            {position: 2, value: 0},
+            {position: 3, value: 1},
+            {position: 4, value: 1}
+        ]);
+    });
+
+    it('check challenges interval for destiny number 1', function () {
+        var utils = Utils({
+            year: 1984,
+            month: 4,
+            day: 23
+        });
+        var chIntervals = utils.getChallengeAndOpportunityIntervals(1);
+        expect(chIntervals).to.containSubset([
+            {position: 1, start: 0, end: 35},
+            {position: 2, start: 36, end: 44},
+            {position: 3, start: 45, end: 53},
+            {position: 4, start: 54, end: 62}
+        ]);
+    });
+
+    it('check challenges interval for destiny number 5', function () {
+        var utils = Utils({
+            year: 1984,
+            month: 4,
+            day: 23
+        });
+        var chIntervals = utils.getChallengeAndOpportunityIntervals(5);
+        expect(chIntervals).to.containSubset([
+            {position: 1, start: 0, end: 31},
+            {position: 2, start: 32, end: 40},
+            {position: 3, start: 41, end: 49},
+            {position: 4, start: 50, end: 58}
+        ]);
+    });
+
+    it('check opportunities', function () {
+        var utils = Utils({
+            year: 1984,
+            month: 4,
+            day: 23
+        });
+        var opportunities = utils.getOpportunities();
+        expect(opportunities).to.containSubset([
+            {position: 1, value: 9},
+            {position: 2, value: 9},
+            {position: 3, value: 9},
+            {position: 4, value: 8}
+        ]);
+    });
+
 });

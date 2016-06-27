@@ -42,6 +42,9 @@ var pSquare = function (person, response) {
             digits: digits,
             digitWeights: digits.getDigits(),
             square: digitsSquare,
+            challenges: utils.getChallenges(),
+            opportunities: utils.getOpportunities(),
+            chAndOpIntervals: utils.getChallengeAndOpportunityIntervals(op[1].number),
             luckChartDigits: luckChartDigits,
             luckYears: utils.getYearsMatrix(luckChartDigits.digits.length)
         };

@@ -116,7 +116,7 @@ var utils = function (date, tz) {
         if (_.isUndefined(count)) {
             count = 80;
         }
-        if(colCount !== parseInt(colCount, 10)){
+        if (colCount !== parseInt(colCount, 10)) {
             throw "Invalid parameter: " + colCount;
         }
 
@@ -141,6 +141,44 @@ var utils = function (date, tz) {
         return resultMatrix;
     }
 
+    function getChallenges() {
+        var c1 = Math.abs(getDaySum() - getMonthSum());
+        var c2 = Math.abs(getDaySum() - getYearSum());
+        var c3 = Math.abs(c1 - c2);
+        var c4 = Math.abs(getMonthSum() - getYearSum());
+
+        return [
+            {position: 1, value: c1},
+            {position: 2, value: c2},
+            {position: 3, value: c3},
+            {position: 4, value: c4}
+        ];
+    }
+
+    function getChAndOpIntervals(destinyDigit) {
+        var first = 36 - destinyDigit;
+        return [
+            {position: 1, start: 0, end: first},
+            {position: 2, start: first + 1, end: first + 9},
+            {position: 3, start: first + 10, end: first + 18},
+            {position: 4, start: first + 19, end: first + 27}
+        ];
+    }
+
+    function getOpportunities() {
+        var o1 = sumDigits(getDaySum() + getMonthSum());
+        var o2 = sumDigits(getDaySum() + getYearSum());
+        var o3 = sumDigits(o1 + o2);
+        var o4 = sumDigits(getMonthSum() + getYearSum());
+
+        return [
+            {position: 1, value: o1},
+            {position: 2, value: o2},
+            {position: 3, value: o3},
+            {position: 4, value: o4}
+        ];
+    }
+
     return {
         getMoment: getMoment,
 
@@ -154,6 +192,9 @@ var utils = function (date, tz) {
         extractDigitsFromBirthDay: extractDigitsFromBirthDay,
         extractDigitsFromOP: extractDigitsFromOP,
 
+        getChallenges: getChallenges,
+        getChallengeAndOpportunityIntervals: getChAndOpIntervals,
+        getOpportunities: getOpportunities,
         getLuckChartDigits: getLuckChartDigits,
         getYearsMatrix: getYearsMatrix
     };

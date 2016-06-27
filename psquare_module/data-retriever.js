@@ -19,6 +19,8 @@ var LineWeight = require('../models/psquare/lines-weight');
 var SquareMeaning = require('../models/psquare/sq-meaning');
 var SquareCombo = require('../models/psquare/sq-combo');
 
+var Challenge = require('../models/psquare/challenges');
+var Opportunity = require('../models/psquare/opportunities');
 var LifeCycle = require('../models/psquare/life-cycles');
 var LifeCycleDesc = require('../models/psquare/life-cycles-description');
 
@@ -207,6 +209,48 @@ var dataRetriever = function (utils, digits, response) {
         return promises;
     }
 
+    function getChallenges(result) {
+        var promises = [];
+        result.challengesDesc = {};
+        var deduper = {};
+        deduper[result.challenges[0].value] = '';
+        deduper[result.challenges[1].value] = '';
+        deduper[result.challenges[2].value] = '';
+        deduper[result.challenges[3].value] = '';
+        _.each(_.keys(deduper), function (number) {
+            promises.push(
+                Challenge
+                    .find({number: number})
+                    .exec()
+                    .then(function (data) {
+                        result.challengesDesc[number] = data[0].toObject();
+                    })
+            );
+        });
+        return promises;
+    }
+
+    function getOpportunities(result) {
+        var promises = [];
+        result.opportunitiesDesc = {};
+        var deduper = {};
+        deduper[result.opportunities[0].value] = '';
+        deduper[result.opportunities[1].value] = '';
+        deduper[result.opportunities[2].value] = '';
+        deduper[result.opportunities[3].value] = '';
+        _.each(_.keys(deduper), function (number) {
+            promises.push(
+                Opportunity
+                    .find({number: number})
+                    .exec()
+                    .then(function (data) {
+                        result.opportunitiesDesc[number] = data[0].toObject();
+                    })
+            );
+        });
+        return promises;
+    }
+
     function getLuckChart(result) {
         return LuckChart
             .find()
@@ -290,7 +334,9 @@ var dataRetriever = function (utils, digits, response) {
             promises.push(getLifeCycle(resultData, utils, utils.sumDigits(op[1].number)));
 
             // descriptions will return an array of promises so we concat it
-            promises = promises.concat(getLifeCycleDescriptions(resultData, utils));
+            promises = promises.concat(getLifeCycleDescriptions(resultData));
+            promises = promises.concat(getChallenges(resultData));
+            promises = promises.concat(getOpportunities(resultData));
 
             promises.push(getLuckChart(resultData));
         }
