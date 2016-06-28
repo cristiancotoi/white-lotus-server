@@ -1,15 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var collExists = require('./collection-exists-checker');
 var Schema = mongoose.Schema;
 var collName = 'persons';
-
-// Quick exit if collection exists
-if (collExists(collName)) {
-    console.log('Collection ' + collName + ' already exists!');
-    return;
-}
 
 var personSchema = new Schema({
         name: String,

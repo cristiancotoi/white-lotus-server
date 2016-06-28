@@ -131,7 +131,7 @@ describe('Pythagorean Square utility tests', function () {
             month: 12,
             day: 1
         });
-        var matrix = utils.getYearsMatrix(6);
+        var matrix = utils.getYearsMatrix(6, 80);
         expect(matrix.length).to.equal(14);
         expect(matrix[0].length).to.equal(6);
         expect(matrix)

@@ -14,6 +14,10 @@ describe('Common functions', function () {
                 _id: 123, test: 1,
                 innerInnerObj: {
                     _id: 'blah',
+                    arr: [
+                        {a: 'a'},
+                        ['a', 'b']
+                    ],
                     moreData: [
                         {_id: 'a', id: 'b'},
                         {_id: 'a', id: 'c'},
@@ -43,6 +47,22 @@ describe('Common functions', function () {
                 }
             }
         });
+    });
+
+    // Couldn't get this to work...
+    xit('check user retrieving', function (done) {
+        var utils = Utils();
+        var testEmail = 'test@gmail.com';
+        utils.getUser(testEmail)
+            .then(function (result) {
+                console.log(result);
+                expect(result.analystId).to.equal(testEmail);
+                expect(_.size(result)).to.be.above(1);
+                done();
+            }, function(err) {
+                console.log(err);
+                done();
+            });
     });
 
 });

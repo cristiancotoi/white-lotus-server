@@ -9,7 +9,7 @@ var Retriever = require('./data-retriever');
 
 var pSquare = function (person, response) {
     if (person === null || person === undefined) {
-        return;
+        throw 'Invalid person';
     }
 
     var date = person.date;

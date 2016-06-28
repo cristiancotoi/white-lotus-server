@@ -11,10 +11,16 @@ var SpiritLevel = require('../models/psquare/spirit-level');
 function connectToDb() {
     let dbName = 'whitelotus';
     let connectionString = '127.0.0.1:27017/' + dbName;
-// MONGODB_URL should also include trailing '/'
+    // MONGODB_URL should also include trailing '/'
+
+
+    // Ignoring because this is only present in production. Testing is irrelevant.
+    /* istanbul ignore next */
     if (process.env.MONGODB_URL) {
         connectionString = process.env.MONGODB_URL + dbName;
     }
+
+    /* istanbul ignore next */
     if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         connectionString =
             process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
@@ -24,7 +30,7 @@ function connectToDb() {
             process.env.OPENSHIFT_APP_NAME;
     }
 
-    if(!mongoose.connection.readyState) {
+    if (!mongoose.connection.readyState) {
         mongoose.connect(connectionString, {
                 db: {nativeParser: true}
             }

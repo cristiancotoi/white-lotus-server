@@ -6,23 +6,16 @@ var _ = require('underscore');
 var utils = function (date, tz) {
     function getMoment() {
         moment.tz.setDefault('UTC');
-        var result = moment([
+        var dateArray = [
             date.year,
             date.month - 1,
             date.day
-        ]);
+        ];
         if (!_.isUndefined(date.hour) & date.hour != null) {
-            result
-                .hour(date.hour)
-                .minute(date.minute);
+            dateArray.push(date.hour, date.minute);
         }
-        if (_.isFunction(result.tz) && !_.isUndefined(tz)) {
-            try {
-                result.tz(tz);
-            } catch (ex) {
-            }
-        }
-        return result;
+
+        return moment(dateArray, tz);
     }
 
     function sumDigits(number) {

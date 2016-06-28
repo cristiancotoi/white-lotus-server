@@ -34,12 +34,8 @@ var digits = function () {
     }
 
     function getLongText(digit) {
-        if (typeof digit == 'object') {
-            return multiplyNumber(digit.id, digit.count);
-        } else {
-            var o = numbers[digit];
-            return multiplyNumber(o.id, o.count);
-        }
+        var digitObj = numbers[digit];
+        return multiplyNumber(digitObj.id, digitObj.count);
     }
 
     function getAllDigitsLongNames() {
@@ -87,7 +83,7 @@ var digits = function () {
      */
     function getLineWeight(line) {
         if (_.isUndefined(line)) {
-            throw new Error('Param cannot be undefined');
+            throw 'Line name cannot be undefined';
         }
         var word = '' + line;
         var result = {count: 0, sum: 0, line: ''};

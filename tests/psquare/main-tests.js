@@ -15,6 +15,26 @@ describe('Pythagorean Square basic calculations', function () {
         connectToDb();
     });
 
+    it('check invalid initialization with undefined', function (done) {
+        try {
+            pSquare(undefined);
+            expect(true).to.equal('Did not throw any exception!');
+        } catch (ex) {
+            expect(ex).to.equal('Invalid person');
+            done();
+        }
+    });
+
+    it('check invalid initialization with null', function (done) {
+        try {
+            pSquare(null);
+            expect(true).to.equal('Did not throw any exception!');
+        } catch (ex) {
+            expect(ex).to.equal('Invalid person');
+            done();
+        }
+    });
+
     it('check basic calculations for 23/4/1984', function (done) {
         var date = {
             day: 23, month: 4, year: 1984

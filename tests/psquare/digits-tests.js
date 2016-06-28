@@ -57,6 +57,16 @@ describe('Pythagorean Square digits tests', function () {
         expect(digits.getLongText(5)).to.equal('5');
     });
 
+    it('line weight invalid parameter', function () {
+        var digits = Digits();
+        try {
+            digits.getLineWeight();
+            expect(true).to.equal('Validation for undefined value failed')
+        } catch (ex) {
+            expect(ex).to.equal('Line name cannot be undefined');
+        }
+    });
+
     it('combo matching per digit', function () {
         var digits = Digits();
         var combo = {
