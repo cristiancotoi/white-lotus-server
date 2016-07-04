@@ -67,7 +67,7 @@ var utils = function (date, tz) {
 
         // Calculate op 2, 3, 4
         op[1].number = sumDigits(op[0].number);
-        op[2].number = op[0].number - firstN * 2;
+        op[2].number = Math.abs(op[0].number - firstN * 2);
         op[3].number = sumDigits(op[2].number);
     }
 
