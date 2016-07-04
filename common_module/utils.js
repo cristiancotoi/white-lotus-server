@@ -15,6 +15,7 @@ var utils = function () {
         }
     }
 
+    /* istanbul ignore next */
     function getUser(analystId) {
         var User = require('../models/user');
 

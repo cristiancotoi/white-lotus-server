@@ -146,4 +146,23 @@ describe('Pythagorean Square basic calculations', function () {
 
         pSquare({date: date}, {json: asserts}).make(1);
     });
+
+    /**
+     * This date produces a negative OP3.
+     */
+    it('check 2011 10 8', function (done) {
+        var date = {
+            day: 8, month: 10, year: 2011
+        };
+
+        function asserts(result) {
+            expect(result.op[0].number).to.equal(13);
+            expect(result.op[1].number).to.equal(4);
+            expect(result.op[2].number).to.equal(3);
+            expect(result.op[3].number).to.equal(3);
+            done();
+        }
+
+        pSquare({date: date}, {json: asserts}).make(1);
+    });
 });

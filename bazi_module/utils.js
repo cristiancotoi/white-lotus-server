@@ -1,7 +1,7 @@
 'use strict';
 
-var moment = require('moment');
-var _ = require("underscore");
+var moment = require('moment-timezone');
+var _ = require('underscore');
 
 var utils = function (date) {
     var _birthDay = moment(date);

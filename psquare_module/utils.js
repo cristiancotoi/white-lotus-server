@@ -11,11 +11,11 @@ var utils = function (date, tz) {
             date.month - 1,
             date.day
         ];
-        if (!_.isUndefined(date.hour) & date.hour != null) {
+        if (!_.isUndefined(date.hour) && date.hour != null) {
             dateArray.push(date.hour, date.minute);
         }
 
-        return moment(dateArray, tz);
+        return moment(dateArray);
     }
 
     function sumDigits(number) {
