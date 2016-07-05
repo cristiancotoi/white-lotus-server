@@ -205,10 +205,10 @@ describe('Pythagorean Square utility tests', function () {
         });
         var chIntervals = utils.getChallengeAndOpportunityIntervals(1);
         expect(chIntervals).to.containSubset([
-            {position: 1, start: 0, end: 35},
-            {position: 2, start: 36, end: 44},
-            {position: 3, start: 45, end: 53},
-            {position: 4, start: 54, end: 62}
+            {position: 1, min: 0, max: 35},
+            {position: 2, min: 36, max: 44},
+            {position: 3, min: 45, max: 53},
+            {position: 4, min: 54, max: 62}
         ]);
     });
 
@@ -220,10 +220,10 @@ describe('Pythagorean Square utility tests', function () {
         });
         var chIntervals = utils.getChallengeAndOpportunityIntervals(5);
         expect(chIntervals).to.containSubset([
-            {position: 1, start: 0, end: 31},
-            {position: 2, start: 32, end: 40},
-            {position: 3, start: 41, end: 49},
-            {position: 4, start: 50, end: 58}
+            {position: 1, min: 0, max: 31},
+            {position: 2, min: 32, max: 40},
+            {position: 3, min: 41, max: 49},
+            {position: 4, min: 50, max: 58}
         ]);
     });
 

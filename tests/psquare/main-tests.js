@@ -147,6 +147,20 @@ describe('Pythagorean Square basic calculations', function () {
         pSquare({date: date}, {json: asserts}).make(1);
     });
 
+    it('check life cycles', function (done) {
+        var date = {
+            day: 21, month: 9, year: 2015
+        };
+
+        function asserts(result) {
+            expect(result.lifeCycle['1'].start).to.equal('21-09-2015');
+            expect(result.lifeCycle['1'].end).to.equal('21-09-2048');
+            done();
+        }
+
+        pSquare({date: date}, {json: asserts}).make(99);
+    });
+
     /**
      * This date produces a negative OP3.
      */

@@ -151,10 +151,10 @@ var utils = function (date, tz) {
     function getChAndOpIntervals(destinyDigit) {
         var first = 36 - destinyDigit;
         return [
-            {position: 1, start: 0, end: first},
-            {position: 2, start: first + 1, end: first + 9},
-            {position: 3, start: first + 10, end: first + 18},
-            {position: 4, start: first + 19, end: first + 27}
+            {position: 1, min: 0, max: first},
+            {position: 2, min: first + 1, max: first + 9},
+            {position: 3, min: first + 10, max: first + 18},
+            {position: 4, min: first + 19, max: first + 27}
         ];
     }
 

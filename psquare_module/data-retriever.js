@@ -286,6 +286,13 @@ var dataRetriever = function (utils, digits, response) {
             lc.start = utils.getMoment().add(lc.min, 'years').format('DD-MM-YYYY');
             lc.end = utils.getMoment().add(lc.max, 'years').format('DD-MM-YYYY');
         });
+
+        _.each(result.chAndOpIntervals, function (chOp) {
+            chOp.start = utils.getMoment().add(chOp.min, 'years').format('DD-MM-YYYY');
+            chOp.end = utils.getMoment().add(chOp.max, 'years').format('DD-MM-YYYY');
+        });
+
+
         return result;
     }
 
