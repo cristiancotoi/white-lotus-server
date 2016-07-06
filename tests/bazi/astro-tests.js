@@ -11,7 +11,7 @@ describe('BaZi astrology calculations', function () {
 
     it('test hour subtraction without dst', function () {
         var date = {
-            day: 22, month: 4, year: 1984, hour: 22, minute: 50
+            day: 22, month: 4, year: 1984, hour: 22, minutes: 50
         };
 
         var calculator = AstroCalc();

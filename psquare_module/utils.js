@@ -3,19 +3,11 @@
 var moment = require("moment-timezone");
 var _ = require('underscore');
 
+var CommonUtils = require('../common_module/utils');
+
 var utils = function (date, tz) {
     function getMoment() {
-        moment.tz.setDefault('UTC');
-        var dateArray = [
-            date.year,
-            date.month - 1,
-            date.day
-        ];
-        if (!_.isUndefined(date.hour) && date.hour != null) {
-            dateArray.push(date.hour, date.minute);
-        }
-
-        return moment(dateArray);
+        return CommonUtils().getMoment(date);
     }
 
     function sumDigits(number) {

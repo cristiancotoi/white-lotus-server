@@ -147,7 +147,7 @@ describe('Pythagorean Square basic calculations', function () {
         pSquare({date: date}, {json: asserts}).make(1);
     });
 
-    it('check life cycles', function (done) {
+    it('check life cycles for date without hour', function (done) {
         var date = {
             day: 21, month: 9, year: 2015
         };
@@ -155,6 +155,22 @@ describe('Pythagorean Square basic calculations', function () {
         function asserts(result) {
             expect(result.lifeCycle['1'].start).to.equal('21-09-2015');
             expect(result.lifeCycle['1'].end).to.equal('21-09-2048');
+            done();
+        }
+
+        pSquare({date: date}, {json: asserts}).make(99);
+    });
+
+    it('check life cycles for date with hour', function (done) {
+        var date = {
+            day: 5, month: 1, year: 1956,
+            hour: 5, minutes: 30
+        };
+
+        function asserts(result) {
+            console.log(result.lifeCycle);
+            expect(result.lifeCycle['1'].start).to.equal('05-01-1956');
+            expect(result.lifeCycle['1'].end).to.equal('05-01-1982');
             done();
         }
 

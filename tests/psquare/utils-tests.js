@@ -70,7 +70,7 @@ describe('Pythagorean Square utility tests', function () {
             month: 12,
             day: 1,
             hour: 5,
-            minute: 50
+            minutes: 50
         })
             .getMoment()
             .toISOString()).to.equal('1950-12-01T05:50:00.000Z');
@@ -240,6 +240,17 @@ describe('Pythagorean Square utility tests', function () {
             {position: 3, value: 9},
             {position: 4, value: 8}
         ]);
+    });
+
+    it('check moment', function () {
+        var utils = Utils({
+            day: 5, month: 1, year: 1956,
+            hour: 5, minutes: 30
+        });
+        var moment = utils.getMoment();
+        expect(moment.toISOString()).to.equal('1956-01-05T05:30:00.000Z');
+
+        expect(moment.toISOString()).to.equal('1956-01-05T05:30:00.000Z');
     });
 
 });

@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require("underscore");
+var moment = require("moment-timezone");
 
 var utils = function () {
     function stripDbIds(obj) {
@@ -27,7 +28,26 @@ var utils = function () {
             });
     }
 
+    function getMoment(dateObj) {
+        moment.tz.setDefault('UTC');
+
+        var dateArr = [
+            dateObj.year,
+            dateObj.month - 1,
+            dateObj.day
+        ];
+
+        if (!_.isUndefined(dateObj.hour) && dateObj.hour != null) {
+            var min = _.isUndefined(dateObj.minutes) ? dateObj.minute : dateObj.minutes;
+            dateArr.push(dateObj.hour, min);
+        }
+
+        var result = moment(dateArr);
+        return result;
+    }
+
     return {
+        getMoment: getMoment,
         stripDbIds: stripDbIds,
         getUser: getUser
     };

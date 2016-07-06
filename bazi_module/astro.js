@@ -3,6 +3,8 @@
 var _ = require("underscore");
 var moment = require("moment-timezone");
 
+var CommonUtils = require('../common_module/utils');
+
 var astro = function () {
     function normalizeAngle(angle) {
         // reduce the angle
@@ -13,22 +15,8 @@ var astro = function () {
         return angle;
     }
 
-    function getMoment(dateObj) {
-        if (dateObj.skipHour) {
-            moment.tz.setDefault('UTC');
-        }
-        var result = moment([
-            dateObj.year,
-            dateObj.month - 1,
-            dateObj.day,
-            dateObj.hour,
-            dateObj.minute
-        ]);
-        return result;
-    }
-
     function subtractHour(dateObj, hours, minutes) {
-        var result = getMoment(dateObj);
+        var result = CommonUtils().getMoment(dateObj);
         result.subtract(hours, 'hour');
         result.subtract(minutes, 'minute');
         dateObj.year = result.year();
@@ -75,7 +63,7 @@ var astro = function () {
             }
             result = subtractHour(result, dst, minutesDiff);
         }
-        birthDateMoment = getMoment(result);
+        birthDateMoment = CommonUtils().getMoment(result);
 
         var A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
 
