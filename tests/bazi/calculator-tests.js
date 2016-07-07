@@ -29,8 +29,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '丙 F+', eb: '戌 xū', hidStems: ['戊 P+', '辛 M-', '丁 F-']},
                 hour: {hs: '己 P-', eb: '亥 hài', hidStems: ['壬 A+', '甲 L+', '']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 4.03,
             fw: 1
         });
@@ -57,8 +56,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '丙 F+', eb: '戌 xū', hidStems: ['戊 P+', '辛 M-', '丁 F-']},
                 hour: {hs: undefined, eb: undefined, hidStems: []}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             fw: 1
         });
     });
@@ -84,8 +82,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '丙 F+', eb: '寅 yín', hidStems: ['甲 L+', '丙 F+', '戊 P+']},
                 hour: {hs: '庚 M+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 7.64,
             fw: -1
         });
@@ -112,8 +109,7 @@ describe('BaZi calculator math', function () {
                     hidStems: ['己 P-', '癸 A-', '辛 M-']
                 }
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 5.69,
             luck: [{hs: '癸 A-', eb: '亥 hài'},
                 {hs: '壬 A+', eb: '戌 xū'},
@@ -149,8 +145,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '壬 A+', eb: '寅 yín', hidStems: ['甲 L+', '丙 F+', '戊 P+']},
                 hour: {hs: '壬 A+', eb: '寅 yín', hidStems: ['甲 L+', '丙 F+', '戊 P+']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 3.86,
             luck: [{hs: '丙 F+', eb: '寅 yín'},
                 {hs: '丁 F-', eb: '卯 mǎo'},
@@ -181,8 +176,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '甲 L+', eb: '辰 chén', hidStems: ['戊 P+', '乙 L-', '癸 A-']},
                 hour: {hs: '丙 F+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 0.9,
             luck: [{hs: '庚 M+', eb: '辰 chén'},
                 {hs: '辛 M-', eb: '巳 sì'},
@@ -247,8 +241,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '己 P-', eb: '亥 hài', hidStems: ['壬 A+', '甲 L+', '']},
                 hour: {hs: '癸 A-', eb: '酉 yǒu', hidStems: ['辛 M-', '', '']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 0.36,
             luck: [{hs: '辛 M-', eb: '巳 sì'},
                 {hs: '庚 M+', eb: '辰 chén'},
@@ -282,8 +275,7 @@ describe('BaZi calculator math', function () {
                 day: {hs: '己 P-', eb: '亥 hài', hidStems: ['壬 A+', '甲 L+', '']},
                 hour: {hs: '癸 A-', eb: '酉 yǒu', hidStems: ['辛 M-', '', '']}
             },
-            comment1: '',
-            comment2: '',
+            comment1: undefined,
             startYear: 0.36,
             luck: [{hs: '辛 M-', eb: '巳 sì'},
                 {hs: '庚 M+', eb: '辰 chén'},

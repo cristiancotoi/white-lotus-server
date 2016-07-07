@@ -126,7 +126,6 @@ function BaZiCalculator(person) {
                 }
             }
 
-            var messages = astroCalc.isLongitudeInBetweenSeasons(trueLong);
             var mb = astroCalc.getMonthBranch(trueLong, FW);
             monthBranch = ji[mb.index];
             luckPBranches[0] = mb.index;
@@ -228,8 +227,7 @@ function BaZiCalculator(person) {
                 chart: chart,
                 luck: luck,
                 astro: astroData,
-                comment1: messages.str1,
-                comment2: messages.str2,
+                comment1: astroCalc.isLongitudeInBetweenSeasons(trueLong),
                 startYear: LP,
                 fw: FW
             };

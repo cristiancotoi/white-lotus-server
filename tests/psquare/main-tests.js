@@ -168,7 +168,6 @@ describe('Pythagorean Square basic calculations', function () {
         };
 
         function asserts(result) {
-            console.log(result.lifeCycle);
             expect(result.lifeCycle['1'].start).to.equal('05-01-1956');
             expect(result.lifeCycle['1'].end).to.equal('05-01-1982');
             done();

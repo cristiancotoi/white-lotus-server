@@ -134,8 +134,8 @@ describe('BaZi astrology calculations', function () {
             hour_int: 1,
             minute: 12,
             gender: -1/*,
-            JZJD: 2432909.55,
-            trueLong: 272.0739100092069*/
+             JZJD: 2432909.55,
+             trueLong: 272.0739100092069*/
         });
     });
 
@@ -156,8 +156,8 @@ describe('BaZi astrology calculations', function () {
             hour_int: 3,
             minute: 30,
             gender: -1/*,
-            JZJD: 2453028.6472222223,
-            trueLong: 303.39651704783387*/
+             JZJD: 2453028.6472222223,
+             trueLong: 303.39651704783387*/
         });
     });
 
@@ -209,6 +209,74 @@ describe('BaZi astrology calculations', function () {
         var calculator = AstroCalc();
         var result = calculator.getData(person);
         expect(moment(result.moment).toISOString()).to.contain('1986-06-28T00:00');
+    });
+
+    it('check that year before 1900 throws an error', function () {
+        var person = {
+            date: {
+                day: 28, month: 11, year: 1400
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        var calculator = AstroCalc();
+        var result = calculator.getData(person);
+        expect(result.year).to.equal(1400);
+    });
+
+    it('check get sector 0', function () {
+        var calculator = AstroCalc();
+        var result2 = calculator.getSector(1);
+        expect(result2).to.equal(0);
+    });
+
+    it('check get sector 1', function () {
+        var calculator = AstroCalc();
+        var result1 = calculator.getSector(359);
+        expect(result1).to.equal(0);
+    });
+
+    it('check get sector 5', function () {
+        var calculator = AstroCalc();
+        var result = calculator.getSector(150);
+        expect(result).to.equal(5);
+    });
+
+    it('check get sector 11', function () {
+        var calculator = AstroCalc();
+        var result = calculator.getSector(344);
+        expect(result).to.equal(11);
+    });
+
+    it('check month branch data calculations', function () {
+        var calculator = AstroCalc();
+        var result = calculator.getMonthBranch(359, 1);
+        expect(result.LP).to.equal(5.333333333333329);
+    });
+
+    it('check longitude is between seasons - bugs awaken', function () {
+        var calculator = AstroCalc();
+        var result = calculator.isLongitudeInBetweenSeasons(344.96);
+        expect(result).to.equal('Trezirea insectelor.');
+    });
+
+    it('check longitude is between seasons - spring sawing', function () {
+        var calculator = AstroCalc();
+        var result = calculator.isLongitudeInBetweenSeasons(75);
+        expect(result).to.equal('Semanatul de primavara.');
+    });
+
+    it('check longitude is between seasons - white dew', function () {
+        var calculator = AstroCalc();
+        var result = calculator.isLongitudeInBetweenSeasons(165);
+        expect(result).to.equal('Roua alba.');
+    });
+
+    it('check if LP can be negative', function () {
+        var calculator = AstroCalc();
+        var result = calculator.getMonthBranch(-500, 1);
+        expect(result.LP)
+            .to.not.equal(undefined);
     });
 
 });

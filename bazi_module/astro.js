@@ -31,6 +31,7 @@ var astro = function () {
     function getAstroData(person) {
         var date, d, birthDateMoment;
         date = person.date;
+
         var result = {
             year: date.year,
             month: date.month,
@@ -40,11 +41,6 @@ var astro = function () {
             skipHour: false
         };
 
-        if (result.year < 1900) {
-            return {
-                err: "Invalid year"
-            };
-        }
         result.gender = person.gender == 'M' ? 1 : -1;
 
         if (_.isUndefined(result.hour) || result.hour == null) {
@@ -57,10 +53,8 @@ var astro = function () {
             result.timeZone = _.isUndefined(person.tz) ? 0 : person.tz;
             result.longitude = _.isUndefined(person.longitude) ? 0 : person.longitude;
             var dst = person.dst_active_at_birth ? 1 : 0;
-            var minutesDiff = 0;
-            if ((result.longitude > -181) && (result.longitude < 181)) {
-                minutesDiff = -1 * (result.longitude * 4 - result.timeZone * 60);
-            }
+            result.longitude = normalizeAngle(result.longitude + 180) - 180;
+            var minutesDiff = -1 * (result.longitude * 4 - result.timeZone * 60);
             result = subtractHour(result, dst, minutesDiff);
         }
         birthDateMoment = CommonUtils().getMoment(result);
@@ -68,6 +62,8 @@ var astro = function () {
         var A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
 
         result.hour = result.hour + (result.minute / 60);
+
+        // For years before 1585, AAA would be 0
         AAA = 1;
         if (result.year <= 1585) AAA = 0;
         julianDay = -1 * Math.floor(7 * (Math.floor((result.month + 9) / 12) + result.year) / 4);
@@ -135,7 +131,6 @@ var astro = function () {
         var max = sector * 30 + 15;
 
         var LP;
-        max = max < 15 ? max + 360 : max;
         if (FW == 1) {
             LP = ((max - trueLongitude) / 3);
         } else {
@@ -157,65 +152,31 @@ var astro = function () {
     }
 
     function isNearNumber(number, compareWithNumber, precision) {
-        precision = _.isUndefined(precision) ? 0.05 : precision;
         return number > (compareWithNumber - precision) && number < (compareWithNumber + precision);
     }
 
-    function isLongitudeInBetweenSeasons(str1, str2, trueLong) {
-        var str01, str00;
-        str00 = "Data si ora introdusa de dvs sunt f aproape de Jie, ";
-        str01 = "Consultati www.fourpillars.net.";
-        str1 = "";
-        str2 = "";
-        if (trueLong > 314.95 && trueLong < 315.05) {
-            str1 = str00 + "Inceputul primaverii.";
-            str2 = str01;
+    function isLongitudeInBetweenSeasons(trueLong) {
+        var result;
+        var intervals = [
+            'Senin stralucitor.',
+            'Inceputul verii.',
+            'Semanatul de primavara.',
+            'Lesser Heat.',
+            'Inceputul toamnei.',
+            'Roua alba.',
+            'Roua rece.',
+            'Inceputul iernii.',
+            'Mai multa zapada.',
+            'Micul ger.',
+            'Inceputul primaverii.',
+            'Trezirea insectelor.'
+        ];
+        for (var i = 0; i < 12; i++) {
+            if (isNearNumber(trueLong, i * 30 + 15, 0.05)) {
+                result = intervals[i];
+            }
         }
-        if (trueLong > 344.95 && trueLong < 345.05) {
-            str1 = str00 + "Trezirea insectelor.";
-            str2 = str01;
-        }
-        if (trueLong > 14.95 && trueLong < 15.05) {
-            str1 = str00 + "Senin stralucitor.";
-            str2 = str01;
-        }
-        if (trueLong > 44.95 && trueLong < 45.05) {
-            str1 = str00 + "Inceputul verii.";
-            str2 = str01;
-        }
-        if (trueLong > 74.95 && trueLong < 75.05) {
-            str1 = str00 + "Semanatul de primavara.";
-            str2 = str01;
-        }
-        if (trueLong > 104.95 && trueLong < 105.05) {
-            str1 = str00 + "Lesser Heat.";
-            str2 = str01;
-        }
-        if (trueLong > 134.95 && trueLong < 135.05) {
-            str1 = str00 + "Inceputul toamnei.";
-            str2 = str01;
-        }
-        if (trueLong > 164.95 && trueLong < 165.05) {
-            str1 = str00 + "Roua alba.";
-            str2 = str01;
-        }
-        if (trueLong > 194.95 && trueLong < 195.05) {
-            str1 = str00 + "Roua rece.";
-            str2 = str01;
-        }
-        if (trueLong > 224.95 && trueLong < 225.05) {
-            str1 = str00 + "Inceputul iernii.";
-            str2 = str01;
-        }
-        if (trueLong > 254.95 && trueLong < 255.05) {
-            str1 = str00 + "Mai multa zapada.";
-            str2 = str01;
-        }
-        if (trueLong > 284.95 && trueLong < 285.05) {
-            str1 = str00 + "Micul ger.";
-            str2 = str01;
-        }
-        return {str1: str1, str2: str2};
+        return result;
     }
 
     return {

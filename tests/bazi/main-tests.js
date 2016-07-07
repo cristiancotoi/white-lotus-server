@@ -90,8 +90,7 @@ describe('BaZiMain basic calculations', function () {
                     day: {hs: '己 P-', eb: '亥 hài', hidStems: ['壬 A+', '甲 L+', '']},
                     hour: {hs: '癸 A-', eb: '酉 yǒu', hidStems: ['辛 M-', '', '']}
                 },
-                comment1: '',
-                comment2: '',
+                comment1: undefined,
                 startYear: 0.36,
                 luck: [{hs: '辛 M-', eb: '巳 sì'},
                     {hs: '庚 M+', eb: '辰 chén'},
