@@ -79,7 +79,7 @@ describe('BaZi chart utils verifications', function () {
             .to.equal('己 P-');
     });
 
-   it('check normal life type for prison hidden stem', function () {
+    it('check normal life type for prison hidden stem', function () {
         var input = {
             year: {
                 hs: '癸 A-',
@@ -105,7 +105,7 @@ describe('BaZi chart utils verifications', function () {
             .to.equal('癸 A-');
     });
 
-   it('check normal life type for grave hidden stem', function () {
+    it('check normal life type for grave hidden stem', function () {
         var input = {
             year: {
                 hs: '辛 M-',
@@ -129,6 +129,105 @@ describe('BaZi chart utils verifications', function () {
         var utils = Utils();
         expect(utils.getNormalLifeType(input))
             .to.equal('己 P-');
+    });
+
+    it('check binomial star no match', function () {
+        var chart = {
+            month: {
+                eb: '丑 chǒu'
+            },
+            day: {
+                hs: '乙 L-',
+                eb: '酉 yǒu'
+            }
+        };
+
+        var stars = [
+            {
+                season: '酉 yǒu',
+                hs: '乙 L-',
+                eb: '酉 yǒu',
+                category: 'blah'
+            }
+        ];
+
+        var utils = Utils();
+        expect(utils.getBinomialStarOfDay(chart, stars))
+            .to.eql({});
+    });
+
+    it('check binomial star without season', function () {
+        var chart = {
+            month: {
+                eb: '丑 chǒu'
+            },
+            day: {
+                hs: '乙 L-',
+                eb: '酉 yǒu'
+            }
+        };
+
+        var stars = [
+            {
+                hs: '乙 L-',
+                eb: '酉 yǒu',
+                category: 'blah'
+            }
+        ];
+
+        var utils = Utils();
+        expect(utils.getBinomialStarOfDay(chart, stars))
+            .to.eql({
+            'blah': {
+                'category': 'blah',
+                'eb': '酉 yǒu',
+                'hs': '乙 L-'
+            }
+        });
+    });
+
+    it('check binomial star with season', function () {
+        var chart = {
+            month: {
+                eb: '丑 chǒu'
+            },
+            day: {
+                hs: '乙 L-',
+                eb: '酉 yǒu'
+            }
+        };
+
+        var stars = [
+            {
+                season: '丑 chǒu',
+                hs: '乙 L-',
+                eb: '酉 yǒu',
+                category: 'blah 1'
+            },
+            {
+                season: '丑 chǒu',
+                hs: '乙 L-',
+                eb: '酉 yǒu',
+                category: 'blah 2'
+            }
+        ];
+
+        var utils = Utils();
+        expect(utils.getBinomialStarOfDay(chart, stars))
+            .to.eql({
+            'blah 1': {
+                category: 'blah 1',
+                season: '丑 chǒu',
+                eb: '酉 yǒu',
+                hs: '乙 L-'
+            },
+            'blah 2': {
+                category: 'blah 2',
+                season: '丑 chǒu',
+                eb: '酉 yǒu',
+                hs: '乙 L-'
+            }
+        });
     });
 
 });

@@ -32,9 +32,25 @@ var utils = function () {
         return result;
     }
 
+    function getBinomialStarOfDay(chart, stars) {
+        var result = {};
+        var seasonId = chart.month.eb;
+        var dm = chart.day.hs;
+        var dayBranch = chart.day.eb;
+        // SteleBinomZi
+        _.each(stars, function (star) {
+            if ((star.season === seasonId && star.hs == dm && star.eb == dayBranch) ||
+                (_.isUndefined(star.season) && star.hs == dm && star.eb == dayBranch)) {
+                result[star.category] = star;
+            }
+        });
+        return result;
+    }
+
     return {
         getVisibleStems: getVisibleStems,
-        getNormalLifeType: getNormalLifeType
+        getNormalLifeType: getNormalLifeType,
+        getBinomialStarOfDay: getBinomialStarOfDay
     };
 };
 
