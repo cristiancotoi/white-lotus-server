@@ -235,7 +235,7 @@ describe('BaZiMain basic calculations', function () {
     it('check luck', function (done) {
         var person = {
             date: {
-                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+                day: 7, month: 6, year: 1953, hour: 17, minute: 30
             },
             tz: 2, longitude: 28, gender: 'M'
 

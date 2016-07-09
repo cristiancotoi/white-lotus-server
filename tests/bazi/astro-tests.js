@@ -133,9 +133,7 @@ describe('BaZi astrology calculations', function () {
             hour: 1.2,
             hour_int: 1,
             minute: 12,
-            gender: -1/*,
-             JZJD: 2432909.55,
-             trueLong: 272.0739100092069*/
+            gender: -1
         });
     });
 
@@ -155,9 +153,7 @@ describe('BaZi astrology calculations', function () {
             hour: 3.5,
             hour_int: 3,
             minute: 30,
-            gender: -1/*,
-             JZJD: 2453028.6472222223,
-             trueLong: 303.39651704783387*/
+            gender: -1
         });
     });
 

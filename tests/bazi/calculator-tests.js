@@ -8,6 +8,24 @@ var BaZiCalculator = require('./../../bazi_module/bazi-calculator');
 describe('BaZi calculator math', function () {
     this.timeout(2000);
 
+    it('throw error for undefined person', function () {
+        try {
+            BaZiCalculator().compute();
+            expect('Expecting this to throw an exception').to.be(true);
+        } catch (ex) {
+            expect(ex).to.equal('Person object is invalid');
+        }
+    });
+
+    it('throw error for invalid person', function () {
+        try {
+            BaZiCalculator({}).compute();
+            expect('Expecting this to throw an exception').to.be(true);
+        } catch (ex) {
+            expect(ex).to.equal('Person object is invalid');
+        }
+    });
+
     it('calculate for 22 4 1984 22 50', function () {
         var person = {
             date: {

@@ -1,6 +1,6 @@
 'use strict';
 
-var Utils = require('./utils');
+var DateUtils = require('./date-utils');
 var BaZiCalculator = require('./bazi-calculator');
 var Retriever = require('./data-retriever');
 var _ = require("underscore");
@@ -10,7 +10,7 @@ var baziModule = function (person, response) {
         return;
     }
 
-    var utils = Utils(person.date);
+    var utils = DateUtils(person.date);
     var retriever = Retriever(response);
 
     function calculate(userLevel) {

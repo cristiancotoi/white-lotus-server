@@ -114,6 +114,29 @@ describe('Pythagorean Square basic calculations', function () {
         pSquare({date: date}, {json: asserts}).make(1);
     });
 
+    it('check basic calculations for 4/1/2000', function (done) {
+        var date = {
+            day: 4, month: 1, year: 2000
+        };
+
+        function asserts(result) {
+            expect(result).to.containSubset({
+                op: [
+                    {number: 7},
+                    {number: 7},
+                    {number: 1},
+                    {number: 1}
+                ]
+            });
+            expect(result.square).to.have.members(['000', '111', '2', '', '4', '', '', '77', '', '']);
+            expect(result.destiny.number).to.equal(7);
+            expect(result.spiritLevel).to.equal(undefined);
+            done();
+        }
+
+        pSquare({date: date}, {json: asserts}).make(1);
+    });
+
     it('check vibrations for 28/1/1985', function (done) {
         var date = {
             day: 28, month: 1, year: 1985

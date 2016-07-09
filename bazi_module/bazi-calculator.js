@@ -92,8 +92,9 @@ function BaZiCalculator(person) {
 
     return {
         compute: function () {
-            if (person == '') {
-                throw new Error('Date is invalid');
+            if (_.isUndefined(person) ||
+                (_.isObject(person) && _.isUndefined(person.date))) {
+                throw 'Person object is invalid';
             }
 
             var astroData = astroCalc.getData(person);
