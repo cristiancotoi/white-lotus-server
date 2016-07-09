@@ -27,15 +27,6 @@ var LifeCycleDesc = require('../models/psquare/life-cycles-description');
 var LuckChart = require('../models/psquare/luck-chart');
 
 var dataRetriever = function (utils, digits, response) {
-    function getUser(analystId) {
-        return User
-            .find({analystId: analystId})
-            .exec()
-            .then(function (data) {
-                return data[0];
-            });
-    }
-
 
     function getSpiritLevel(result, level) {
         var spiritPromise = SpiritLevel.find({

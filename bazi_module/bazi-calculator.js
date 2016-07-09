@@ -129,7 +129,6 @@ function BaZiCalculator(person) {
 
             var mb = astroCalc.getMonthBranch(trueLong, FW);
             monthBranch = ji[mb.index];
-            luckPBranches[0] = mb.index;
             monthStemIndex += mb.increment;
             LP = mb.LP;
             if (monthStemIndex > 10) {
@@ -180,15 +179,6 @@ function BaZiCalculator(person) {
                 hourHidS = getHiddenStems(hourBranch);
             }
             LP = (Math.floor(LP * 100) / 100);
-
-
-            for (i = 0; i < 10; i++) {
-                luckPBranches[0] = luckPBranches[0] + FW;
-                if ((luckPBranches[0] > 12) || (luckPBranches[0] < 0)) {
-                    luckPBranches[0] = luckPBranches[0] - 12 * FW;
-                }
-                luckPBranches[i] = ji[luckPBranches[0]];
-            }
 
             dayHidS = getHiddenStems(dayBranch);
             monthHidS = getHiddenStems(monthBranch);
