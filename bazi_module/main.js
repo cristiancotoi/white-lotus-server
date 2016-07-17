@@ -7,7 +7,7 @@ var _ = require("underscore");
 
 var baziModule = function (person, response) {
     if (person === null || person === undefined) {
-        return;
+        throw 'Invalid person';
     }
 
     var utils = DateUtils(person.date);

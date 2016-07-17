@@ -15,6 +15,26 @@ describe('BaZiMain basic calculations', function () {
         connectToDb();
     });
 
+    it('check invalid initialization with undefined', function (done) {
+        try {
+            BaZiMain(undefined);
+            expect(true).to.equal('Did not throw any exception!');
+        } catch (ex) {
+            expect(ex).to.equal('Invalid person');
+            done();
+        }
+    });
+
+    it('check invalid initialization with null', function (done) {
+        try {
+            BaZiMain(null);
+            expect(true).to.equal('Did not throw any exception!');
+        } catch (ex) {
+            expect(ex).to.equal('Invalid person');
+            done();
+        }
+    });
+
     it('check basic output values', function (done) {
         var person = {
             name: 'N',
@@ -355,6 +375,80 @@ describe('BaZiMain basic calculations', function () {
         }
 
         BaZiMain(person, {json: asserts}).make(3);
+    });
+
+    it('check shen sha (level 8)', function (done) {
+        var person = {
+            date: {
+                day: 7, month: 6, year: 1955, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+
+        function asserts(result) {
+            expect(result.shenShaDesc).to.exist;
+            expect(result.shenSha.season).to.exist;
+            expect(result.shenSha.dayBranch).to.exist;
+            expect(result.shenSha.dayMaster).to.exist;
+            expect(result.shenSha.heavenlyDoctor).to.exist;
+            expect(result.shenSha.extPeachBlossom).to.exist;
+            expect(result.shenShaDesc.length).to.equal(45);
+            expect(_.size(result.shenSha.season)).to.equal(7);
+            expect(_.size(result.shenSha.dayBranch)).to.equal(26);
+            expect(_.size(result.shenSha.dayMaster)).to.equal(11);
+            expect(result.shenSha.threeMarvels).to.equal(undefined);
+
+            expect(result.shenSha.dayBranch.heavendog[0])
+                .to.containSubset({
+                pillars: ['hour'],
+                star: '酉 yǒu',
+                type: 'dayBranch'
+            });
+            expect(result.shenSha.season.heavennoblevirtue[0])
+                .to.containSubset({
+                pillars: ['day'],
+                star: '亥 hài',
+                type: 'season'
+            });
+            expect(result.shenSha.dayMaster.heavenlynoble)
+                .to.containSubset([
+                {pillars: [], star: '子 zǐ', type: 'dayMaster'},
+                {pillars: [], star: '申 shēn', type: 'dayMaster'}
+            ]);
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(8);
+    });
+
+    it('check date with shen sha 3 marvels', function (done) {
+        var person = {
+            date: {
+                day: 12, month: 6, year: 1957, hour: 17, minute: 30
+            },
+            tz: 2, longitude: 28, gender: 'M'
+
+        };
+
+        function asserts(result) {
+            expect(result.shenSha.threeMarvels).to.exist;
+            expect(result.shenSha.threeMarvels)
+                .to.containSubset({
+                    pillars: ['day', 'month', 'year'],
+                    star: {
+                        id: '乙 L-',
+                        month: '丙 F+',
+                        year: '丁 F-',
+                        type: 'Pământesc'
+                    },
+                    type: 'threeMarvels'
+                }
+            );
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(8);
     });
 
 });

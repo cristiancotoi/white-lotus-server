@@ -13,7 +13,16 @@ var DM = require('../models/bazi/day-master');
 var GodsStrength = require('../models/bazi/gods-strength');
 var BranchRelation = require('../models/bazi/branch-relation');
 
-var GodsCalculator = require('../bazi_module/gods-calculator');
+var Stars = require('./stars');
+var ShenShaDescription = require('../models/bazi/shensha-description');
+var ShenShaSeason = require('../models/bazi/shensha-season');
+var ShenShaDayBranch = require('../models/bazi/shensha-day-branch');
+var ShenShaDayMaster = require('../models/bazi/shensha-day-master');
+var ShenShaHeavenlyDoctor = require('../models/bazi/shensha-heavenly-doctor');
+var ShenShaExternalPeachBlossom = require('../models/bazi/shensha-ext-peach-blossom');
+var ShenSha3Marvels = require('../models/bazi/shensha-3-marvels');
+
+var GodsCalculator = require('./gods-calculator');
 
 var binomial = function (response) {
     var calculator = GodsCalculator();
@@ -89,6 +98,72 @@ var binomial = function (response) {
         });
     }
 
+    function getShenShaDescription(resultData) {
+        var promise = ShenShaDescription.find().exec();
+
+        return promise.then(function (allDescriptionsShenSha) {
+            resultData.shenShaDesc = allDescriptionsShenSha;
+        });
+    }
+
+    function getShenShaSeason(resultData) {
+        var seasonName = resultData.chart.chart.month.eb;
+        var promise = ShenShaSeason.find({id: seasonName}).exec();
+
+        return promise.then(function (allSeasonShenSha) {
+            resultData.shenSha.season = allSeasonShenSha[0].toObject();
+        });
+    }
+
+    function getShenShaDayBranch(resultData) {
+        var dayBranch = resultData.chart.chart.day.eb;
+        var promise = ShenShaDayBranch.find({id: dayBranch}).exec();
+
+        return promise.then(function (allDayBranchShenSha) {
+            resultData.shenSha.dayBranch = allDayBranchShenSha[0].toObject();
+        });
+    }
+
+    function getShenShaDayMaster(resultData) {
+        var dayMaster = resultData.chart.chart.day.hs;
+        var promise = ShenShaDayMaster.find({id: dayMaster}).exec();
+
+        return promise.then(function (allDayMasterShenSha) {
+            resultData.shenSha.dayMaster = allDayMasterShenSha[0].toObject();
+        });
+    }
+
+    function getShenShaHeavenlyDoctor(resultData) {
+        var seasonName = resultData.chart.chart.month.eb;
+        var promise = ShenShaHeavenlyDoctor.find({id: seasonName}).exec();
+
+        return promise.then(function (heavenlyDoctor) {
+            resultData.shenSha.heavenlyDoctor = heavenlyDoctor[0].toObject();
+        });
+    }
+
+    function getShenShaExternalPeachBlossom(resultData) {
+        var seasonName = resultData.chart.chart.month.eb;
+        var promise = ShenShaExternalPeachBlossom.find({id: seasonName}).exec();
+
+        return promise.then(function (externalPeachBlossom) {
+            resultData.shenSha.extPeachBlossom = externalPeachBlossom[0].toObject();
+        });
+    }
+
+    function getShenSha3Marvels(resultData) {
+        var dayMaster = resultData.chart.chart.day.hs;
+        var promise = ShenSha3Marvels.find({id: dayMaster}).exec();
+
+        return promise.then(function (threeMarvels) {
+            if (threeMarvels.length &&
+                resultData.chart.chart.month.hs === threeMarvels[0].month &&
+                resultData.chart.chart.year.hs === threeMarvels[0].year) {
+                resultData.shenSha.threeMarvels = threeMarvels[0].toObject();
+            }
+        });
+    }
+
     function applyGodsStrengthMultiplier(resultData) {
         var stems = resultData.heavenlyStems;
         var godsScore = calculator.getStemsStrength(
@@ -113,6 +188,43 @@ var binomial = function (response) {
     function postProcessing(resultData, userLevel) {
         if (userLevel >= 3) {
             applyGodsStrengthMultiplier(resultData);
+        }
+        if (userLevel >= 8) {
+            var chart = resultData.chart.chart;
+            _.each(
+                _.keys(resultData.shenSha),
+                function (shenShaKey) {
+                    var shensha = resultData.shenSha[shenShaKey];
+                    var outputShenSha = {};
+                    if (shenShaKey === 'threeMarvels') {
+                        outputShenSha = {
+                            pillars: ['day', 'month', 'year'],
+                            star: shensha,
+                            type: shenShaKey
+                        };
+                    } else {
+                        _.each(_.keys(shensha), function (key) {
+                            if (key.indexOf('_id') >= 0) {
+                                return;
+                            }
+                            var outputKey = key;
+                            if (key.indexOf('heavenlynoble') >= 0) {
+                                outputKey = 'heavenlynoble';
+                            }
+                            if (_.isUndefined(outputShenSha[outputKey])) {
+                                outputShenSha[outputKey] = [];
+                            }
+                            var starsUtils = Stars();
+
+                            var isSymbStarPresent = starsUtils
+                                .isSymbolicStarPresent(chart, shensha[key], shenShaKey);
+                            outputShenSha[outputKey].push(isSymbStarPresent);
+                        });
+                    }
+                    resultData.shenSha[shenShaKey] = outputShenSha;
+                }
+            );
+
         }
     }
 
@@ -156,6 +268,19 @@ var binomial = function (response) {
 
         if (userLevel >= 5) {
             promises.push(getBranchRelations(resultData));
+        }
+
+        // Shen Sha
+        if (userLevel >= 8) {
+            resultData.shenSha = {};
+            promises.push(getShenShaDescription(resultData));
+
+            promises.push(getShenShaSeason(resultData));
+            promises.push(getShenShaDayBranch(resultData));
+            promises.push(getShenShaDayMaster(resultData));
+            promises.push(getShenShaExternalPeachBlossom(resultData));
+            promises.push(getShenShaHeavenlyDoctor(resultData));
+            promises.push(getShenSha3Marvels(resultData));
         }
 
         Promise.all(promises).then(function () {
