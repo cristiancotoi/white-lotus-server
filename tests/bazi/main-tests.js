@@ -388,34 +388,35 @@ describe('BaZiMain basic calculations', function () {
 
         function asserts(result) {
             expect(result.shenShaDesc).to.exist;
-            expect(result.shenSha.season).to.exist;
-            expect(result.shenSha.dayBranch).to.exist;
-            expect(result.shenSha.dayMaster).to.exist;
-            expect(result.shenSha.heavenlyDoctor).to.exist;
-            expect(result.shenSha.extPeachBlossom).to.exist;
-            expect(result.shenShaDesc.length).to.equal(45);
-            expect(_.size(result.shenSha.season)).to.equal(7);
-            expect(_.size(result.shenSha.dayBranch)).to.equal(26);
-            expect(_.size(result.shenSha.dayMaster)).to.equal(11);
+            expect(_.size(result.shenSha.hour)).to.equal(4);
+            expect(_.size(result.shenSha.day)).to.equal(1);
+            expect(_.size(result.shenSha.month)).to.equal(4);
+            expect(_.size(result.shenSha.year)).to.equal(3);
             expect(result.shenSha.threeMarvels).to.equal(undefined);
 
-            expect(result.shenSha.dayBranch.heavendog[0])
-                .to.containSubset({
-                pillars: ['hour'],
-                star: '酉 yǒu',
-                type: 'dayBranch'
+            expect(result.shenSha).to.containSubset({
+                day: [
+                    {name: 'heavennoblevirtue', star: '亥 hài', type: 'season'}
+                ],
+                month: [
+                    {name: 'dragonvirtue', star: '午 wǔ', type: 'dayBranch'},
+                    {name: 'adversity', star: '午 wǔ', type: 'dayBranch'},
+                    {name: 'prosperity', star: '午 wǔ', type: 'dayMaster'},
+                    {name: 'redclouds', star: '午 wǔ', type: 'dayMaster'}
+                ],
+                hour: [
+                    {name: 'disastertragic', star: '酉 yǒu', type: 'dayBranch'},
+                    {name: 'heavendog', star: '酉 yǒu', type: 'dayBranch'},
+                    {name: 'academic', star: '酉 yǒu', type: 'dayMaster'},
+                    {name: 'school', star: '酉 yǒu', type: 'dayMaster'}
+                ],
+                year: [
+                    {name: 'whitetiger', star: '未 wèi', type: 'dayBranch'},
+                    {name: 'imperialcanopy', star: '未 wèi', type: 'dayBranch'},
+                    {name: 'sword', star: '未 wèi', type: 'dayMaster'}
+                ]
             });
-            expect(result.shenSha.season.heavennoblevirtue[0])
-                .to.containSubset({
-                pillars: ['day'],
-                star: '亥 hài',
-                type: 'season'
-            });
-            expect(result.shenSha.dayMaster.heavenlynoble)
-                .to.containSubset([
-                {pillars: [], star: '子 zǐ', type: 'dayMaster'},
-                {pillars: [], star: '申 shēn', type: 'dayMaster'}
-            ]);
+
             done();
         }
 

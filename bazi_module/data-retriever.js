@@ -191,13 +191,13 @@ var binomial = function (response) {
         }
         if (userLevel >= 8) {
             var chart = resultData.chart.chart;
+            var outputShenSha = {};
             _.each(
                 _.keys(resultData.shenSha),
                 function (shenShaKey) {
                     var shensha = resultData.shenSha[shenShaKey];
-                    var outputShenSha = {};
                     if (shenShaKey === 'threeMarvels') {
-                        outputShenSha = {
+                        outputShenSha[shenShaKey] = {
                             pillars: ['day', 'month', 'year'],
                             star: shensha,
                             type: shenShaKey
@@ -211,19 +211,25 @@ var binomial = function (response) {
                             if (key.indexOf('heavenlynoble') >= 0) {
                                 outputKey = 'heavenlynoble';
                             }
-                            if (_.isUndefined(outputShenSha[outputKey])) {
-                                outputShenSha[outputKey] = [];
-                            }
                             var starsUtils = Stars();
-
                             var isSymbStarPresent = starsUtils
-                                .isSymbolicStarPresent(chart, shensha[key], shenShaKey);
-                            outputShenSha[outputKey].push(isSymbStarPresent);
+                                .isSymbolicStarPresent(chart, shensha[outputKey], shenShaKey);
+
+                            _.each(isSymbStarPresent.pillars, function (pillarName) {
+                                if (_.isUndefined(outputShenSha[pillarName])) {
+                                    outputShenSha[pillarName] = [];
+                                }
+                                outputShenSha[pillarName].push({
+                                    name: outputKey,
+                                    star: isSymbStarPresent.star,
+                                    type: isSymbStarPresent.type
+                                });
+                            });
                         });
                     }
-                    resultData.shenSha[shenShaKey] = outputShenSha;
                 }
             );
+            resultData.shenSha = outputShenSha;
 
         }
     }
