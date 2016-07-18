@@ -3,6 +3,7 @@
 var _ = require("underscore");
 var moment = require("moment");
 var AstroCalc = require('./astro');
+var ChartUtils = require('./chart-utils');
 
 
 function BaZiCalculator(person) {
@@ -15,11 +16,8 @@ function BaZiCalculator(person) {
     var luckPStems = [], luckPBranches = [];
     var hourHidS = [], dayHidS, monthHidS, yearHidS;
 
-    var gon = ["癸 A-", "甲 L+", "乙 L-", "丙 F+", "丁 F-", "戊 P+", "己 P-",
-        "庚 M+", "辛 M-", "壬 A+", "癸 A-"];
-    var ji = ["亥 hài", "子 zǐ", "丑 chǒu", "寅 yín", "卯 mǎo", "辰 chén", "巳 sì",
-        "午 wǔ", "未 wèi", "申 shēn", "酉 yǒu", "戌 xū", "亥 hài", "子 zǐ"];
-
+    var gon = ChartUtils().getStems();
+    var ji = ChartUtils().getBranches();
     /**
      * Return an array of hidden stems
      * @param branch target earthly branch

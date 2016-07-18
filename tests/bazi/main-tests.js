@@ -377,45 +377,100 @@ describe('BaZiMain basic calculations', function () {
         BaZiMain(person, {json: asserts}).make(3);
     });
 
-    it('check shen sha (level 8)', function (done) {
+    it('check shen sha 7/6/1955 (level 8)', function (done) {
         var person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
             tz: 2, longitude: 28, gender: 'M'
-
         };
 
         function asserts(result) {
             expect(result.shenShaDesc).to.exist;
-            expect(_.size(result.shenSha.hour)).to.equal(4);
-            expect(_.size(result.shenSha.day)).to.equal(1);
-            expect(_.size(result.shenSha.month)).to.equal(4);
-            expect(_.size(result.shenSha.year)).to.equal(3);
+            expect(_.size(result.shenSha.hour.eb)).to.equal(4);
+            expect(_.size(result.shenSha.day.eb)).to.equal(1);
+            expect(_.size(result.shenSha.month.eb)).to.equal(4);
+            expect(_.size(result.shenSha.year.eb)).to.equal(3);
             expect(result.shenSha.threeMarvels).to.equal(undefined);
 
             expect(result.shenSha).to.containSubset({
-                day: [
-                    {name: 'heavennoblevirtue', star: '亥 hài', type: 'season'}
-                ],
-                month: [
-                    {name: 'dragonvirtue', star: '午 wǔ', type: 'dayBranch'},
-                    {name: 'adversity', star: '午 wǔ', type: 'dayBranch'},
-                    {name: 'prosperity', star: '午 wǔ', type: 'dayMaster'},
-                    {name: 'redclouds', star: '午 wǔ', type: 'dayMaster'}
-                ],
-                hour: [
-                    {name: 'disastertragic', star: '酉 yǒu', type: 'dayBranch'},
-                    {name: 'heavendog', star: '酉 yǒu', type: 'dayBranch'},
-                    {name: 'academic', star: '酉 yǒu', type: 'dayMaster'},
-                    {name: 'school', star: '酉 yǒu', type: 'dayMaster'}
-                ],
-                year: [
-                    {name: 'whitetiger', star: '未 wèi', type: 'dayBranch'},
-                    {name: 'imperialcanopy', star: '未 wèi', type: 'dayBranch'},
-                    {name: 'sword', star: '未 wèi', type: 'dayMaster'}
-                ]
+                day: {
+                    eb: [
+                        {name: 'heavennoblevirtue', star: '亥 hài', type: 'season', position: 'day'}
+                    ]
+                },
+                month: {
+                    eb: [
+                        {name: 'dragonvirtue', star: '午 wǔ', type: 'dayBranch'},
+                        {name: 'adversity', star: '午 wǔ', type: 'dayBranch'},
+                        {name: 'prosperity', star: '午 wǔ', type: 'dayMaster'},
+                        {name: 'redclouds', star: '午 wǔ', type: 'dayMaster'}
+                    ]
+                },
+                hour: {
+                    eb: [
+                        {name: 'disastertragic', star: '酉 yǒu', type: 'dayBranch'},
+                        {name: 'heavendog', star: '酉 yǒu', type: 'dayBranch'},
+                        {name: 'academic', star: '酉 yǒu', type: 'dayMaster'},
+                        {name: 'school', star: '酉 yǒu', type: 'dayMaster'}
+                    ]
+                },
+                year: {
+                    eb: [
+                        {name: 'whitetiger', star: '未 wèi', type: 'dayBranch'},
+                        {name: 'imperialcanopy', star: '未 wèi', type: 'dayBranch'},
+                        {name: 'sword', star: '未 wèi', type: 'dayMaster'}
+                    ]
+                }
             });
+
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(8);
+    });
+
+    it('check shen sha for 26/6/1986 (level 8)', function (done) {
+        var person = {
+            date: {
+                day: 26, month: 6, year: 1986
+            },
+            tz: 2, longitude: 28, gender: 'M'
+        };
+
+        function asserts(result) {
+            expect(_.size(result.shenSha.day.hs)).to.equal(1);
+            expect(_.size(result.shenSha.month.eb)).to.equal(2);
+            expect(_.size(result.shenSha.year.eb)).to.equal(5);
+            expect(result.shenSha.hour).to.equal(undefined);
+            expect(result.shenSha.threeMarvels).to.equal(undefined);
+
+            expect(result.shenSha).to.containSubset({
+                    "year": {
+                        "eb": [
+                            {"name": "heavenpeacevirtue", "star": "寅 yín", "type": "season", "position": "year"},
+                            {"name": "redphoenix", "star": "寅 yín", "type": "dayBranch", "position": "year"},
+                            {"name": "robberytragic", "star": "寅 yín", "type": "dayBranch", "position": "year"},
+                            {"name": "solitary", "star": "寅 yín", "type": "dayBranch", "position": "year"},
+                            {"name": "heavenlynoble", "star": "寅 yín", "type": "dayMaster", "position": "year"}
+                        ],
+                        "hs": [
+                            {"name": "seasonnoblevirtue", "star": "丙 F+", "type": "season", "position": "year"}
+                        ]
+                    },
+                    "day": {
+                        "hs": [
+                            {"name": "seasonpeacevirtue", "star": "辛 M-", "type": "season", "position": "day"}
+                        ]
+                    },
+                    "month": {
+                        "eb": [
+                            {"name": "peachblossom", "star": "午 wǔ", "type": "dayBranch", "position": "month"},
+                            {"name": "heavenlynoble", "star": "午 wǔ", "type": "dayMaster", "position": "month"}
+                        ]
+                    }
+                }
+            );
 
             done();
         }

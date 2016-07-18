@@ -32,9 +32,33 @@ var utils = function () {
         return result;
     }
 
+    function getStems() {
+        return ["癸 A-", "甲 L+", "乙 L-", "丙 F+", "丁 F-", "戊 P+", "己 P-",
+            "庚 M+", "辛 M-", "壬 A+", "癸 A-"];
+    }
+
+    function getBranches() {
+        return ["亥 hài", "子 zǐ", "丑 chǒu", "寅 yín", "卯 mǎo", "辰 chén", "巳 sì",
+            "午 wǔ", "未 wèi", "申 shēn", "酉 yǒu", "戌 xū", "亥 hài", "子 zǐ"]
+    }
+
+    function isStem(itemName) {
+        return _.contains(getStems(), itemName);
+    }
+
+    function isBranch(itemName) {
+         return _.contains(getBranches(), itemName);
+    }
+
     return {
         getVisibleStems: getVisibleStems,
-        getNormalLifeType: getNormalLifeType
+        getNormalLifeType: getNormalLifeType,
+
+        getStems: getStems,
+        isStem: isStem,
+
+        getBranches: getBranches,
+        isBranch: isBranch
     };
 };
 

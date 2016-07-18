@@ -3,6 +3,7 @@
 var _ = require("underscore");
 
 var CommonUtils = require('../common_module/utils');
+var ChartUtils = require('./chart-utils');
 
 var Phases = require('../models/bazi/phase');
 var HS = require('../models/bazi/heavenly-stem');
@@ -213,7 +214,7 @@ var binomial = function (response) {
                             }
                             var starsUtils = Stars();
                             var isSymbStarPresent = starsUtils
-                                .isSymbolicStarPresent(chart, shensha[outputKey], shenShaKey);
+                                .isSymbolicStarPresent(chart, shensha[key], shenShaKey);
 
                             _.each(isSymbStarPresent.pillars, function (pillarName) {
                                 if (_.isUndefined(outputShenSha[pillarName])) {
@@ -222,15 +223,34 @@ var binomial = function (response) {
                                 outputShenSha[pillarName].push({
                                     name: outputKey,
                                     star: isSymbStarPresent.star,
-                                    type: isSymbStarPresent.type
+                                    type: isSymbStarPresent.type,
+                                    position: pillarName
                                 });
                             });
                         });
                     }
                 }
             );
-            resultData.shenSha = outputShenSha;
 
+            /*
+             * Reshape the stars into a chart object for easier display
+             */
+            var chart = {};
+            _.mapObject(outputShenSha, function (stars, pillarName) {
+                if (pillarName === 'threeMarvels') {
+                    chart[pillarName] = stars;
+                    return;
+                }
+                chart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
+                    return shensha.star;
+                });
+                _.mapObject(chart[pillarName], function (starsGroup, name) {
+                    var property = ChartUtils().isStem(name) ? 'hs' : 'eb';
+                    chart[pillarName][property] = starsGroup;
+                    delete chart[pillarName][name];
+                });
+            });
+            resultData.shenSha = chart;
         }
     }
 
