@@ -103,7 +103,10 @@ var binomial = function (response) {
         var promise = ShenShaDescription.find().exec();
 
         return promise.then(function (allDescriptionsShenSha) {
-            resultData.shenShaDesc = allDescriptionsShenSha;
+            resultData.shenShaDesc = {};
+            _.each(allDescriptionsShenSha, function (star) {
+                resultData.shenShaDesc[star.id] = star.toObject();
+            });
         });
     }
 
@@ -156,11 +159,11 @@ var binomial = function (response) {
         var dayMaster = resultData.chart.chart.day.hs;
         var promise = ShenSha3Marvels.find({id: dayMaster}).exec();
 
-        return promise.then(function (threeMarvels) {
-            if (threeMarvels.length &&
-                resultData.chart.chart.month.hs === threeMarvels[0].month &&
-                resultData.chart.chart.year.hs === threeMarvels[0].year) {
-                resultData.shenSha.threeMarvels = threeMarvels[0].toObject();
+        return promise.then(function (the3marvel) {
+            if (the3marvel.length &&
+                resultData.chart.chart.month.hs === the3marvel[0].month &&
+                resultData.chart.chart.year.hs === the3marvel[0].year) {
+                resultData.shenSha.the3marvel = the3marvel[0].toObject();
             }
         });
     }
@@ -197,7 +200,7 @@ var binomial = function (response) {
                 _.keys(resultData.shenSha),
                 function (shenShaKey) {
                     var shensha = resultData.shenSha[shenShaKey];
-                    if (shenShaKey === 'threeMarvels') {
+                    if (shenShaKey === 'the3marvel') {
                         outputShenSha[shenShaKey] = {
                             pillars: ['day', 'month', 'year'],
                             star: shensha,
@@ -236,9 +239,13 @@ var binomial = function (response) {
              * Reshape the stars into a chart object for easier display
              */
             var chart = {};
+            var presentStarsDesc = {};
+            var shenShaDesc = resultData.shenShaDesc;
+
             _.mapObject(outputShenSha, function (stars, pillarName) {
-                if (pillarName === 'threeMarvels') {
+                if (pillarName === 'the3marvel') {
                     chart[pillarName] = stars;
+                    presentStarsDesc['the3marvel'] = shenShaDesc['the3marvel'];
                     return;
                 }
                 chart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
@@ -247,10 +254,15 @@ var binomial = function (response) {
                 _.mapObject(chart[pillarName], function (starsGroup, name) {
                     var property = ChartUtils().isStem(name) ? 'hs' : 'eb';
                     chart[pillarName][property] = starsGroup;
+                    _.each(starsGroup, function(star) {
+                        presentStarsDesc[star.name] = shenShaDesc[star.name];
+                    });
+
                     delete chart[pillarName][name];
                 });
             });
             resultData.shenSha = chart;
+            resultData.shenShaDesc = presentStarsDesc;
         }
     }
 

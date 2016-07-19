@@ -391,7 +391,7 @@ describe('BaZiMain basic calculations', function () {
             expect(_.size(result.shenSha.day.eb)).to.equal(1);
             expect(_.size(result.shenSha.month.eb)).to.equal(4);
             expect(_.size(result.shenSha.year.eb)).to.equal(3);
-            expect(result.shenSha.threeMarvels).to.equal(undefined);
+            expect(result.shenSha.the3marvel).to.equal(undefined);
 
             expect(result.shenSha).to.containSubset({
                 day: {
@@ -443,7 +443,7 @@ describe('BaZiMain basic calculations', function () {
             expect(_.size(result.shenSha.month.eb)).to.equal(2);
             expect(_.size(result.shenSha.year.eb)).to.equal(5);
             expect(result.shenSha.hour).to.equal(undefined);
-            expect(result.shenSha.threeMarvels).to.equal(undefined);
+            expect(result.shenSha.the3marvel).to.equal(undefined);
 
             expect(result.shenSha).to.containSubset({
                     "year": {
@@ -488,8 +488,8 @@ describe('BaZiMain basic calculations', function () {
         };
 
         function asserts(result) {
-            expect(result.shenSha.threeMarvels).to.exist;
-            expect(result.shenSha.threeMarvels)
+            expect(result.shenSha.the3marvel).to.exist;
+            expect(result.shenSha.the3marvel)
                 .to.containSubset({
                     pillars: ['day', 'month', 'year'],
                     star: {
@@ -498,7 +498,7 @@ describe('BaZiMain basic calculations', function () {
                         year: '丁 F-',
                         type: 'Pământesc'
                     },
-                    type: 'threeMarvels'
+                    type: 'the3marvel'
                 }
             );
             done();
