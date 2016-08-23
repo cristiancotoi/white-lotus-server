@@ -8,6 +8,7 @@ var connectToDb = require('./../../utils/db-utils');
 var BaZiMain = require('./../../bazi_module/main');
 
 var _ = require("underscore");
+var moment = require("moment");
 
 describe('BaZiMain basic calculations', function () {
     this.timeout(2000);
@@ -505,6 +506,84 @@ describe('BaZiMain basic calculations', function () {
         }
 
         BaZiMain(person, {json: asserts}).make(8);
+    });
+
+    it('check star binomial', function (done) {
+        var person = {
+            date: {
+                day: 23, month: 4, year: 1984, hour: 0, minute: 5
+            },
+            tz: 2, longitude: 27.35, gender: 'M'
+        };
+
+        function asserts(result) {
+            expect(result.starBinomial).to.exist;
+            expect(result.starBinomial[0])
+                .to.containSubset({
+                    stem: '丙 F+',
+                    branch: '戌 xū',
+                    category: 'Steaua nobilă a norocului',
+                    pinyin: 'fúxīng guì',
+                    chinese: '福星貴'
+                }
+            );
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(8);
+    });
+
+    it('check missing star binomial', function (done) {
+        var person = {
+            date: {
+                day: 24, month: 8, year: 2016
+            },
+            gender: 'M'
+        };
+
+        function asserts(result) {
+            expect(result.starBinomial.length)
+                .to.equal(0);
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(8);
+    });
+
+    xit('check star binomial series', function (done) {
+        var timeout = 30000;
+        this.timeout(timeout);
+        var m = moment();
+        for (var i = 0; i < 1000; i++) {
+            var person = {
+                date: {
+                    day: m.date(), month: m.month() + 1, year: m.year()
+                },
+                tz: 2, longitude: 27.35, gender: 'M'
+            };
+
+            function asserts(result) {
+                var astro = result.chart.astro;
+                var dateString = astro.month + '/' + astro.day + '/' + astro.year;
+                var dayId = dateString + ' = ' +
+                    result.chart.chart.day.hs + ' ' +
+                    result.chart.chart.day.eb + ' ';
+
+                var sb = result.starBinomial[0];
+                if (!_.isUndefined(sb)) {
+                    dayId +=
+                        (_.isUndefined(sb.season) ? '' : sb.season) + ' =  ';
+                    _.each(result.starBinomial, function (sb) {
+                        dayId += sb.category + ', ';
+                    });
+                }
+                console.log(dayId);
+            }
+
+            BaZiMain(person, {json: asserts}).make(8);
+            m = m.add(1, 'day');
+        }
+        setTimeout(done, timeout - 3000);
     });
 
 });

@@ -38,6 +38,7 @@ var pSquare = function (person, response) {
         var luckChartDigits = utils.getLuckChartDigits();
         var resultData = {
             dateStr: '' + date.day + date.month + date.year,
+            date: date,
             op: op,
             digits: digits,
             digitWeights: digits.getDigits(),

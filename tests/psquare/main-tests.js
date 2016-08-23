@@ -4,6 +4,7 @@ chai.use(chaiSubset);
 var expect = chai.expect; // we are using the "expect" style of Chai
 
 var _ = require('underscore');
+var moment = require('moment');
 
 var connectToDb = require('./../../utils/db-utils');
 
@@ -216,5 +217,31 @@ describe('Pythagorean Square basic calculations', function () {
         }
 
         pSquare({date: date}, {json: asserts}).make(1);
+    });
+
+    xit('check series', function (done) {
+        var timeout = 30000;
+        this.timeout(timeout);
+        var m = moment();
+        for (var i = 0; i < 1000; i++) {
+            var date = {
+                day: m.date(), month: m.month() + 1, year: m.year()
+            };
+
+            function asserts(result) {
+                var date = result.date;
+                var dateString = date.month + '/' + date.day + '/' + date.year;
+                var dayId = dateString + ' = ' +
+                    result.destiny.number + ' = ' +
+                    result['interior vibration'].number + ' = ' +
+                    result['exterior vibration'].number + ' = ' +
+                    result['cosmic vibration'].number;
+                console.log(dayId);
+            }
+
+            pSquare({date: date}, {json: asserts}).make(99);
+            m = m.add(1, 'day');
+        }
+        setTimeout(done, timeout - 3000);
     });
 });

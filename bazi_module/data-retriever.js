@@ -15,6 +15,7 @@ var GodsStrength = require('../models/bazi/gods-strength');
 var BranchRelation = require('../models/bazi/branch-relation');
 
 var Stars = require('./stars');
+var StarBinomial = require('../models/bazi/star-binomial');
 var ShenShaDescription = require('../models/bazi/shensha-description');
 var ShenShaSeason = require('../models/bazi/shensha-season');
 var ShenShaDayBranch = require('../models/bazi/shensha-day-branch');
@@ -165,6 +166,23 @@ var binomial = function (response) {
                 resultData.chart.chart.year.hs === the3marvel[0].year) {
                 resultData.shenSha.the3marvel = the3marvel[0].toObject();
             }
+        });
+    }
+
+    function getStarBinomial(resultData) {
+        var dayMaster = resultData.chart.chart.day.hs;
+        var dayBranch = resultData.chart.chart.day.eb;
+        var seasonName = resultData.chart.chart.month.eb;
+        var promise = StarBinomial.find({stem: dayMaster, branch: dayBranch}).exec();
+        return promise.then(function (starBinomials) {
+            var result = [];
+            _.each(starBinomials, function(sb) {
+                if((_.isUndefined(sb.season) /*&& dayBranch === sb.branch*/) ||
+                    (sb.season === seasonName /*&& dayBranch=== sb.branch*/)){
+                    result.push(sb.toObject());
+                }
+            });
+            resultData.starBinomial = result;
         });
     }
 
@@ -319,6 +337,7 @@ var binomial = function (response) {
             promises.push(getShenShaExternalPeachBlossom(resultData));
             promises.push(getShenShaHeavenlyDoctor(resultData));
             promises.push(getShenSha3Marvels(resultData));
+            promises.push(getStarBinomial(resultData));
         }
 
         Promise.all(promises).then(function () {
