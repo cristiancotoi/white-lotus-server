@@ -16,7 +16,7 @@ var utils = function () {
         return result;
     }
 
-    function getNormalLifeType(chart) {
+    function getNormalLifeTypeStem(chart) {
         var result;
         var seasonHidStems = chart.month.hidStems;
         var stems = getVisibleStems(chart);
@@ -30,6 +30,26 @@ var utils = function () {
         }
         result = _.isUndefined(result) ? seasonHidStems[0] : result;
         return result;
+    }
+
+    function getGods(dm) {
+        var yangGodsList = ['F', 'RW', 'EG', 'HO', 'IW', 'DW', 'DO', '7K', 'IR', 'DR'];
+        var yinGodsList = ['F', 'HO', 'EG', 'DW', 'IW', '7K', 'DO', 'DR', 'IR', 'RW'];
+        var dmIsYang = dm.indexOf('+') > 0;
+        var stems = getStems();
+        var dmIndex = _.indexOf(stems, dm);
+
+        var associations = {};
+
+        for (var i = 0; i < 10; i++) {
+            associations[stems[dmIndex]] =
+                dmIsYang ?
+                    yangGodsList[i] :
+                    yinGodsList[i];
+            dmIndex = (++dmIndex) % 10;
+        }
+
+        return associations;
     }
 
     function getStems() {
@@ -47,12 +67,13 @@ var utils = function () {
     }
 
     function isBranch(itemName) {
-         return _.contains(getBranches(), itemName);
+        return _.contains(getBranches(), itemName);
     }
 
     return {
         getVisibleStems: getVisibleStems,
-        getNormalLifeType: getNormalLifeType,
+        getNormalLifeTypeStem: getNormalLifeTypeStem,
+        getGods: getGods,
 
         getStems: getStems,
         isStem: isStem,

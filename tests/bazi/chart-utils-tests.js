@@ -75,7 +75,7 @@ describe('BaZi chart utils verifications', function () {
         };
 
         var utils = Utils();
-        expect(utils.getNormalLifeType(input))
+        expect(utils.getNormalLifeTypeStem(input))
             .to.equal('己 P-');
     });
 
@@ -101,7 +101,7 @@ describe('BaZi chart utils verifications', function () {
         };
 
         var utils = Utils();
-        expect(utils.getNormalLifeType(input))
+        expect(utils.getNormalLifeTypeStem(input))
             .to.equal('癸 A-');
     });
 
@@ -127,8 +127,48 @@ describe('BaZi chart utils verifications', function () {
         };
 
         var utils = Utils();
-        expect(utils.getNormalLifeType(input))
+        expect(utils.getNormalLifeTypeStem(input))
             .to.equal('己 P-');
+    });
+
+    it('check gods association for yang DM', function () {
+        var dm = '丙 F+';
+        var utils = Utils();
+
+        var gods = utils.getGods(dm);
+        expect(gods)
+            .to.containSubset({
+            '丙 F+': 'F',
+            '丁 F-': 'RW',
+            '戊 P+': 'EG',
+            '己 P-': 'HO',
+            '庚 M+': 'IW',
+            '辛 M-': 'DW',
+            '壬 A+': 'DO',
+            '癸 A-': '7K',
+            '甲 L+': 'IR',
+            '乙 L-': 'DR'
+        });
+    });
+
+    it('check gods association for yin DM', function () {
+        var dm = '丁 F-';
+        var utils = Utils();
+
+        var gods = utils.getGods(dm);
+        expect(gods)
+            .to.containSubset({
+            '丙 F+': 'RW',
+            '丁 F-': 'F',
+            '戊 P+': 'HO',
+            '己 P-': 'EG',
+            '庚 M+': 'DW',
+            '辛 M-': 'IW',
+            '壬 A+': '7K',
+            '癸 A-': 'DO',
+            '甲 L+': 'DR',
+            '乙 L-': 'IR'
+        });
     });
 
 });

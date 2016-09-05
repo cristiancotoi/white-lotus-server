@@ -11,6 +11,7 @@ var EB = require('../models/bazi/earthly-branch');
 var Binomial = require('../models/bazi/binomial');
 
 var DM = require('../models/bazi/day-master');
+var NormalLifeType = require('../models/bazi/normal-life-type');
 var GodsStrength = require('../models/bazi/gods-strength');
 var BranchRelation = require('../models/bazi/branch-relation');
 
@@ -76,6 +77,18 @@ var binomial = function (response) {
 
         return promise.then(function (dm) {
             resultData.dm = dm[0].toObject();
+        });
+    }
+
+    function getNormalLifeType(resultData) {
+        var dmName = resultData.chart.chart.day.hs;
+        var normalLifeTypeStem = ChartUtils().getNormalLifeTypeStem(resultData.chart.chart);
+        var gods = ChartUtils().getGods(dmName);
+        var normalLifeType = gods[normalLifeTypeStem];
+        var promise = NormalLifeType.find({shortname: normalLifeType}).exec();
+
+        return promise.then(function (nlt) {
+            resultData.normalLifeType = nlt[0].toObject();
         });
     }
 
@@ -320,6 +333,7 @@ var binomial = function (response) {
 
         if (userLevel >= 3) {
             promises.push(getGodsStrengthsForSeason(resultData));
+            promises.push(getNormalLifeType(resultData));
         }
 
         if (userLevel >= 5) {

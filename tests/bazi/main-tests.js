@@ -550,6 +550,27 @@ describe('BaZiMain basic calculations', function () {
         BaZiMain(person, {json: asserts}).make(8);
     });
 
+    it('check normal life type', function (done) {
+        var person = {
+            date: {
+                day: 26, month: 6, year: 1986
+            },
+            gender: 'M'
+        };
+
+        function asserts(result) {
+            expect(result.normalLifeType)
+                .to.containSubset(
+                {
+                    name: 'Puterea cuvenită',
+                    shortname: 'DO'
+                });
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(3);
+    });
+
     xit('check star binomial series', function (done) {
         var timeout = 30000;
         this.timeout(timeout);
