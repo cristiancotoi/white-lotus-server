@@ -49,10 +49,84 @@ describe('BaZiMain basic calculations', function () {
         function asserts(result) {
             expect(result.name).to.equal('N');
             expect(result.surname).to.equal('S');
+            expect(result.currentLuckPillar).not.to.be.undefined;
+            expect(result.age).not.to.be.undefined;
+            expect(result.sex).not.to.be.undefined;
+            expect(result.chart).not.to.be.undefined;
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person, {json: asserts}).make(1);
+    });
+
+    it('check reduced output values contains only calculated info (user level = 0)', function (done) {
+        var person = {
+            name: 'N',
+            surname: 'S',
+            date: {
+                day: 24, month: 12, year: 1948, hour: 1, minute: 20
+            },
+            tz: 2, longitude: 28, gender: 'F'
+        };
+
+        function asserts(result) {
+            expect(result.name).to.equal('N');
+            expect(result.surname).to.equal('S');
+            expect(result.age).not.to.be.undefined;
+            expect(result.sex).not.to.be.undefined;
+            expect(result.chart).not.to.be.undefined;
+
+            expect(result.currentLuckPillar).to.be.undefined;
+            expect(result.godsStrength).to.be.undefined;
+            expect(result.starBinomial).to.be.undefined;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(0);
+    });
+
+    it('check basic output values with simple rules', function (done) {
+        var person = {
+            name: 'N',
+            surname: 'S',
+            date: {
+                day: 24, month: 12, year: 1948, hour: 1, minute: 20
+            },
+            tz: 2, longitude: 28, gender: 'F'
+        };
+
+        function asserts(result) {
+            expect(result.name).to.equal('N');
+            expect(result.surname).to.equal('S');
+            expect(result.currentLuckPillar).not.to.be.undefined;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make(99, {
+            'current luck pillar': true
+        });
+    });
+
+    it('check basic output values with rules not including current luck pillar', function (done) {
+        var person = {
+            name: 'N',
+            surname: 'S',
+            date: {
+                day: 24, month: 12, year: 1948, hour: 1, minute: 20
+            },
+            tz: 2, longitude: 28, gender: 'F'
+        };
+
+        function asserts(result) {
+            expect(result.name).to.equal('N');
+            expect(result.surname).to.equal('S');
+            expect(result.currentLuckPillar).to.be.undefined;
+            done();
+        }
+
+        BaZiMain(person, {json: asserts}).make({
+            'current luck pillar': false
+        });
     });
 
     it('check chart data quality for 24 12 1948', function (done) {
@@ -375,7 +449,9 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(3);
+        BaZiMain(person, {json: asserts}).make(3, {
+            'gods strength for season': true
+        });
     });
 
     it('check shen sha 7/6/1955 (level 8)', function (done) {

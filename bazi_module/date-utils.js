@@ -39,7 +39,7 @@ var utils = function (date) {
     return {
         getAge: getAge,
         getCurrentLuckPillar: getCurrentLuckPillar,
-        getAgeString: getAgeString,
+        include: getAgeString,
         getMoment: getMoment
     };
 };

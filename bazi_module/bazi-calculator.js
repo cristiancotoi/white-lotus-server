@@ -4,6 +4,7 @@ var _ = require("underscore");
 var moment = require("moment");
 var AstroCalc = require('./astro');
 var ChartUtils = require('./chart-utils');
+var Rules = require('./rules');
 
 
 function BaZiCalculator(person) {
@@ -18,6 +19,7 @@ function BaZiCalculator(person) {
 
     var gon = ChartUtils().getStems();
     var ji = ChartUtils().getBranches();
+
     /**
      * Return an array of hidden stems
      * @param branch target earthly branch
@@ -88,13 +90,39 @@ function BaZiCalculator(person) {
         return hiddenStems;
     }
 
+    function getLuckPillars(monthBranchIndex, birthDateMoment) {
+        var indexS, indexB;
+        indexB = monthBranchIndex;
+        indexS = monthStemIndex;
+        var luck = [];
+        var firstLuckStart = birthDateMoment.add(LP, 'years');
+        var nextLuckStart;
+        for (i = 0; i < 9; i++) {
+            indexB = astroCalc.nextEBIndex(indexB, FW);
+            luckPBranches[i] = ji[indexB];
+
+            indexS = astroCalc.nextHSIndex(indexS, FW);
+            luckPStems[i] = gon[indexS];
+
+            nextLuckStart = moment(firstLuckStart).add(10, 'years');
+            luck[i] = {
+                hs: gon[indexS], eb: ji[indexB],
+                start: firstLuckStart.format('DD-MM-YYYY'),
+                end: nextLuckStart.format('DD-MM-YYYY')
+            };
+            firstLuckStart = moment(nextLuckStart);
+        }
+        return luck;
+    }
+
     return {
-        compute: function () {
+        compute: function (options) {
             if (_.isUndefined(person) ||
                 (_.isObject(person) && _.isUndefined(person.date))) {
                 throw 'Person object is invalid';
             }
 
+            var result = {};
             var astroData = astroCalc.getData(person);
             var trueLong = astroData.trueLong;
 
@@ -182,44 +210,19 @@ function BaZiCalculator(person) {
             monthHidS = getHiddenStems(monthBranch);
             yearHidS = getHiddenStems(yearBranch);
 
-            var indexS, indexB;
-            indexB = mb.index;
-            indexS = monthStemIndex;
-            var luck = [];
-            var birthDateMoment = moment(astroData.moment);
-            var firstLuckStart = birthDateMoment.add(LP, 'years');
-            var nextLuckStart;
-            for (i = 0; i < 9; i++) {
-                indexB = astroCalc.nextEBIndex(indexB, FW);
-                luckPBranches[i] = ji[indexB];
-
-                indexS = astroCalc.nextHSIndex(indexS, FW);
-                luckPStems[i] = gon[indexS];
-
-                nextLuckStart = moment(firstLuckStart).add(10, 'years');
-                luck[i] = {
-                    hs: gon[indexS], eb: ji[indexB],
-                    start: firstLuckStart.format('DD-MM-YYYY'),
-                    end: nextLuckStart.format('DD-MM-YYYY')
-                };
-                firstLuckStart = moment(nextLuckStart);
-            }
-
-            var chart = {
+            result.luck = getLuckPillars(mb.index, moment(astroData.moment));
+            result.astroData = astroData;
+            result.chart = {
                 year: {hs: yearStem, eb: yearBranch, hidStems: yearHidS},
                 month: {hs: monthStem, eb: monthBranch, hidStems: monthHidS},
                 day: {hs: dayStem, eb: dayBranch, hidStems: dayHidS},
                 hour: {hs: hourStem, eb: hourBranch, hidStems: hourHidS}
             };
+            result.comment1 = astroCalc.isLongitudeInBetweenSeasons(trueLong);
+            result.startYear = LP;
+            result.fw = FW;
 
-            return {
-                chart: chart,
-                luck: luck,
-                astro: astroData,
-                comment1: astroCalc.isLongitudeInBetweenSeasons(trueLong),
-                startYear: LP,
-                fw: FW
-            };
+            return result;
         }
     };
 }

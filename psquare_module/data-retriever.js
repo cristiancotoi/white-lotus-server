@@ -354,7 +354,7 @@ var dataRetriever = function (utils, digits, response) {
 
     return {
         aggregate: aggregate,
-        getAllInto: getAllInto
+        getAll: getAllInto
     };
 };
 

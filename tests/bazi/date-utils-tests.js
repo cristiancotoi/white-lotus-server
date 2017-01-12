@@ -71,8 +71,8 @@ describe('BaZi utils age calculation', function () {
         var now = moment([2016, 10, 23]);
 
         var utils = Utils(date);
-        expect(utils.getAgeString(now).year).to.equal(32);
-        expect(utils.getAgeString(now).months).to.equal(6);
+        expect(utils.include(now).year).to.equal(32);
+        expect(utils.include(now).months).to.equal(6);
     });
 
     it('check birthday as moment()', function () {

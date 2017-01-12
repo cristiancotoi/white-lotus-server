@@ -189,9 +189,9 @@ var binomial = function (response) {
         var promise = StarBinomial.find({stem: dayMaster, branch: dayBranch}).exec();
         return promise.then(function (starBinomials) {
             var result = [];
-            _.each(starBinomials, function(sb) {
-                if((_.isUndefined(sb.season) /*&& dayBranch === sb.branch*/) ||
-                    (sb.season === seasonName /*&& dayBranch=== sb.branch*/)){
+            _.each(starBinomials, function (sb) {
+                if ((_.isUndefined(sb.season) /*&& dayBranch === sb.branch*/) ||
+                    (sb.season === seasonName /*&& dayBranch=== sb.branch*/)) {
                     result.push(sb.toObject());
                 }
             });
@@ -220,11 +220,11 @@ var binomial = function (response) {
         delete resultData.godsStrength;
     }
 
-    function postProcessing(resultData, userLevel) {
-        if (userLevel >= 3) {
+    function postProcessing(resultData, rules) {
+        if (rules.includes('gods strength') && !!resultData.godsStrength) {
             applyGodsStrengthMultiplier(resultData);
         }
-        if (userLevel >= 8) {
+        if (rules.includes('shen sha') && !!resultData.shenSha) {
             var chart = resultData.chart.chart;
             var outputShenSha = {};
             _.each(
@@ -269,35 +269,35 @@ var binomial = function (response) {
             /*
              * Reshape the stars into a chart object for easier display
              */
-            var chart = {};
+            var shenShaChart = {};
             var presentStarsDesc = {};
             var shenShaDesc = resultData.shenShaDesc;
 
             _.mapObject(outputShenSha, function (stars, pillarName) {
                 if (pillarName === 'the3marvel') {
-                    chart[pillarName] = stars;
+                    shenShaChart[pillarName] = stars;
                     presentStarsDesc['the3marvel'] = shenShaDesc['the3marvel'];
                     return;
                 }
-                chart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
+                shenShaChart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
                     return shensha.star;
                 });
-                _.mapObject(chart[pillarName], function (starsGroup, name) {
+                _.mapObject(shenShaChart[pillarName], function (starsGroup, name) {
                     var property = ChartUtils().isStem(name) ? 'hs' : 'eb';
-                    chart[pillarName][property] = starsGroup;
-                    _.each(starsGroup, function(star) {
+                    shenShaChart[pillarName][property] = starsGroup;
+                    _.each(starsGroup, function (star) {
                         presentStarsDesc[star.name] = shenShaDesc[star.name];
                     });
 
-                    delete chart[pillarName][name];
+                    delete shenShaChart[pillarName][name];
                 });
             });
-            resultData.shenSha = chart;
+            resultData.shenSha = shenShaChart;
             resultData.shenShaDesc = presentStarsDesc;
         }
     }
 
-    function aggregate(resultData, userLevel) {
+    function aggregate(resultData, rules) {
         var promises = [];
         var chart = resultData.chart.chart;
         var luck = resultData.chart.luck;
@@ -329,19 +329,24 @@ var binomial = function (response) {
                 luck[i]));
         }
 
-        promises.push(getDM(resultData));
+        if (rules.includes('dm')) {
+            promises.push(getDM(resultData));
+        }
 
-        if (userLevel >= 3) {
+        if (rules.includes('gods strength for season')) {
             promises.push(getGodsStrengthsForSeason(resultData));
+        }
+        if (rules.includes('normal life type')) {
             promises.push(getNormalLifeType(resultData));
         }
 
-        if (userLevel >= 5) {
+        if (rules.includes('branch relations')) {
             promises.push(getBranchRelations(resultData));
         }
 
         // Shen Sha
-        if (userLevel >= 8) {
+        if (rules.includes('shen sha')) {
+
             resultData.shenSha = {};
             promises.push(getShenShaDescription(resultData));
 
@@ -351,16 +356,17 @@ var binomial = function (response) {
             promises.push(getShenShaExternalPeachBlossom(resultData));
             promises.push(getShenShaHeavenlyDoctor(resultData));
             promises.push(getShenSha3Marvels(resultData));
+        }
+        if (rules.includes('day star binomial')) {
             promises.push(getStarBinomial(resultData));
         }
 
         Promise.all(promises).then(function () {
-            postProcessing(resultData, userLevel);
+            postProcessing(resultData, rules);
             var utils = CommonUtils();
             utils.stripDbIds(resultData);
             // All DB queries are finished - returning the result
             response.json(resultData);
-
         }, function (err) {
             console.log('Error waiting for promises');
             console.log(err);
@@ -369,7 +375,7 @@ var binomial = function (response) {
     }
 
     return {
-        getAllInto: aggregate
+        getAll: aggregate
     };
 };
 

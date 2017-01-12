@@ -50,7 +50,7 @@ var pSquare = function (person, response) {
             luckYears: utils.getYearsMatrix(luckChartDigits.digits.length)
         };
 
-        retriever.getAllInto(resultData, op, userLevel);
+        retriever.getAll(resultData, op, userLevel);
     }
 
     return {
