@@ -97,7 +97,7 @@ describe('BaZi calculator math', function () {
                     eb: '丑 chǒu',
                     hidStems: ['己 P-', '癸 A-', '辛 M-']
                 },
-                day: {hs: '丙 F+', eb: '寅 yín', hidStems: ['甲 L+', '丙 F+', '戊 P+']},
+                day: {eb: "卯 mǎo", hidStems: ["乙 L-", "", ""], hs: "丁 F-"},
                 hour: {hs: '庚 M+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']}
             },
             comment1: undefined,
@@ -195,7 +195,7 @@ describe('BaZi calculator math', function () {
                 hour: {hs: '丙 F+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']}
             },
             comment1: undefined,
-            startYear: 0.9,
+            startYear: 0.89,
             luck: [{hs: '庚 M+', eb: '辰 chén'},
                 {hs: '辛 M-', eb: '巳 sì'},
                 {hs: '壬 A+', eb: '午 wǔ'},
@@ -220,24 +220,24 @@ describe('BaZi calculator math', function () {
         var calculator = BaZiCalculator(person);
         var result = calculator.compute();
         expect(result).to.containSubset({
-            startYear: 2.47,
-            "chart": {
-                "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
-                "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
-                "month": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "丁 F-"},
-                "year": {"eb": "午 wǔ", "hidStems": ["丁 F-", "己 P-", ""], "hs": "庚 M+"}
+            startYear: 2.46,
+            chart: {
+                'day': {'eb': '亥 hài', 'hidStems': ['壬 A+', '甲 L+', ''], 'hs': '己 P-'},
+                'hour': {'eb': '寅 yín', 'hidStems': ['甲 L+', '丙 F+', '戊 P+'], 'hs': '丙 F+'},
+                'month': {'eb': '亥 hài', 'hidStems': ['壬 A+', '甲 L+', ''], 'hs': '丁 F-'},
+                'year': {'eb': '午 wǔ', 'hidStems': ['丁 F-', '己 P-', ''], 'hs': '庚 M+'}
             },
-            "fw": 1,
-            "luck": [
-                {"eb": "子 zǐ", "hs": "戊 P+"},
-                {"eb": "丑 chǒu", "hs": "己 P-"},
-                {"eb": "寅 yín", "hs": "庚 M+"},
-                {"eb": "卯 mǎo", "hs": "辛 M-"},
-                {"eb": "辰 chén", "hs": "壬 A+"},
-                {"eb": "巳 sì", "hs": "癸 A-"},
-                {"eb": "午 wǔ", "hs": "甲 L+"},
-                {"eb": "未 wèi", "hs": "乙 L-"},
-                {"eb": "申 shēn", "hs": "丙 F+"}
+            'fw': 1,
+            'luck': [
+                {'eb': '子 zǐ', 'hs': '戊 P+'},
+                {'eb': '丑 chǒu', 'hs': '己 P-'},
+                {'eb': '寅 yín', 'hs': '庚 M+'},
+                {'eb': '卯 mǎo', 'hs': '辛 M-'},
+                {'eb': '辰 chén', 'hs': '壬 A+'},
+                {'eb': '巳 sì', 'hs': '癸 A-'},
+                {'eb': '午 wǔ', 'hs': '甲 L+'},
+                {'eb': '未 wèi', 'hs': '乙 L-'},
+                {'eb': '申 shēn', 'hs': '丙 F+'}
             ]
         });
     });

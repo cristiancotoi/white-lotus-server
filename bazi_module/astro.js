@@ -54,8 +54,7 @@ var astro = function () {
             result.longitude = _.isUndefined(person.longitude) ? 0 : person.longitude;
             var dst = person.dst_active_at_birth ? 1 : 0;
             result.longitude = normalizeAngle(result.longitude + 180) - 180;
-            var minutesDiff = -1 * (result.longitude * 4 - result.timeZone * 60);
-            result = subtractHour(result, dst, minutesDiff);
+            result = subtractHour(result, dst, 0);
         }
         birthDateMoment = CommonUtils().getMoment(result);
 
@@ -125,6 +124,7 @@ var astro = function () {
 
         var incr = resultData.index - 3;
         resultData.increment = incr < 1 ? incr + 12 : incr;
+        resultData.increment = resultData.increment % 12;
 
         var min = sector * 30 - 15;
         min = min < 0 ? min + 360 : min;

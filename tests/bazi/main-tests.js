@@ -217,12 +217,12 @@ describe('BaZiMain basic calculations', function () {
         function asserts(result) {
             expect(result.chart).to.containSubset({
                 chart: {
-                    "day": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "己 P-"},
-                    "hour": {"eb": "丑 chǒu", "hidStems": ["己 P-", "癸 A-", "辛 M-"], "hs": "乙 L-"},
-                    "month": {"eb": "亥 hài", "hidStems": ["壬 A+", "甲 L+", ""], "hs": "丁 F-"},
-                    "year": {"eb": "午 wǔ", "hidStems": ["丁 F-", "己 P-", ""], "hs": "庚 M+"}
+                    'day': {'eb': '亥 hài', 'hidStems': ['壬 A+', '甲 L+', ''], 'hs': '己 P-'},
+                    'hour': {'eb': '寅 yín', 'hidStems': ['甲 L+', '丙 F+', '戊 P+'], 'hs': '丙 F+'},
+                    'month': {'eb': '亥 hài', 'hidStems': ['壬 A+', '甲 L+', ''], 'hs': '丁 F-'},
+                    'year': {'eb': '午 wǔ', 'hidStems': ['丁 F-', '己 P-', ''], 'hs': '庚 M+'}
                 },
-                startYear: 2.47,
+                startYear: 2.46,
                 luck: [
                     {"eb": "子 zǐ", "hs": "戊 P+"},
                     {"eb": "丑 chǒu", "hs": "己 P-"},
@@ -238,14 +238,15 @@ describe('BaZiMain basic calculations', function () {
             });
 
             expect(_.size(result.detailedChart)).to.equal(4);
+            console.log(result.godsScore);
             expect(result.godsScore).to.containSubset({
                 '乙 L-': {
-                    visible: 50,
+                    visible: 0,
                     mainHidden: 0,
                     prison: 0,
                     grave: 0,
                     phase: 'L',
-                    total: 50
+                    total: 0
                 },
                 '庚 M+': {
                     visible: 50,
@@ -267,25 +268,25 @@ describe('BaZiMain basic calculations', function () {
                     visible: 0,
                     mainHidden: 0,
                     prison: 0,
-                    grave: 0,
+                    grave: 10,
                     phase: 'P',
-                    total: 0
+                    total: 10
                 },
                 '甲 L+': {
                     visible: 0,
-                    mainHidden: 0,
+                    mainHidden: 30,
                     prison: 30,
                     grave: 0,
                     phase: 'L',
-                    total: 30
+                    total: 60
                 },
                 '癸 A-': {
                     visible: 0,
                     mainHidden: 0,
-                    prison: 20,
+                    prison: 0,
                     grave: 0,
                     phase: 'A',
-                    total: 20
+                    total: 0
                 },
                 '丁 F-': {
                     visible: 50,
@@ -297,27 +298,27 @@ describe('BaZiMain basic calculations', function () {
                 },
                 '己 P-': {
                     visible: 0,
-                    mainHidden: 30,
+                    mainHidden: 0,
                     prison: 15,
                     grave: 0,
                     phase: 'P',
-                    total: 45
+                    total: 15
                 },
                 '丙 F+': {
-                    visible: 0,
+                    visible: 50,
                     mainHidden: 0,
-                    prison: 0,
+                    prison: 10,
                     grave: 0,
                     phase: 'F',
-                    total: 0
+                    total: 60
                 },
                 '辛 M-': {
                     visible: 0,
                     mainHidden: 0,
                     prison: 0,
-                    grave: 10,
+                    grave: 0,
                     phase: 'M',
-                    total: 10
+                    total: 0
                 }
             });
 
@@ -587,7 +588,7 @@ describe('BaZiMain basic calculations', function () {
     it('check star binomial', function (done) {
         var person = {
             date: {
-                day: 23, month: 4, year: 1984, hour: 0, minute: 5
+                day: 22, month: 4, year: 1984, hour: 23, minute: 5
             },
             tz: 2, longitude: 27.35, gender: 'M'
         };

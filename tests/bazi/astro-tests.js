@@ -70,8 +70,8 @@ describe('BaZi astrology calculations', function () {
         expect(result).to.containSubset({
             month: 4,
             year: 1984,
-            hour: 22.95,
-            hour_int: 22,
+            hour: 23.083333333333332,
+            hour_int: 23,
             gender: 1
         });
     });
@@ -79,7 +79,7 @@ describe('BaZi astrology calculations', function () {
     it('calculate for 28 1 1985 0 5', function () {
         var person = {
             date: {
-                day: 28, month: 1, year: 1985, hour: 0, minute: 5
+                day: 27, month: 1, year: 1985, hour: 23, minute: 57
             },
             tz: 2, longitude: 28, gender: 'F'
         };
@@ -110,9 +110,9 @@ describe('BaZi astrology calculations', function () {
         expect(result).to.containSubset({
             month: 1,
             year: 1985,
-            hour: 0.03333333333333333,
+            hour: 0.16666666666666666,
             hour_int: 0,
-            minute: 2,
+            minute: 10,
             gender: -1
         });
     });
@@ -130,9 +130,9 @@ describe('BaZi astrology calculations', function () {
         expect(result).to.containSubset({
             month: 12,
             year: 1948,
-            hour: 1.2,
+            hour: 1.3333333333333333,
             hour_int: 1,
-            minute: 12,
+            minute: 20,
             gender: -1
         });
     });
@@ -150,9 +150,9 @@ describe('BaZi astrology calculations', function () {
         expect(result).to.containSubset({
             month: 1,
             year: 2004,
-            hour: 3.5,
+            hour: 3.6666666666666665,
             hour_int: 3,
-            minute: 30,
+            minute: 40,
             gender: -1
         });
     });
@@ -189,8 +189,8 @@ describe('BaZi astrology calculations', function () {
 
         var calculator = AstroCalc();
         var resultWithDst = calculator.getData(person);
-        expect(resultWithDst.minute).to.equal(57);
-        expect(Math.floor(resultWithDst.hour)).to.equal(22);
+        expect(resultWithDst.minute).to.equal(5);
+        expect(Math.floor(resultWithDst.hour)).to.equal(23);
         expect(resultWithDst.day).to.equal(22);
     });
 
