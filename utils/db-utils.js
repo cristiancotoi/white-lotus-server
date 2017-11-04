@@ -4,15 +4,12 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = require('bluebird');
 
-var Person = require('../models/person');
-var OperationalNumber = require('../models/psquare/op-number');
-var SpiritLevel = require('../models/psquare/spirit-level');
+let mongoAddress = process.env.MONGO_ADDR || '127.0.0.1';
 
 function connectToDb() {
     let dbName = 'whitelotus';
-    let connectionString = '127.0.0.1:27017/' + dbName;
+    let connectionString = mongoAddress + ':27017/' + dbName;
     // MONGODB_URL should also include trailing '/'
-
 
     // Ignoring because this is only present in production. Testing is irrelevant.
     /* istanbul ignore next */
