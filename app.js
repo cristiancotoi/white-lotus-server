@@ -12,9 +12,9 @@ const http = require('http'),
     cors = require('cors');
 
 let port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
-let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-var persons = require('./routes/persons');
+let persons = require('./routes/persons');
 var pSquare = require('./routes/psquare');
 var bazi = require('./routes/bazi');
 
