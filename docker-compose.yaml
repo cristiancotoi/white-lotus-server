@@ -1,0 +1,15 @@
+version: "2"
+services:
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    volumes:
+#      - /data/mongodb/db:/data/db
+       - /d/code/white-lotus/white-lotus-server/db:/data/db
+    ports:
+      - "27017:27017"
