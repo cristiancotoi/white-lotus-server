@@ -1,4 +1,5 @@
 FROM mhart/alpine-node:latest
+MAINTAINER Cristian Cotoi "cristian.cotoi@gmail.com"
 
 ENV NPM_CONFIG_LOGLEVEL info
 
@@ -9,10 +10,15 @@ ENV SUMMARY="White Lotus Server" \
     MONGO_ADDR="mongo"
 
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
+
+RUN adduser -D -u 1000 node
+RUN cd /tmp && \
+    npm install
+RUN mkdir -p /opt/app && \
+    cp -a /tmp/node_modules /opt/app/
+RUN chown -R node /opt/app
 
 WORKDIR /opt/app
 COPY . /opt/app
 
-CMD [ "node", "start.js" ]
+CMD chown -R node /opt/app && node start.js
