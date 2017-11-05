@@ -2,21 +2,21 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-mongo-persistent",
+    "name": "white-lotus",
     "annotations": {
-      "openshift.io/display-name": "Node.js + MongoDB (Persistent)",
-      "description": "An example Node.js application with a MongoDB database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
+      "openshift.io/display-name": "White Lotus server",
+      "description": "Backend for chinese astrology and numerology application",
       "tags": "quickstart,nodejs",
       "iconClass": "icon-nodejs",
-      "openshift.io/long-description": "This template defines resources needed to develop a NodeJS application, including a build configuration, application deployment configuration, and database deployment configuration.",
-      "openshift.io/provider-display-name": "Red Hat, Inc.",
-      "openshift.io/documentation-url": "https://github.com/openshift/nodejs-ex",
-      "openshift.io/support-url": "https://access.redhat.com"
+      "openshift.io/long-description": "Backend for chinese astrology and numerology application.",
+      "openshift.io/provider-display-name": "Cristian Cotoi",
+      "openshift.io/documentation-url": "https://github.com/cristiancotoi/white-lotus-server",
+      "openshift.io/support-url": "https://whitelotus.cristiancotoi.ro"
     }
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
   "labels": {
-    "template": "nodejs-mongo-persistent"
+    "template": "white-lotus"
   },
   "objects": [
     {
@@ -293,7 +293,7 @@
       "spec": {
         "ports": [
           {
-            "name": "mongodb",
+            "name": "mongo",
             "port": 27017,
             "targetPort": 27017
           }
@@ -441,14 +441,14 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "nodejs-mongo-persistent"
+      "value": "white-lotus-server"
     },
     {
       "name": "NAMESPACE",
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "openshift"
+      "value": "cristiancotoi"
     },
     {
       "name": "MEMORY_LIMIT",
@@ -532,7 +532,7 @@
       "name": "DATABASE_NAME",
       "displayName": "Database Name",
       "required": true,
-      "value": "sampledb"
+      "value": "whitelotus"
     },
     {
       "name": "DATABASE_ADMIN_PASSWORD",
