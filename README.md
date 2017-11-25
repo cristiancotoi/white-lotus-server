@@ -1,5 +1,8 @@
-# white-lotus-square-server
-Node.js backend for a numerology application
+# white-lotus-server
+
+[![Build Status](https://travis-ci.org/cristiancotoi/white-lotus-server.svg?branch=master)](https://travis-ci.org/cristiancotoi/white-lotus-server)
+
+Node.js backend for a numerology and chinese astrology application
 
 ## Useful commands
 | Description                       | Command                 |
@@ -13,7 +16,14 @@ Node.js backend for a numerology application
 
 ## DB
 **Important notice**: DB contents is not available, so for testing you have to improvise.
-## Useful commands
+### Useful commands
 | Description                       | Command                 |
 | :---                              | :---                    |
 | Start db server                   | `mongod --dbpath db`    |
+
+## OpenShift
+### Useful commands
+| Description                       | Command                 |
+| :---                              | :---                    |
+| Create project                    | `oc new-project whitelotus --description="Backend for a numerology and chinese astrology application" --display-name="White Lotus"` |
+| Create application                | `oc new-app -f openshift/templates/nodejs-mongodb-persistent.json` |
