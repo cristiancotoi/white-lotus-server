@@ -138,10 +138,6 @@
             "generic": {
               "secret": "${GENERIC_WEBHOOK_SECRET}"
             }
-          },
-          {
-            "type": "ImageChange",
-            "imageChange": {}
           }
         ],
         "postCommit": {
