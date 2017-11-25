@@ -5,16 +5,13 @@ const http = require('http'),
     path = require('path'),
     contentTypes = require('./utils/content-types'),
     sysInfo = require('./utils/sys-info'),
-    env = process.env,
     express = require('express'),
     bodyParser = require('body-parser'),
     connectToDb = require('./utils/db-utils'),
     cors = require('cors');
 
 let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
-    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
-    mongoURLLabel = "";
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 let persons = require('./routes/persons');
 var pSquare = require('./routes/psquare');
@@ -37,8 +34,14 @@ app.get('/health', function(req, res) {
     res.writeHead(200);
     res.end();
 });
+
+// Health check for OpenShift
+app.get('/pagecount', function(req, res) {
+    res.writeHead(200);
+    res.end();
+});
 app.get('/routes', function(req, res) {
-    var router = express.Router();
+    let router = express.Router();
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Cache-Control', 'no-cache, no-store');
     res.end(JSON.stringify(router.stack));
