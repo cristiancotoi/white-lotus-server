@@ -1,13 +1,13 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-var connectToDb = require('./../../utils/db-utils');
+let connectToDb = require('../../utils/db-utils');
 
-var pSquare = require('./../../psquare_module/main');
+let pSquare = require('../../psquare_module/main');
 
 describe('Data retriever tests', function () {
     this.timeout(2000);
