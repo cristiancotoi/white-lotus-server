@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node --use_strict start.js",
     "test": "mocha tests --recursive",
+    "integ-test": "mocha integration-tests --recursive",
     "wtest": "mocha tests --recursive --watch",
     "coverage": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --bail --recursive tests/**/*.js"
   },

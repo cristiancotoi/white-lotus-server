@@ -3,9 +3,9 @@ var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 var expect = chai.expect; // we are using the "expect" style of Chai
 
-var connectToDb = require('./../../utils/db-utils');
+var connectToDb = require('../../utils/db-utils');
 
-var BaZiMain = require('./../../bazi_module/main');
+var BaZiMain = require('../../bazi_module/main');
 
 var _ = require("underscore");
 var moment = require("moment");
@@ -238,7 +238,6 @@ describe('BaZiMain basic calculations', function () {
             });
 
             expect(_.size(result.detailedChart)).to.equal(4);
-            console.log(result.godsScore);
             expect(result.godsScore).to.containSubset({
                 '乙 L-': {
                     visible: 0,

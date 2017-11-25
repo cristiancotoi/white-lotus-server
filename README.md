@@ -5,7 +5,8 @@ Node.js backend for a numerology application
 | Description                       | Command                 |
 | :---                              | :---                    |
 | Start server                      | `npm start`             |
-| Run tests                         | `npm run test`          |
+| Run unit tests                    | `npm run test`          |
+| Run integration tests             | `MONGO_URL=127.0.0.1 npm run integ-test` |
 | Run tests + watch (not working)   | `npm run wtest`         |
 | Run tests with coverage           | `npm run coverage`      |
 | Build sources                     | `grunt build`           |
