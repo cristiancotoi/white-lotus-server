@@ -11,8 +11,10 @@ const http = require('http'),
     connectToDb = require('./utils/db-utils'),
     cors = require('cors');
 
-let port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
-let ipAddress = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
+    mongoURLLabel = "";
 
 let persons = require('./routes/persons');
 var pSquare = require('./routes/psquare');
@@ -22,9 +24,6 @@ var app = express();
 
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
-
-// setup the logger
-//app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -55,9 +54,9 @@ app.get('/info/gen', getSysInfo);
 
 connectToDb();
 
-app.listen(port, ipAddress, function () {
+app.listen(port, ip, function () {
     console.log(`Application worker ${process.pid} started...`);
-    console.log('Express server listening on ' + ipAddress + ':' + port);
+    console.log('Express server listening on ' + ip + ':' + port);
 });
 
 module.exports = app;
