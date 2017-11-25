@@ -6,9 +6,9 @@ var expect = chai.expect; // we are using the "expect" style of Chai
 var _ = require('underscore');
 var moment = require('moment');
 
-var connectToDb = require('./../../utils/db-utils');
+var connectToDb = require('../../utils/db-utils');
 
-var pSquare = require('./../../psquare_module/main');
+var pSquare = require('../../psquare_module/main');
 
 describe('Pythagorean Square basic calculations', function () {
     this.timeout(2000);

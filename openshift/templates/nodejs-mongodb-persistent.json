@@ -2,16 +2,17 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "white-lotus",
+    "name": "white-lotus-server",
     "annotations": {
       "openshift.io/display-name": "White Lotus server",
       "description": "Backend for chinese astrology and numerology application",
-      "tags": "quickstart,nodejs",
+      "tags": "nodejs,mongodb",
       "iconClass": "icon-nodejs",
       "openshift.io/long-description": "Backend for chinese astrology and numerology application.",
       "openshift.io/provider-display-name": "Cristian Cotoi",
       "openshift.io/documentation-url": "https://github.com/cristiancotoi/white-lotus-server",
-      "openshift.io/support-url": "https://whitelotus.cristiancotoi.ro"
+      "openshift.io/support-url": "https://whitelotus.cristiancotoi.ro",
+      "template.openshift.io/bindable": "false"
     }
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
@@ -58,10 +59,7 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}",
-        "annotations": {
-          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
-        }
+        "name": "${NAME}"
       },
       "spec": {
         "host": "${APPLICATION_DOMAIN}",
@@ -158,16 +156,13 @@
         }
       },
       "spec": {
-        "strategy": {
-          "type": "Recreate"
-        },
         "triggers": [
           {
             "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongo-persistent"
+                "${NAME}"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -183,6 +178,9 @@
         "selector": {
           "name": "${NAME}"
         },
+        "strategy": {
+          "type": "Recreate"
+        },
         "template": {
           "metadata": {
             "name": "${NAME}",
@@ -193,7 +191,7 @@
           "spec": {
             "containers": [
               {
-                "name": "nodejs-mongo-persistent",
+                "name": "${NAME}",
                 "image": " ",
                 "ports": [
                   {
@@ -448,7 +446,7 @@
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "cristiancotoi"
+      "value": "openshift"
     },
     {
       "name": "MEMORY_LIMIT",
@@ -476,12 +474,13 @@
       "displayName": "Git Repository URL",
       "description": "The URL of the repository with your application source code.",
       "required": true,
-      "value": "https://github.com/openshift/nodejs-ex.git"
+      "value": "https://github.com/cristiancotoi/white-lotus-server.git"
     },
     {
       "name": "SOURCE_REPOSITORY_REF",
       "displayName": "Git Reference",
-      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+      "value": "master"
     },
     {
       "name": "CONTEXT_DIR",

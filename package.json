@@ -7,11 +7,16 @@
   "scripts": {
     "start": "node --use_strict start.js",
     "test": "mocha tests --recursive",
+    "integ-test": "mocha integration-tests --recursive",
     "wtest": "mocha tests --recursive --watch",
     "coverage": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --bail --recursive tests/**/*.js"
   },
   "author": "Cristian Cotoi <cristian.cotoi@gmail.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/openshift/nodejs-ex.git"
+  },
   "dependencies": {
     "bluebird": "^3.3.5",
     "body-parser": "~1.13.2",
