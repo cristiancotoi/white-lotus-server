@@ -42,6 +42,7 @@ function connectToDb() {
     let connectionString = mongoURL + ':27017/' + dbName;
 
     if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+        console.info('Running in production.');
         var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
             mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
             mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -56,23 +57,41 @@ function connectToDb() {
             }
             // Provide UI label that excludes user id and pw
             mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-            mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+            mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
         }
 
         connectionString = "";
         if (mongoUser && mongoPassword) {
             connectionString += mongoUser + ":" + mongoPassword + '@';
         }
-        connectionString += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+        connectionString += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
     }
 
-    if (!mongoose.connection.readyState) {
-        mongoose.connect(connectionString, {
-                db: {nativeParser: true}
-            }
-        );
-    }
-
+    let options = {
+        useMongoClient: true,
+        reconnectTries: 500,
+        reconnectInterval: 500
+    };
+    connectWithRetry(connectionString, options)
 }
+
+let connectWithRetry = function (mongoUrl, options) {
+    if (!mongoose.connection.readyState) {
+        mongoose.connect(mongoUrl, options)
+            .then(
+                () => {
+                    console.info('MongoDB connection successful.')
+                },
+                err => {
+                    let secondsDelay = 5;
+                    console.error('Failed to connect to mongo on startup - retrying in ' + secondsDelay + ' sec');
+                    setTimeout(function () {
+                        connectWithRetry(mongoUrl, options)
+                    }, secondsDelay * 1000);
+                }
+            );
+    }
+};
+
 
 module.exports = connectToDb;
