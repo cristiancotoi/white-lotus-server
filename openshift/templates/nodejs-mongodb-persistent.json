@@ -431,6 +431,123 @@
           }
         }
       }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "rock-mongo",
+        "annotations": {
+          "description": "Defines how to deploy the db manager",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mongodb"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "javierjeronimo",
+                "name": "rockmongo:3.2"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "mongodb",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 27017
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MONGODB_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-admin-password"
+                      }
+                    }
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 3,
+                  "exec": {
+                    "command": [
+                      "/bin/sh",
+                      "-i",
+                      "-c",
+                      "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval=\"quit()\""
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 80
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_ROCKMONGO_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "parameters": [
@@ -453,7 +570,7 @@
       "displayName": "Memory Limit",
       "description": "Maximum amount of memory the Node.js container can use.",
       "required": true,
-      "value": "512Mi"
+      "value": "256Mi"
     },
     {
       "name": "MEMORY_MONGODB_LIMIT",
@@ -461,6 +578,13 @@
       "description": "Maximum amount of memory the MongoDB container can use.",
       "required": true,
       "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_ROCKMONGO_LIMIT",
+      "displayName": "Memory Limit (MongoDB)",
+      "description": "Maximum amount of memory the MongoDB container can use.",
+      "required": true,
+      "value": "256Mi"
     },
     {
       "name": "VOLUME_CAPACITY",
