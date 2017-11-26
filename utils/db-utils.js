@@ -60,7 +60,7 @@ function connectToDb() {
             mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
         }
 
-        connectionString = "";
+        connectionString = "mongodb://";
         if (mongoUser && mongoPassword) {
             connectionString += mongoUser + ":" + mongoPassword + '@';
         }

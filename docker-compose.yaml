@@ -21,6 +21,8 @@ services:
     image: javierjeronimo/rockmongo
     ports:
       - "8090:80"
+    links:
+      - mongo
     environment:
       - MONGO_NAME=mongo
       - MONGO_HOSTNAME=mongo
