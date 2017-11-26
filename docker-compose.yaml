@@ -1,14 +1,27 @@
 version: "2"
 services:
   server:
+    container_name: white-lotus-server
     build: .
     ports:
       - "8080:8080"
     links:
       - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo
   mongo:
     image: mongo
+    container_name: mongo
     volumes:
-       - /db:/data/db
+       - /mongodb-store:/data/db
     ports:
       - "27017:27017"
+  rockmongo:
+    container_name: rockmongo
+    image: javierjeronimo/rockmongo
+    ports:
+      - "8090:80"
+    environment:
+      - MONGO_NAME=mongo
+      - MONGO_HOSTNAME=mongo
+      - MONGO_PORT=27017
