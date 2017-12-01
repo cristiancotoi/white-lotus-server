@@ -2,7 +2,6 @@
 
 let _ = require("lodash");
 
-let CommonUtils = require('../../common_module/utils');
 let ChartUtils = require('../algorithm/chart-utils');
 
 let Phases = require('../../models/bazi/phase');
@@ -13,9 +12,7 @@ let Binomial = require('../../models/bazi/binomial');
 let DM = require('../../models/bazi/day-master');
 let NormalLifeType = require('../../models/bazi/normal-life-type');
 let GodsStrength = require('../../models/bazi/gods-strength');
-let BranchRelation = require('../../models/bazi/branch-relation');
 
-let Stars = require('../algorithm/stars');
 let StarBinomial = require('../../models/bazi/star-binomial');
 let ShenShaDescription = require('../../models/bazi/shensha-description');
 let ShenShaSeason = require('../../models/bazi/shensha-season');
@@ -25,12 +22,7 @@ let ShenShaHeavenlyDoctor = require('../../models/bazi/shensha-heavenly-doctor')
 let ShenShaExternalPeachBlossom = require('../../models/bazi/shensha-ext-peach-blossom');
 let ShenSha3Marvels = require('../../models/bazi/shensha-3-marvels');
 
-let GodsCalculator = require('./gods-calculator');
-
-let binomial = function (response) {
-    let calculator = GodsCalculator();
-
-
+let binomial = function () {
     function arrToMap(arr, keyName) {
         let result = {};
         _.each(arr, function (element) {
@@ -98,18 +90,6 @@ let binomial = function (response) {
 
         return promise.then(function (strength) {
             resultData.godsStrength = strength[0].toObject();
-        });
-    }
-
-    function getBranchRelations(resultData) {
-        let promise = BranchRelation.find().exec();
-
-        return promise.then(function (allRelations) {
-            resultData.branchRelations =
-                calculator.getMatchingRelations(
-                    resultData.chart.chart,
-                    allRelations
-                );
         });
     }
 
@@ -190,8 +170,8 @@ let binomial = function (response) {
         return promise.then(function (starBinomials) {
             let result = [];
             _.each(starBinomials, function (sb) {
-                if ((_.isUndefined(sb.season) /*&& dayBranch === sb.branch*/) ||
-                    (sb.season === seasonName /*&& dayBranch=== sb.branch*/)) {
+                if ((_.isUndefined(sb.season)) ||
+                    (sb.season === seasonName)) {
                     result.push(sb.toObject());
                 }
             });
@@ -199,103 +179,8 @@ let binomial = function (response) {
         });
     }
 
-    function applyGodsStrengthMultiplier(resultData) {
-        let stems = resultData.heavenlyStems;
-        let godsScore = calculator.getStemsStrength(
-            resultData.detailedChart,
-            stems,
-            resultData.earthlyBranches);
-        let scoreForSeason = resultData.godsStrength;
-        _.each(godsScore, function (score) {
-            let scoreMultiplier = scoreForSeason[score.phase.toLowerCase()];
-            score.visible *= scoreMultiplier;
-            score.mainHidden *= scoreMultiplier;
-            score.prison *= scoreMultiplier;
-            score.grave *= scoreMultiplier;
-            score.total *= scoreMultiplier;
-        });
-        resultData.godsScore = godsScore;
 
-        // Lighten up the load we send to the client
-        delete resultData.godsStrength;
-    }
 
-    function postProcessing(resultData, rules) {
-        if (rules.includes('gods strength') && !!resultData.godsStrength) {
-            applyGodsStrengthMultiplier(resultData);
-        }
-        if (rules.includes('shen sha') && !!resultData.shenSha) {
-            let chart = resultData.chart.chart;
-            let outputShenSha = {};
-            _.each(
-                _.keys(resultData.shenSha),
-                function (shenShaKey) {
-                    let shensha = resultData.shenSha[shenShaKey];
-                    if (shenShaKey === 'the3marvel') {
-                        outputShenSha[shenShaKey] = {
-                            pillars: ['day', 'month', 'year'],
-                            star: shensha,
-                            type: shenShaKey
-                        };
-                    } else {
-                        _.each(_.keys(shensha), function (key) {
-                            if (key.indexOf('_id') >= 0) {
-                                return;
-                            }
-                            let outputKey = key;
-                            if (key.indexOf('heavenlynoble') >= 0) {
-                                outputKey = 'heavenlynoble';
-                            }
-                            let starsUtils = Stars();
-                            let isSymbStarPresent = starsUtils
-                                .isSymbolicStarPresent(chart, shensha[key], shenShaKey);
-
-                            _.each(isSymbStarPresent.pillars, function (pillarName) {
-                                if (_.isUndefined(outputShenSha[pillarName])) {
-                                    outputShenSha[pillarName] = [];
-                                }
-                                outputShenSha[pillarName].push({
-                                    name: outputKey,
-                                    star: isSymbStarPresent.star,
-                                    type: isSymbStarPresent.type,
-                                    position: pillarName
-                                });
-                            });
-                        });
-                    }
-                }
-            );
-
-            /*
-             * Reshape the stars into a chart object for easier display
-             */
-            let shenShaChart = {};
-            let presentStarsDesc = {};
-            let shenShaDesc = resultData.shenShaDesc;
-
-            _.mapValues(outputShenSha, function (stars, pillarName) {
-                if (pillarName === 'the3marvel') {
-                    shenShaChart[pillarName] = stars;
-                    presentStarsDesc['the3marvel'] = shenShaDesc['the3marvel'];
-                    return;
-                }
-                shenShaChart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
-                    return shensha.star;
-                });
-                _.mapValues(shenShaChart[pillarName], function (starsGroup, name) {
-                    let property = ChartUtils().isStem(name) ? 'hs' : 'eb';
-                    shenShaChart[pillarName][property] = starsGroup;
-                    _.each(starsGroup, function (star) {
-                        presentStarsDesc[star.name] = shenShaDesc[star.name];
-                    });
-
-                    delete shenShaChart[pillarName][name];
-                });
-            });
-            resultData.shenSha = shenShaChart;
-            resultData.shenShaDesc = presentStarsDesc;
-        }
-    }
 
     function aggregate(resultData, rules) {
         let promises = [];
@@ -340,10 +225,6 @@ let binomial = function (response) {
             promises.push(getNormalLifeType(resultData));
         }
 
-        if (rules.includes('branch relations')) {
-            promises.push(getBranchRelations(resultData));
-        }
-
         // Shen Sha
         if (rules.includes('shen sha')) {
 
@@ -361,17 +242,8 @@ let binomial = function (response) {
             promises.push(getStarBinomial(resultData));
         }
 
-        Promise.all(promises).then(function () {
-            postProcessing(resultData, rules);
-            let utils = CommonUtils();
-            utils.stripDbIds(resultData);
-            // All DB queries are finished - returning the result
-            response.json(resultData);
-        }, function (err) {
-            console.log('Error waiting for promises');
-            console.log(err);
-        });
-        return resultData;
+
+        return Promise.all(promises);
     }
 
     return {

@@ -4,13 +4,11 @@ let _ = require("lodash");
 let moment = require("moment");
 let AstroCalc = require('./astro');
 let ChartUtils = require('./chart-utils');
-let Rules = require('../report/rules');
-
 
 function BaZiCalculator(person) {
     let astroCalc = AstroCalc();
     let monthStem, monthBranch, dayStem, dayBranch, hourStem, hourBranch;
-    let FW, LP;
+    let forward, LP;
     let i;
     let monthStemIndex;
     let dayStemIndex, hs0, hs1, hb0;
@@ -98,10 +96,10 @@ function BaZiCalculator(person) {
         let firstLuckStart = birthDateMoment.add(LP, 'years');
         let nextLuckStart;
         for (i = 0; i < 9; i++) {
-            indexB = astroCalc.nextEBIndex(indexB, FW);
+            indexB = astroCalc.nextEBIndex(indexB, forward);
             luckPBranches[i] = ji[indexB];
 
-            indexS = astroCalc.nextHSIndex(indexS, FW);
+            indexS = astroCalc.nextHSIndex(indexS, forward);
             luckPStems[i] = gon[indexS];
 
             nextLuckStart = moment(firstLuckStart).add(10, 'years');
@@ -116,7 +114,7 @@ function BaZiCalculator(person) {
     }
 
     return {
-        compute: function (options) {
+        compute: function () {
             if (_.isUndefined(person) ||
                 (_.isObject(person) && _.isUndefined(person.date))) {
                 throw 'Person object is invalid';
@@ -139,7 +137,7 @@ function BaZiCalculator(person) {
             yearStem = gon[yearStemIndex];
 
             // Calculate forward step
-            FW = (yearStemIndex % 2 === 0) ? (-1) * astroData.gender : astroData.gender;
+            forward = (yearStemIndex % 2 === 0) ? (-1) * astroData.gender : astroData.gender;
             yearBranch = ji[yearBranchIndex];
 
 
@@ -153,7 +151,7 @@ function BaZiCalculator(person) {
                 }
             }
 
-            let mb = astroCalc.getMonthBranch(trueLong, FW);
+            let mb = astroCalc.getMonthBranch(trueLong, forward);
             monthBranch = ji[mb.index];
             monthStemIndex += mb.increment;
             LP = mb.LP;
@@ -220,7 +218,7 @@ function BaZiCalculator(person) {
             };
             result.comment1 = astroCalc.isLongitudeInBetweenSeasons(trueLong);
             result.startYear = LP;
-            result.fw = FW;
+            result.fw = forward;
 
             return result;
         }

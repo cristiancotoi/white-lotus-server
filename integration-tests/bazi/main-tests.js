@@ -647,6 +647,9 @@ describe('BaZiMain basic calculations', function () {
         BaZiMain(person, {json: asserts}).make(3);
     });
 
+    /**
+     * Thousand days calendar primitive generator.
+     */
     xit('check star binomial series', function (done) {
         let timeout = 30000;
         timeout(timeout);
