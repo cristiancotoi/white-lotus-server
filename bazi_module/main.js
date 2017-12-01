@@ -8,9 +8,9 @@ let DateUtils = require('./algorithm/date-utils');
 let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
-let DataRetriever = require('./report/data-retriever');
-let LuckRetriever = require('./report/luck-retriever');
-let RelationsRetriever = require('./report/relations-retriever');
+let DataRetriever = require('./report/retrievers/data-retriever');
+let LuckRetriever = require('./report/retrievers/luck-retriever');
+let RelationsRetriever = require('./report/retrievers/relations-retriever');
 let Rules = require('./report/rules');
 let _ = require("lodash");
 

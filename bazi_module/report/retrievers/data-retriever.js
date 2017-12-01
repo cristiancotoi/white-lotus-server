@@ -2,25 +2,25 @@
 
 let _ = require("lodash");
 
-let ChartUtils = require('../algorithm/chart-utils');
+let ChartUtils = require('../../algorithm/chart-utils');
 
-let Phases = require('../../models/bazi/phase');
-let HS = require('../../models/bazi/heavenly-stem');
-let EB = require('../../models/bazi/earthly-branch');
-let Binomial = require('../../models/bazi/binomial');
+let Phases = require('../../../models/bazi/phase');
+let HS = require('../../../models/bazi/heavenly-stem');
+let EB = require('../../../models/bazi/earthly-branch');
+let Binomial = require('../../../models/bazi/binomial');
 
-let DM = require('../../models/bazi/day-master');
-let NormalLifeType = require('../../models/bazi/normal-life-type');
-let GodsStrength = require('../../models/bazi/gods-strength');
+let DM = require('../../../models/bazi/day-master');
+let NormalLifeType = require('../../../models/bazi/normal-life-type');
+let GodsStrength = require('../../../models/bazi/gods-strength');
 
-let StarBinomial = require('../../models/bazi/star-binomial');
-let ShenShaDescription = require('../../models/bazi/shensha-description');
-let ShenShaSeason = require('../../models/bazi/shensha-season');
-let ShenShaDayBranch = require('../../models/bazi/shensha-day-branch');
-let ShenShaDayMaster = require('../../models/bazi/shensha-day-master');
-let ShenShaHeavenlyDoctor = require('../../models/bazi/shensha-heavenly-doctor');
-let ShenShaExternalPeachBlossom = require('../../models/bazi/shensha-ext-peach-blossom');
-let ShenSha3Marvels = require('../../models/bazi/shensha-3-marvels');
+let StarBinomial = require('../../../models/bazi/star-binomial');
+let ShenShaDescription = require('../../../models/bazi/shensha-description');
+let ShenShaSeason = require('../../../models/bazi/shensha-season');
+let ShenShaDayBranch = require('../../../models/bazi/shensha-day-branch');
+let ShenShaDayMaster = require('../../../models/bazi/shensha-day-master');
+let ShenShaHeavenlyDoctor = require('../../../models/bazi/shensha-heavenly-doctor');
+let ShenShaExternalPeachBlossom = require('../../../models/bazi/shensha-ext-peach-blossom');
+let ShenSha3Marvels = require('../../../models/bazi/shensha-3-marvels');
 
 let binomial = function () {
     function arrToMap(arr, keyName) {

@@ -2,9 +2,9 @@
 
 let _ = require("lodash");
 
-let BranchRelation = require('../../models/bazi/branch-relation');
+let BranchRelation = require('../../../models/bazi/branch-relation');
 
-let GodsCalculator = require('./gods-calculator');
+let GodsCalculator = require('../gods-calculator');
 
 let binomial = function () {
     let calculator = GodsCalculator();
