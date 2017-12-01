@@ -3,11 +3,13 @@
 let baZiGetRoute = require('../bazi_module/route');
 
 let express = require('express');
-let _ = require('lodash');
 
 let router = express.Router();
 
 router.route('/bazi/:id')
-    .get(baZiGetRoute);
+    .get(baZiGetRoute.getId());
+
+router.route('/bazi/simple-chart/:date')
+    .get(baZiGetRoute.getChart());
 
 module.exports = router;

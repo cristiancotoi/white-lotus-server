@@ -20,6 +20,8 @@ Node.js backend for a numerology and chinese astrology application
 | Description                       | Command                 |
 | :---                              | :---                    |
 | Start db server                   | `mongod --dbpath db`    |
+| Find users reverse | `db.users.find().sort({creationDate: -1})` |
+| Update user level | `db.users.update({"analystId" : "user@email.com"},{$set:{"level":8}})` |
 
 ## OpenShift
 ### Useful commands
