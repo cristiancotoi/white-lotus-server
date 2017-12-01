@@ -1,17 +1,17 @@
 'use strict';
 
-var moment = require('moment-timezone');
-var _ = require('underscore');
+let moment = require('moment-timezone');
+let _ = require('underscore');
 
-var utils = function (date) {
-    var _birthDay = moment(date);
+let utils = function (date) {
+    let _birthDay = moment(date);
 
     function getMoment() {
         return _birthDay;
     }
 
     function getAge(now, unit) {
-        var u = _.isUndefined(unit) ? 'year' : unit;
+        let u = _.isUndefined(unit) ? 'year' : unit;
         if (_.isUndefined(now)) {
             now = moment();
         }
@@ -22,14 +22,14 @@ var utils = function (date) {
         if (_.isUndefined(now)) {
             now = moment();
         }
-        var luckStart = moment(_birthDay).add(pillarStart, 'years');
-        var yearsDiff = now.diff(luckStart, 'year', false);
+        let luckStart = moment(_birthDay).add(pillarStart, 'years');
+        let yearsDiff = now.diff(luckStart, 'year', false);
         return Math.floor(yearsDiff / 10);
     }
 
     function getAgeString(now) {
-        var year = getAge(now, 'year');
-        var months = getAge(now, 'month') % 12;
+        let year = getAge(now, 'year');
+        let months = getAge(now, 'month') % 12;
         return {
             year: year,
             months: months

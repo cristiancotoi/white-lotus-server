@@ -1,11 +1,11 @@
 'use strict';
 
-var moment = require('moment-timezone');
-var _ = require('underscore');
+let moment = require('moment-timezone');
+let _ = require('underscore');
 
-var utils = function () {
+let utils = function () {
     function getVisibleStems(chart) {
-        var result = [
+        let result = [
             chart.year.hs,
             chart.month.hs,
             chart.day.hs
@@ -17,9 +17,9 @@ var utils = function () {
     }
 
     function getNormalLifeTypeStem(chart) {
-        var result;
-        var seasonHidStems = chart.month.hidStems;
-        var stems = getVisibleStems(chart);
+        let result;
+        let seasonHidStems = chart.month.hidStems;
+        let stems = getVisibleStems(chart);
 
         if (_.indexOf(stems, seasonHidStems[0]) > -1) {
             result = seasonHidStems[0];
@@ -33,15 +33,15 @@ var utils = function () {
     }
 
     function getGods(dm) {
-        var yangGodsList = ['F', 'RW', 'EG', 'HO', 'IW', 'DW', 'DO', '7K', 'IR', 'DR'];
-        var yinGodsList = ['F', 'HO', 'EG', 'DW', 'IW', '7K', 'DO', 'DR', 'IR', 'RW'];
-        var dmIsYang = dm.indexOf('+') > 0;
-        var stems = getStems();
-        var dmIndex = _.indexOf(stems, dm);
+        let yangGodsList = ['F', 'RW', 'EG', 'HO', 'IW', 'DW', 'DO', '7K', 'IR', 'DR'];
+        let yinGodsList = ['F', 'HO', 'EG', 'DW', 'IW', '7K', 'DO', 'DR', 'IR', 'RW'];
+        let dmIsYang = dm.indexOf('+') > 0;
+        let stems = getStems();
+        let dmIndex = _.indexOf(stems, dm);
 
-        var associations = {};
+        let associations = {};
 
-        for (var i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) {
             associations[stems[dmIndex]] =
                 dmIsYang ?
                     yangGodsList[i] :

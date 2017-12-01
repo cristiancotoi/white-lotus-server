@@ -1,38 +1,38 @@
 'use strict';
 
-var _ = require("underscore");
+let _ = require("underscore");
 
-var CommonUtils = require('../common_module/utils');
-var ChartUtils = require('./chart-utils');
+let CommonUtils = require('../common_module/utils');
+let ChartUtils = require('./chart-utils');
 
-var Phases = require('../models/bazi/phase');
-var HS = require('../models/bazi/heavenly-stem');
-var EB = require('../models/bazi/earthly-branch');
-var Binomial = require('../models/bazi/binomial');
+let Phases = require('../models/bazi/phase');
+let HS = require('../models/bazi/heavenly-stem');
+let EB = require('../models/bazi/earthly-branch');
+let Binomial = require('../models/bazi/binomial');
 
-var DM = require('../models/bazi/day-master');
-var NormalLifeType = require('../models/bazi/normal-life-type');
-var GodsStrength = require('../models/bazi/gods-strength');
-var BranchRelation = require('../models/bazi/branch-relation');
+let DM = require('../models/bazi/day-master');
+let NormalLifeType = require('../models/bazi/normal-life-type');
+let GodsStrength = require('../models/bazi/gods-strength');
+let BranchRelation = require('../models/bazi/branch-relation');
 
-var Stars = require('./stars');
-var StarBinomial = require('../models/bazi/star-binomial');
-var ShenShaDescription = require('../models/bazi/shensha-description');
-var ShenShaSeason = require('../models/bazi/shensha-season');
-var ShenShaDayBranch = require('../models/bazi/shensha-day-branch');
-var ShenShaDayMaster = require('../models/bazi/shensha-day-master');
-var ShenShaHeavenlyDoctor = require('../models/bazi/shensha-heavenly-doctor');
-var ShenShaExternalPeachBlossom = require('../models/bazi/shensha-ext-peach-blossom');
-var ShenSha3Marvels = require('../models/bazi/shensha-3-marvels');
+let Stars = require('./stars');
+let StarBinomial = require('../models/bazi/star-binomial');
+let ShenShaDescription = require('../models/bazi/shensha-description');
+let ShenShaSeason = require('../models/bazi/shensha-season');
+let ShenShaDayBranch = require('../models/bazi/shensha-day-branch');
+let ShenShaDayMaster = require('../models/bazi/shensha-day-master');
+let ShenShaHeavenlyDoctor = require('../models/bazi/shensha-heavenly-doctor');
+let ShenShaExternalPeachBlossom = require('../models/bazi/shensha-ext-peach-blossom');
+let ShenSha3Marvels = require('../models/bazi/shensha-3-marvels');
 
-var GodsCalculator = require('./gods-calculator');
+let GodsCalculator = require('./gods-calculator');
 
-var binomial = function (response) {
-    var calculator = GodsCalculator();
+let binomial = function (response) {
+    let calculator = GodsCalculator();
 
 
     function arrToMap(arr, keyName) {
-        var result = {};
+        let result = {};
         _.each(arr, function (element) {
             result[element[keyName]] = element.toObject();
         });
@@ -40,7 +40,7 @@ var binomial = function (response) {
     }
 
     function getPhases(resultData) {
-        var promise = Phases.find().exec();
+        let promise = Phases.find().exec();
 
         return promise.then(function (phases) {
             resultData.phases = arrToMap(phases, "presc");
@@ -48,7 +48,7 @@ var binomial = function (response) {
     }
 
     function getHS(resultData) {
-        var promise = HS.find().exec();
+        let promise = HS.find().exec();
 
         return promise.then(function (heavenlyStems) {
             resultData.heavenlyStems = arrToMap(heavenlyStems, "presc");
@@ -56,7 +56,7 @@ var binomial = function (response) {
     }
 
     function getEB(resultData) {
-        var promise = EB.find().exec();
+        let promise = EB.find().exec();
 
         return promise.then(function (earthlyBranches) {
             resultData.earthlyBranches = arrToMap(earthlyBranches, "presc");
@@ -64,7 +64,7 @@ var binomial = function (response) {
     }
 
     function getBinomial(resultChart, position, pillar) {
-        var promise = Binomial.find({hs: pillar.hs, eb: pillar.eb}).exec();
+        let promise = Binomial.find({hs: pillar.hs, eb: pillar.eb}).exec();
 
         return promise.then(function (binomial) {
             resultChart[position] = binomial[0].toObject()
@@ -72,8 +72,8 @@ var binomial = function (response) {
     }
 
     function getDM(resultData) {
-        var dmName = resultData.chart.chart.day.hs;
-        var promise = DM.find({id: dmName}).exec();
+        let dmName = resultData.chart.chart.day.hs;
+        let promise = DM.find({id: dmName}).exec();
 
         return promise.then(function (dm) {
             resultData.dm = dm[0].toObject();
@@ -81,11 +81,11 @@ var binomial = function (response) {
     }
 
     function getNormalLifeType(resultData) {
-        var dmName = resultData.chart.chart.day.hs;
-        var normalLifeTypeStem = ChartUtils().getNormalLifeTypeStem(resultData.chart.chart);
-        var gods = ChartUtils().getGods(dmName);
-        var normalLifeType = gods[normalLifeTypeStem];
-        var promise = NormalLifeType.find({shortname: normalLifeType}).exec();
+        let dmName = resultData.chart.chart.day.hs;
+        let normalLifeTypeStem = ChartUtils().getNormalLifeTypeStem(resultData.chart.chart);
+        let gods = ChartUtils().getGods(dmName);
+        let normalLifeType = gods[normalLifeTypeStem];
+        let promise = NormalLifeType.find({shortname: normalLifeType}).exec();
 
         return promise.then(function (nlt) {
             resultData.normalLifeType = nlt[0].toObject();
@@ -93,8 +93,8 @@ var binomial = function (response) {
     }
 
     function getGodsStrengthsForSeason(resultData) {
-        var seasonName = resultData.chart.chart.month.eb;
-        var promise = GodsStrength.find({id: seasonName}).exec();
+        let seasonName = resultData.chart.chart.month.eb;
+        let promise = GodsStrength.find({id: seasonName}).exec();
 
         return promise.then(function (strength) {
             resultData.godsStrength = strength[0].toObject();
@@ -102,7 +102,7 @@ var binomial = function (response) {
     }
 
     function getBranchRelations(resultData) {
-        var promise = BranchRelation.find().exec();
+        let promise = BranchRelation.find().exec();
 
         return promise.then(function (allRelations) {
             resultData.branchRelations =
@@ -114,7 +114,7 @@ var binomial = function (response) {
     }
 
     function getShenShaDescription(resultData) {
-        var promise = ShenShaDescription.find().exec();
+        let promise = ShenShaDescription.find().exec();
 
         return promise.then(function (allDescriptionsShenSha) {
             resultData.shenShaDesc = {};
@@ -125,8 +125,8 @@ var binomial = function (response) {
     }
 
     function getShenShaSeason(resultData) {
-        var seasonName = resultData.chart.chart.month.eb;
-        var promise = ShenShaSeason.find({id: seasonName}).exec();
+        let seasonName = resultData.chart.chart.month.eb;
+        let promise = ShenShaSeason.find({id: seasonName}).exec();
 
         return promise.then(function (allSeasonShenSha) {
             resultData.shenSha.season = allSeasonShenSha[0].toObject();
@@ -134,8 +134,8 @@ var binomial = function (response) {
     }
 
     function getShenShaDayBranch(resultData) {
-        var dayBranch = resultData.chart.chart.day.eb;
-        var promise = ShenShaDayBranch.find({id: dayBranch}).exec();
+        let dayBranch = resultData.chart.chart.day.eb;
+        let promise = ShenShaDayBranch.find({id: dayBranch}).exec();
 
         return promise.then(function (allDayBranchShenSha) {
             resultData.shenSha.dayBranch = allDayBranchShenSha[0].toObject();
@@ -143,8 +143,8 @@ var binomial = function (response) {
     }
 
     function getShenShaDayMaster(resultData) {
-        var dayMaster = resultData.chart.chart.day.hs;
-        var promise = ShenShaDayMaster.find({id: dayMaster}).exec();
+        let dayMaster = resultData.chart.chart.day.hs;
+        let promise = ShenShaDayMaster.find({id: dayMaster}).exec();
 
         return promise.then(function (allDayMasterShenSha) {
             resultData.shenSha.dayMaster = allDayMasterShenSha[0].toObject();
@@ -152,8 +152,8 @@ var binomial = function (response) {
     }
 
     function getShenShaHeavenlyDoctor(resultData) {
-        var seasonName = resultData.chart.chart.month.eb;
-        var promise = ShenShaHeavenlyDoctor.find({id: seasonName}).exec();
+        let seasonName = resultData.chart.chart.month.eb;
+        let promise = ShenShaHeavenlyDoctor.find({id: seasonName}).exec();
 
         return promise.then(function (heavenlyDoctor) {
             resultData.shenSha.heavenlyDoctor = heavenlyDoctor[0].toObject();
@@ -161,8 +161,8 @@ var binomial = function (response) {
     }
 
     function getShenShaExternalPeachBlossom(resultData) {
-        var seasonName = resultData.chart.chart.month.eb;
-        var promise = ShenShaExternalPeachBlossom.find({id: seasonName}).exec();
+        let seasonName = resultData.chart.chart.month.eb;
+        let promise = ShenShaExternalPeachBlossom.find({id: seasonName}).exec();
 
         return promise.then(function (externalPeachBlossom) {
             resultData.shenSha.extPeachBlossom = externalPeachBlossom[0].toObject();
@@ -170,8 +170,8 @@ var binomial = function (response) {
     }
 
     function getShenSha3Marvels(resultData) {
-        var dayMaster = resultData.chart.chart.day.hs;
-        var promise = ShenSha3Marvels.find({id: dayMaster}).exec();
+        let dayMaster = resultData.chart.chart.day.hs;
+        let promise = ShenSha3Marvels.find({id: dayMaster}).exec();
 
         return promise.then(function (the3marvel) {
             if (the3marvel.length &&
@@ -183,12 +183,12 @@ var binomial = function (response) {
     }
 
     function getStarBinomial(resultData) {
-        var dayMaster = resultData.chart.chart.day.hs;
-        var dayBranch = resultData.chart.chart.day.eb;
-        var seasonName = resultData.chart.chart.month.eb;
-        var promise = StarBinomial.find({stem: dayMaster, branch: dayBranch}).exec();
+        let dayMaster = resultData.chart.chart.day.hs;
+        let dayBranch = resultData.chart.chart.day.eb;
+        let seasonName = resultData.chart.chart.month.eb;
+        let promise = StarBinomial.find({stem: dayMaster, branch: dayBranch}).exec();
         return promise.then(function (starBinomials) {
-            var result = [];
+            let result = [];
             _.each(starBinomials, function (sb) {
                 if ((_.isUndefined(sb.season) /*&& dayBranch === sb.branch*/) ||
                     (sb.season === seasonName /*&& dayBranch=== sb.branch*/)) {
@@ -200,14 +200,14 @@ var binomial = function (response) {
     }
 
     function applyGodsStrengthMultiplier(resultData) {
-        var stems = resultData.heavenlyStems;
-        var godsScore = calculator.getStemsStrength(
+        let stems = resultData.heavenlyStems;
+        let godsScore = calculator.getStemsStrength(
             resultData.detailedChart,
             stems,
             resultData.earthlyBranches);
-        var scoreForSeason = resultData.godsStrength;
+        let scoreForSeason = resultData.godsStrength;
         _.each(godsScore, function (score) {
-            var scoreMultiplier = scoreForSeason[score.phase.toLowerCase()];
+            let scoreMultiplier = scoreForSeason[score.phase.toLowerCase()];
             score.visible *= scoreMultiplier;
             score.mainHidden *= scoreMultiplier;
             score.prison *= scoreMultiplier;
@@ -225,12 +225,12 @@ var binomial = function (response) {
             applyGodsStrengthMultiplier(resultData);
         }
         if (rules.includes('shen sha') && !!resultData.shenSha) {
-            var chart = resultData.chart.chart;
-            var outputShenSha = {};
+            let chart = resultData.chart.chart;
+            let outputShenSha = {};
             _.each(
                 _.keys(resultData.shenSha),
                 function (shenShaKey) {
-                    var shensha = resultData.shenSha[shenShaKey];
+                    let shensha = resultData.shenSha[shenShaKey];
                     if (shenShaKey === 'the3marvel') {
                         outputShenSha[shenShaKey] = {
                             pillars: ['day', 'month', 'year'],
@@ -242,12 +242,12 @@ var binomial = function (response) {
                             if (key.indexOf('_id') >= 0) {
                                 return;
                             }
-                            var outputKey = key;
+                            let outputKey = key;
                             if (key.indexOf('heavenlynoble') >= 0) {
                                 outputKey = 'heavenlynoble';
                             }
-                            var starsUtils = Stars();
-                            var isSymbStarPresent = starsUtils
+                            let starsUtils = Stars();
+                            let isSymbStarPresent = starsUtils
                                 .isSymbolicStarPresent(chart, shensha[key], shenShaKey);
 
                             _.each(isSymbStarPresent.pillars, function (pillarName) {
@@ -269,9 +269,9 @@ var binomial = function (response) {
             /*
              * Reshape the stars into a chart object for easier display
              */
-            var shenShaChart = {};
-            var presentStarsDesc = {};
-            var shenShaDesc = resultData.shenShaDesc;
+            let shenShaChart = {};
+            let presentStarsDesc = {};
+            let shenShaDesc = resultData.shenShaDesc;
 
             _.mapObject(outputShenSha, function (stars, pillarName) {
                 if (pillarName === 'the3marvel') {
@@ -283,7 +283,7 @@ var binomial = function (response) {
                     return shensha.star;
                 });
                 _.mapObject(shenShaChart[pillarName], function (starsGroup, name) {
-                    var property = ChartUtils().isStem(name) ? 'hs' : 'eb';
+                    let property = ChartUtils().isStem(name) ? 'hs' : 'eb';
                     shenShaChart[pillarName][property] = starsGroup;
                     _.each(starsGroup, function (star) {
                         presentStarsDesc[star.name] = shenShaDesc[star.name];
@@ -298,12 +298,12 @@ var binomial = function (response) {
     }
 
     function aggregate(resultData, rules) {
-        var promises = [];
-        var chart = resultData.chart.chart;
-        var luck = resultData.chart.luck;
+        let promises = [];
+        let chart = resultData.chart.chart;
+        let luck = resultData.chart.luck;
         resultData.detailedChart = {};
         resultData.detailedLuck = [];
-        var luckLen = luck.length;
+        let luckLen = luck.length;
 
         promises.push(getPhases(resultData));
         promises.push(getHS(resultData));
@@ -323,7 +323,7 @@ var binomial = function (response) {
                 resultData.detailedChart, 'hour',
                 chart.hour));
         }
-        for (var i = 0; i < luckLen; i++) {
+        for (let i = 0; i < luckLen; i++) {
             promises.push(getBinomial(
                 resultData.detailedLuck, i,
                 luck[i]));
@@ -363,7 +363,7 @@ var binomial = function (response) {
 
         Promise.all(promises).then(function () {
             postProcessing(resultData, rules);
-            var utils = CommonUtils();
+            let utils = CommonUtils();
             utils.stripDbIds(resultData);
             // All DB queries are finished - returning the result
             response.json(resultData);

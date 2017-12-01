@@ -16,7 +16,7 @@ describe('Data retriever tests', function () {
     });
 
     xit('Data retrieving for max level', function (done) {
-        var date = {
+        let date = {
             day: 23, month: 4, year: 1984
         };
 

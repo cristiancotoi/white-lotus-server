@@ -1,19 +1,19 @@
 'use strict';
 
-var moment = require("moment-timezone");
-var _ = require('underscore');
+let moment = require("moment-timezone");
+let _ = require('underscore');
 
-var CommonUtils = require('../common_module/utils');
+let CommonUtils = require('../common_module/utils');
 
-var utils = function (date, tz) {
+let utils = function (date, tz) {
     function getMoment() {
         return CommonUtils().getMoment(date);
     }
 
     function sumDigits(number) {
-        var sNumber = "" + number;
-        var output = 0;
-        for (var i = 0, sLen = sNumber.length; i < sLen; i += 1) {
+        let sNumber = "" + number;
+        let output = 0;
+        for (let i = 0, sLen = sNumber.length; i < sLen; i += 1) {
             output += parseInt(sNumber.charAt(i));
         }
         return output;
@@ -45,9 +45,9 @@ var utils = function (date, tz) {
     }
 
     function extractDigitsFromBirthDay(date, op, digits) {
-        var sNumber = "" + date.day + date.month + date.year;
-        var firstN = sNumber.charAt(0);
-        var i, c, sLen;
+        let sNumber = "" + date.day + date.month + date.year;
+        let firstN = sNumber.charAt(0);
+        let i, c, sLen;
 
         // Calculate op1 and store digits in birth date
         op[0].number = 0;
@@ -64,10 +64,10 @@ var utils = function (date, tz) {
     }
 
     function extractDigitsFromOP(op, digits) {
-        var i, c;
-        var sLen;
+        let i, c;
+        let sLen;
 
-        var sNumber = "" + op[0].number + op[1].number + op[2].number + op[3].number;
+        let sNumber = "" + op[0].number + op[1].number + op[2].number + op[3].number;
 
         // Store digits in OPs
         for (i = 0, sLen = sNumber.length; i < sLen; i += 1) {
@@ -79,10 +79,10 @@ var utils = function (date, tz) {
     }
 
     function getLuckChartDigits() {
-        var luckChartNumber = date.year * date.month * date.day;
-        var sLen, i;
-        var luckChartDigits = [];
-        var sNumber = '' + luckChartNumber;
+        let luckChartNumber = date.year * date.month * date.day;
+        let sLen, i;
+        let luckChartDigits = [];
+        let sNumber = '' + luckChartNumber;
 
         for (i = 0, sLen = sNumber.length; i < sLen; i += 1) {
             luckChartDigits.push({
@@ -105,13 +105,13 @@ var utils = function (date, tz) {
             throw "Invalid parameter: " + colCount;
         }
 
-        var rowIdx, colIdx;
-        var resultMatrix = [];
-        var year = date.year;
-        var instances = 0;
+        let rowIdx, colIdx;
+        let resultMatrix = [];
+        let year = date.year;
+        let instances = 0;
 
         for (rowIdx = 0; rowIdx < 100; rowIdx++) {
-            var row = [];
+            let row = [];
             for (colIdx = 0; colIdx < colCount; colIdx++, instances++) {
                 row[colIdx] = year;
                 year++;
@@ -127,10 +127,10 @@ var utils = function (date, tz) {
     }
 
     function getChallenges() {
-        var c1 = Math.abs(getDaySum() - getMonthSum());
-        var c2 = Math.abs(getDaySum() - getYearSum());
-        var c3 = Math.abs(c1 - c2);
-        var c4 = Math.abs(getMonthSum() - getYearSum());
+        let c1 = Math.abs(getDaySum() - getMonthSum());
+        let c2 = Math.abs(getDaySum() - getYearSum());
+        let c3 = Math.abs(c1 - c2);
+        let c4 = Math.abs(getMonthSum() - getYearSum());
 
         return [
             {position: 1, value: c1},
@@ -141,7 +141,7 @@ var utils = function (date, tz) {
     }
 
     function getChAndOpIntervals(destinyDigit) {
-        var first = 36 - destinyDigit;
+        let first = 36 - destinyDigit;
         return [
             {position: 1, min: 0, max: first},
             {position: 2, min: first + 1, max: first + 9},
@@ -151,10 +151,10 @@ var utils = function (date, tz) {
     }
 
     function getOpportunities() {
-        var o1 = sumDigits(getDaySum() + getMonthSum());
-        var o2 = sumDigits(getDaySum() + getYearSum());
-        var o3 = sumDigits(o1 + o2);
-        var o4 = sumDigits(getMonthSum() + getYearSum());
+        let o1 = sumDigits(getDaySum() + getMonthSum());
+        let o2 = sumDigits(getDaySum() + getYearSum());
+        let o3 = sumDigits(o1 + o2);
+        let o4 = sumDigits(getMonthSum() + getYearSum());
 
         return [
             {position: 1, value: o1},

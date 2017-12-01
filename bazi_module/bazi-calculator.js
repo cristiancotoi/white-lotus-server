@@ -1,24 +1,24 @@
 'use strict';
 
-var _ = require("underscore");
-var moment = require("moment");
-var AstroCalc = require('./astro');
-var ChartUtils = require('./chart-utils');
-var Rules = require('./rules');
+let _ = require("underscore");
+let moment = require("moment");
+let AstroCalc = require('./astro');
+let ChartUtils = require('./chart-utils');
+let Rules = require('./rules');
 
 
 function BaZiCalculator(person) {
-    var astroCalc = AstroCalc();
-    var monthStem, monthBranch, dayStem, dayBranch, hourStem, hourBranch;
-    var FW, LP;
-    var i;
-    var monthStemIndex;
-    var dayStemIndex, hs0, hs1, hb0;
-    var luckPStems = [], luckPBranches = [];
-    var hourHidS = [], dayHidS, monthHidS, yearHidS;
+    let astroCalc = AstroCalc();
+    let monthStem, monthBranch, dayStem, dayBranch, hourStem, hourBranch;
+    let FW, LP;
+    let i;
+    let monthStemIndex;
+    let dayStemIndex, hs0, hs1, hb0;
+    let luckPStems = [], luckPBranches = [];
+    let hourHidS = [], dayHidS, monthHidS, yearHidS;
 
-    var gon = ChartUtils().getStems();
-    var ji = ChartUtils().getBranches();
+    let gon = ChartUtils().getStems();
+    let ji = ChartUtils().getBranches();
 
     /**
      * Return an array of hidden stems
@@ -26,7 +26,7 @@ function BaZiCalculator(person) {
      * @returns {Array} max 3 hidden stems
      */
     function getHiddenStems(branch) {
-        var hiddenStems = [];
+        let hiddenStems = [];
         if (branch == "亥 hài") {
             hiddenStems[0] = gon[9];
             hiddenStems[1] = gon[1];
@@ -91,12 +91,12 @@ function BaZiCalculator(person) {
     }
 
     function getLuckPillars(monthBranchIndex, birthDateMoment) {
-        var indexS, indexB;
+        let indexS, indexB;
         indexB = monthBranchIndex;
         indexS = monthStemIndex;
-        var luck = [];
-        var firstLuckStart = birthDateMoment.add(LP, 'years');
-        var nextLuckStart;
+        let luck = [];
+        let firstLuckStart = birthDateMoment.add(LP, 'years');
+        let nextLuckStart;
         for (i = 0; i < 9; i++) {
             indexB = astroCalc.nextEBIndex(indexB, FW);
             luckPBranches[i] = ji[indexB];
@@ -122,11 +122,11 @@ function BaZiCalculator(person) {
                 throw 'Person object is invalid';
             }
 
-            var result = {};
-            var astroData = astroCalc.getData(person);
-            var trueLong = astroData.trueLong;
+            let result = {};
+            let astroData = astroCalc.getData(person);
+            let trueLong = astroData.trueLong;
 
-            var yearStem, yearBranch, yearStemIndex, yearBranchIndex;
+            let yearStem, yearBranch, yearStemIndex, yearBranchIndex;
             if ((trueLong < 315) && (astroData.month == 1 || astroData.month == 2)) {
                 yearStemIndex = astroData.year - 4;
                 yearBranchIndex = astroData.year - 4;
@@ -153,7 +153,7 @@ function BaZiCalculator(person) {
                 }
             }
 
-            var mb = astroCalc.getMonthBranch(trueLong, FW);
+            let mb = astroCalc.getMonthBranch(trueLong, FW);
             monthBranch = ji[mb.index];
             monthStemIndex += mb.increment;
             LP = mb.LP;
@@ -163,11 +163,11 @@ function BaZiCalculator(person) {
             monthStemIndex = monthStemIndex % 10;
             monthStem = gon[monthStemIndex];
 
-            var JZJD = astroData.JZJD,
+            let JZJD = astroData.JZJD,
                 HR = astroData.hour;
             dayStemIndex = "" + Math.floor(JZJD + 0.5);
             dayStem = gon[dayStemIndex.substring(6, 7)];
-            var db0 = Math.floor(JZJD - 12 * Math.floor((JZJD + 0.5) / 12) + 0.5) + 2;
+            let db0 = Math.floor(JZJD - 12 * Math.floor((JZJD + 0.5) / 12) + 0.5) + 2;
             dayBranch = ji[db0];
 
             if (!astroData.skipHour) {

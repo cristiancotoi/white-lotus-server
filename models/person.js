@@ -1,10 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var collName = 'persons';
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let collName = 'persons';
 
-var personSchema = new Schema({
+let personSchema = new Schema({
         name: String,
         surname: String,
         date: {

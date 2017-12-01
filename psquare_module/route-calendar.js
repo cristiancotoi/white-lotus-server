@@ -1,13 +1,13 @@
 'use strict';
 
-var User = require('../models/user');
-var Person = require('../models/person');
-var OperationalNumber = require('../models/psquare/op-number');
+let User = require('../models/user');
+let Person = require('../models/person');
+let OperationalNumber = require('../models/psquare/op-number');
 
-var _ = require('underscore');
-var pSquare = require('../psquare_module/main');
+let _ = require('underscore');
+let pSquare = require('../psquare_module/main');
 
-var CommonUtils = require('../common_module/utils');
+let CommonUtils = require('../common_module/utils');
 
 function getRoute(req, res) {
     if (req.params.id) {
@@ -18,7 +18,7 @@ function getRoute(req, res) {
             else {
                 CommonUtils().getUser(person.analystId)
                     .then(function (user) {
-                        var userLevel = _.isUndefined(user) ? 1 : user.level;
+                        let userLevel = _.isUndefined(user) ? 1 : user.level;
                         pSquare(person, res).make(userLevel);
                     }, function (err) {
                         res.send(err);

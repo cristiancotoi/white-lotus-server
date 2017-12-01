@@ -1,14 +1,14 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the 'expect' style of Chai
+let expect = chai.expect; // we are using the 'expect' style of Chai
 
-var _ = require('underscore');
-var StrengthsCalculator = require('./../../bazi_module/gods-calculator');
+let _ = require('underscore');
+let StrengthsCalculator = require('./../../bazi_module/gods-calculator');
 
 describe('BaZi utils age calculation', function () {
-    var calculator = StrengthsCalculator();
-    var stems = {
+    let calculator = StrengthsCalculator();
+    let stems = {
         '乙 L-': {
             presc: '乙 L-',
             phasepol: 'L-',
@@ -71,7 +71,7 @@ describe('BaZi utils age calculation', function () {
         }
     };
 
-    var branches = {
+    let branches = {
         '子 zǐ': {
             presc: '子 zǐ',
             h1: '癸 A-'
@@ -139,7 +139,7 @@ describe('BaZi utils age calculation', function () {
     };
 
     it('check strength calculation for 13/1/1980', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -153,7 +153,7 @@ describe('BaZi utils age calculation', function () {
                 eb: '酉 yǒu'
             }
         };
-        var result = calculator.getStemsStrength(input, stems, branches);
+        let result = calculator.getStemsStrength(input, stems, branches);
         expect(result).to.containSubset({
             '乙 L-': {visible: 0, mainHidden: 0, prison: 0, grave: 20, total: 20, phase: 'L'},
             '庚 M+': {visible: 0, mainHidden: 0, prison: 0, grave: 0, phase: 'M'},
@@ -166,14 +166,14 @@ describe('BaZi utils age calculation', function () {
             '丙 F+': {visible: 0, mainHidden: 0, prison: 0, grave: 0},
             '辛 M-': {visible: 0, mainHidden: 100, prison: 0, grave: 20, total: 120}
         });
-        var grandTotal = _.reduce(result, function (total, scoreObj) {
+        let grandTotal = _.reduce(result, function (total, scoreObj) {
             return total + scoreObj.total;
         }, 0);
         expect(grandTotal).to.equal(500);
     });
 
     it('check strength calculation for 13/1/1980', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '乙 L-',
                 eb: '丑 chǒu'
@@ -191,7 +191,7 @@ describe('BaZi utils age calculation', function () {
                 eb: '丑 chǒu'
             }
         };
-        var result = calculator.getStemsStrength(input, stems, branches);
+        let result = calculator.getStemsStrength(input, stems, branches);
         expect(result).to.containSubset({
             '乙 L-': {visible: 100, mainHidden: 100, prison: 0, grave: 0, total: 200},
             '庚 M+': {visible: 0, mainHidden: 0, prison: 0, grave: 0, total: 0},
@@ -204,14 +204,14 @@ describe('BaZi utils age calculation', function () {
             '丙 F+': {visible: 0, mainHidden: 0, prison: 0, grave: 0, total: 0},
             '辛 M-': {visible: 0, mainHidden: 0, prison: 0, grave: 40, total: 40}
         });
-        var grandTotal = _.reduce(result, function (total, scoreObj) {
+        let grandTotal = _.reduce(result, function (total, scoreObj) {
             return total + scoreObj.total;
         }, 0);
         expect(grandTotal).to.equal(700);
     });
 
     it('check branch present in chart', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '丑 chǒu'
             },
@@ -226,7 +226,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHasBranch(input, '卯 mǎo');
+        let result = calculator.chartHasBranch(input, '卯 mǎo');
         expect(result[0]).to.containSubset([{
             branch: '卯 mǎo',
             pillar: 'day'
@@ -234,7 +234,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check branch present in chart in 3 places', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '卯 mǎo'
             },
@@ -249,7 +249,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHasBranch(input, '卯 mǎo');
+        let result = calculator.chartHasBranch(input, '卯 mǎo');
         expect(result).to.containSubset([
             [{
                 branch: '卯 mǎo',
@@ -266,7 +266,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check 2 adjacent branches in chart', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '乙 L-',
                 eb: '丑 chǒu'
@@ -286,7 +286,7 @@ describe('BaZi utils age calculation', function () {
         };
 
 
-        var result = calculator.chartHas2AdjacentBranches(input, '卯 mǎo', '丑 chǒu');
+        let result = calculator.chartHas2AdjacentBranches(input, '卯 mǎo', '丑 chǒu');
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -301,7 +301,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check 2 identical branches adjacent in chart', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '乙 L-',
                 eb: '午 wǔ'
@@ -320,7 +320,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '午 wǔ');
+        let result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '午 wǔ');
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -335,7 +335,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check 2 not adjacent branches in chart', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '未 wèi'
             },
@@ -350,12 +350,12 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '丑 chǒu');
+        let result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '丑 chǒu');
         expect(result.length).to.equal(0);
     });
 
     it('check 3 pairs of branches', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '午 wǔ'
             },
@@ -370,12 +370,12 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '午 wǔ');
+        let result = calculator.chartHas2AdjacentBranches(input, '午 wǔ', '午 wǔ');
         expect(result.length).to.equal(3);
     });
 
     it('check adjacent branches in chart with 2 pairs', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '丑 chǒu'
             },
@@ -390,7 +390,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas2AdjacentBranches(input, '卯 mǎo', '丑 chǒu');
+        let result = calculator.chartHas2AdjacentBranches(input, '卯 mǎo', '丑 chǒu');
         expect(result.length).to.equal(2);
         expect(result).to.containSubset([
             [
@@ -413,7 +413,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check 3 adjacent branches in chart', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '午 wǔ'
             },
@@ -428,7 +428,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas3AdjacentBranches(input, '卯 mǎo', '丑 chǒu', '午 wǔ');
+        let result = calculator.chartHas3AdjacentBranches(input, '卯 mǎo', '丑 chǒu', '午 wǔ');
         expect(result.length).to.equal(1);
         expect(result[0]).to.deep.have.members([
             {
@@ -447,7 +447,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check 3 adjacent branches in chart with that appear twice', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '丑 chǒu'
             },
@@ -462,7 +462,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var result = calculator.chartHas3AdjacentBranches(input, '卯 mǎo', '丑 chǒu', '午 wǔ');
+        let result = calculator.chartHas3AdjacentBranches(input, '卯 mǎo', '丑 chǒu', '午 wǔ');
         expect(result.length).to.equal(2);
         expect(result).to.containSubset([
             [
@@ -479,7 +479,7 @@ describe('BaZi utils age calculation', function () {
     });
 
     it('check general matching relations', function () {
-        var input = {
+        let input = {
             year: {
                 eb: '丑 chǒu'
             },
@@ -494,7 +494,7 @@ describe('BaZi utils age calculation', function () {
             }
         };
 
-        var relations = [
+        let relations = [
             {eb1: '午 wǔ'}, // hit
             {eb1: '卯 mǎo'}, // hit
             {eb1: '丑 chǒu', eb2: '午 wǔ'}, //hit
@@ -503,7 +503,7 @@ describe('BaZi utils age calculation', function () {
             {eb1: '丑 chǒu', eb2: '午 wǔ', eb3: '卯 mǎo'}, // hit
             {eb1: '丑 chǒu', eb2: '午 wǔ', eb3: '丑 chǒu'}
         ];
-        var result = calculator.getMatchingRelations(input, relations);
+        let result = calculator.getMatchingRelations(input, relations);
         expect(result.length).to.equal(4);
         expect(result).to.containSubset([
             {

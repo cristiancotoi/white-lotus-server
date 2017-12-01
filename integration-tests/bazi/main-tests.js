@@ -1,14 +1,14 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var connectToDb = require('../../utils/db-utils');
+let connectToDb = require('../../utils/db-utils');
 
-var BaZiMain = require('../../bazi_module/main');
+let BaZiMain = require('../../bazi_module/main');
 
-var _ = require("underscore");
-var moment = require("moment");
+let _ = require("underscore");
+let moment = require("moment");
 
 describe('BaZiMain basic calculations', function () {
     this.timeout(2000);
@@ -37,7 +37,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check basic output values', function (done) {
-        var person = {
+        let person = {
             name: 'N',
             surname: 'S',
             date: {
@@ -60,7 +60,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check reduced output values contains only calculated info (user level = 0)', function (done) {
-        var person = {
+        let person = {
             name: 'N',
             surname: 'S',
             date: {
@@ -86,7 +86,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check basic output values with simple rules', function (done) {
-        var person = {
+        let person = {
             name: 'N',
             surname: 'S',
             date: {
@@ -108,7 +108,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check basic output values with rules not including current luck pillar', function (done) {
-        var person = {
+        let person = {
             name: 'N',
             surname: 'S',
             date: {
@@ -130,7 +130,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check chart data quality for 24 12 1948', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 24, month: 12, year: 1948, hour: 1, minute: 20
             },
@@ -149,7 +149,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check chart calculations for date without hour and minutes', function (done) {
-        var person = {
+        let person = {
             date: {year: 1984, month: 4, day: 23},
             gender: 'M',
             longitude: 28,
@@ -169,7 +169,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check chart contents after calculations', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
@@ -206,7 +206,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check chart contents for 30 11 1990 3:4 Magnus Carlsen', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 30, month: 11, year: 1990, hour: 3, minute: 4
             },
@@ -328,7 +328,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check luck', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1953, hour: 17, minute: 30
             },
@@ -345,7 +345,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check dm', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
@@ -371,14 +371,14 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check relations', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
             tz: 2, longitude: 28, gender: 'M'
 
         };
-        var output = [
+        let output = [
             {
                 "relation": {
                     "eb1": "亥 hài",
@@ -417,7 +417,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check relations are not present for user level 1', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
@@ -435,7 +435,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check relations are not present for user level 3', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
@@ -455,7 +455,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check shen sha 7/6/1955 (level 8)', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
@@ -508,7 +508,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check shen sha for 26/6/1986 (level 8)', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 26, month: 6, year: 1986
             },
@@ -556,7 +556,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check date with shen sha 3 marvels', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 12, month: 6, year: 1957, hour: 17, minute: 30
             },
@@ -585,7 +585,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check star binomial', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 22, month: 4, year: 1984, hour: 23, minute: 5
             },
@@ -610,7 +610,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check missing star binomial', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 24, month: 8, year: 2016
             },
@@ -627,7 +627,7 @@ describe('BaZiMain basic calculations', function () {
     });
 
     it('check normal life type', function (done) {
-        var person = {
+        let person = {
             date: {
                 day: 26, month: 6, year: 1986
             },
@@ -648,11 +648,11 @@ describe('BaZiMain basic calculations', function () {
     });
 
     xit('check star binomial series', function (done) {
-        var timeout = 30000;
-        this.timeout(timeout);
-        var m = moment();
-        for (var i = 0; i < 1000; i++) {
-            var person = {
+        let timeout = 30000;
+        timeout(timeout);
+        let m = moment();
+        for (let i = 0; i < 1000; i++) {
+            let person = {
                 date: {
                     day: m.date(), month: m.month() + 1, year: m.year()
                 },
@@ -660,13 +660,13 @@ describe('BaZiMain basic calculations', function () {
             };
 
             function asserts(result) {
-                var astro = result.chart.astro;
-                var dateString = astro.month + '/' + astro.day + '/' + astro.year;
-                var dayId = dateString + ' = ' +
+                let astro = result.chart.astro;
+                let dateString = astro.month + '/' + astro.day + '/' + astro.year;
+                let dayId = dateString + ' = ' +
                     result.chart.chart.day.hs + ' ' +
                     result.chart.chart.day.eb + ' ';
 
-                var sb = result.starBinomial[0];
+                let sb = result.starBinomial[0];
                 if (!_.isUndefined(sb)) {
                     dayId +=
                         (_.isUndefined(sb.season) ? '' : sb.season) + ' =  ';

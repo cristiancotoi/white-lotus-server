@@ -29,7 +29,7 @@
   </style>
 
   <script>
-    var tag = this
+    let tag = this
 
     tag.items = [{
       name:  'Info',
@@ -37,7 +37,7 @@
     }]
 
     tag.on('mount', function () {
-      var load = function () {
+      let load = function () {
         superagent.get('/info/' + tag.opts.type, function (err, res) {
           if (err) {
             console.log(err)

@@ -14,13 +14,10 @@ let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 let persons = require('./routes/persons');
-var pSquare = require('./routes/psquare');
-var bazi = require('./routes/bazi');
+let pSquare = require('./routes/psquare');
+let bazi = require('./routes/bazi');
 
-var app = express();
-
-// create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
+let app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

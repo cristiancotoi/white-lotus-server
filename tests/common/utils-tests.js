@@ -1,13 +1,13 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var Utils = require('./../../common_module/utils');
+let Utils = require('./../../common_module/utils');
 
 describe('Common functions', function () {
     it('check stripping _id recursively', function () {
-        var input = {
+        let input = {
             day: 22, month: 4, year: 1984, hours: 22, minutes: 50,
             _id: 123,
             innerObj: {
@@ -27,7 +27,7 @@ describe('Common functions', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         utils.stripDbIds(input);
 
         expect(input).to.containSubset({
@@ -51,8 +51,8 @@ describe('Common functions', function () {
 
     // Couldn't get this to work...
     xit('check user retrieving', function (done) {
-        var utils = Utils();
-        var testEmail = 'test@gmail.com';
+        let utils = Utils();
+        let testEmail = 'test@gmail.com';
         utils.getUser(testEmail)
             .then(function (result) {
                 console.log(result);

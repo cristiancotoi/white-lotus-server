@@ -1,14 +1,14 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the 'expect' style of Chai
+let expect = chai.expect; // we are using the 'expect' style of Chai
 
-var Utils = require('./../../bazi_module/chart-utils');
+let Utils = require('./../../bazi_module/chart-utils');
 
 describe('BaZi chart utils verifications', function () {
 
     it('check extracting visible stems without hour', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -23,13 +23,13 @@ describe('BaZi chart utils verifications', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         expect(utils.getVisibleStems(input))
             .to.containSubset(['己 P-', '丁 F-', '乙 L-']);
     });
 
     it('check extracting visible stems with hour', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -48,13 +48,13 @@ describe('BaZi chart utils verifications', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         expect(utils.getVisibleStems(input))
             .to.containSubset(['己 P-', '丁 F-', '乙 L-', '乙 L-']);
     });
 
     it('check normal life type for main hidden stem', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -74,13 +74,13 @@ describe('BaZi chart utils verifications', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         expect(utils.getNormalLifeTypeStem(input))
             .to.equal('己 P-');
     });
 
     it('check normal life type for prison hidden stem', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '癸 A-',
                 eb: '未 wèi'
@@ -100,13 +100,13 @@ describe('BaZi chart utils verifications', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         expect(utils.getNormalLifeTypeStem(input))
             .to.equal('癸 A-');
     });
 
     it('check normal life type for grave hidden stem', function () {
-        var input = {
+        let input = {
             year: {
                 hs: '辛 M-',
                 eb: '未 wèi'
@@ -126,16 +126,16 @@ describe('BaZi chart utils verifications', function () {
             }
         };
 
-        var utils = Utils();
+        let utils = Utils();
         expect(utils.getNormalLifeTypeStem(input))
             .to.equal('己 P-');
     });
 
     it('check gods association for yang DM', function () {
-        var dm = '丙 F+';
-        var utils = Utils();
+        let dm = '丙 F+';
+        let utils = Utils();
 
-        var gods = utils.getGods(dm);
+        let gods = utils.getGods(dm);
         expect(gods)
             .to.containSubset({
             '丙 F+': 'F',
@@ -152,10 +152,10 @@ describe('BaZi chart utils verifications', function () {
     });
 
     it('check gods association for yin DM', function () {
-        var dm = '丁 F-';
-        var utils = Utils();
+        let dm = '丁 F-';
+        let utils = Utils();
 
-        var gods = utils.getGods(dm);
+        let gods = utils.getGods(dm);
         expect(gods)
             .to.containSubset({
             '丙 F+': 'RW',

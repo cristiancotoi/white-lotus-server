@@ -1,14 +1,14 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var _ = require('underscore');
-var moment = require('moment');
+let _ = require('underscore');
+let moment = require('moment');
 
-var connectToDb = require('../../utils/db-utils');
+let connectToDb = require('../../utils/db-utils');
 
-var pSquare = require('../../psquare_module/main');
+let pSquare = require('../../psquare_module/main');
 
 describe('Pythagorean Square basic calculations', function () {
     this.timeout(2000);
@@ -37,7 +37,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check basic calculations for 23/4/1984', function (done) {
-        var date = {
+        let date = {
             day: 23, month: 4, year: 1984
         };
 
@@ -76,7 +76,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check vibrations for 23/4/1984', function (done) {
-        var date = {
+        let date = {
             day: 23, month: 4, year: 1984
         };
 
@@ -93,7 +93,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check basic calculations for 28/1/1985', function (done) {
-        var date = {
+        let date = {
             day: 28, month: 1, year: 1985
         };
 
@@ -116,7 +116,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check basic calculations for 4/1/2000', function (done) {
-        var date = {
+        let date = {
             day: 4, month: 1, year: 2000
         };
 
@@ -139,7 +139,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check vibrations for 28/1/1985', function (done) {
-        var date = {
+        let date = {
             day: 28, month: 1, year: 1985
         };
 
@@ -156,7 +156,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check op positions', function (done) {
-        var date = {
+        let date = {
             day: 23, month: 4, year: 1984
         };
 
@@ -172,7 +172,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check life cycles for date without hour', function (done) {
-        var date = {
+        let date = {
             day: 21, month: 9, year: 2015
         };
 
@@ -186,7 +186,7 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     it('check life cycles for date with hour', function (done) {
-        var date = {
+        let date = {
             day: 5, month: 1, year: 1956,
             hour: 5, minutes: 30
         };
@@ -204,7 +204,7 @@ describe('Pythagorean Square basic calculations', function () {
      * This date produces a negative OP3.
      */
     it('check 2011 10 8', function (done) {
-        var date = {
+        let date = {
             day: 8, month: 10, year: 2011
         };
 
@@ -220,18 +220,18 @@ describe('Pythagorean Square basic calculations', function () {
     });
 
     xit('check series', function (done) {
-        var timeout = 30000;
-        this.timeout(timeout);
-        var m = moment();
-        for (var i = 0; i < 1000; i++) {
-            var date = {
+        let timeout = 30000;
+        timeout(timeout);
+        let m = moment();
+        for (let i = 0; i < 1000; i++) {
+            let date = {
                 day: m.date(), month: m.month() + 1, year: m.year()
             };
 
             function asserts(result) {
-                var date = result.date;
-                var dateString = date.month + '/' + date.day + '/' + date.year;
-                var dayId = dateString + ' = ' +
+                let date = result.date;
+                let dateString = date.month + '/' + date.day + '/' + date.year;
+                let dayId = dateString + ' = ' +
                     result.destiny.number + ' = ' +
                     result['interior vibration'].number + ' = ' +
                     result['exterior vibration'].number + ' = ' +

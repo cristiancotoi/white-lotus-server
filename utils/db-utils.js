@@ -4,46 +4,17 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = require('bluebird');
 
-let mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL;
-let dbName = 'whitelotus';
-
-function connectToDbOld() {
-    let connectionString = mongoURL + ':27017/' + dbName;
-    // MONGODB_URL should also include trailing '/'
-
-    // Ignoring because this is only present in production. Testing is irrelevant.
-    /* istanbul ignore next */
-    if (process.env.MONGODB_URL) {
-        connectionString = process.env.MONGODB_URL + dbName;
-    }
-
-    /* istanbul ignore next */
-    if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
-        connectionString =
-            process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-            process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-            process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-            process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-            process.env.OPENSHIFT_APP_NAME;
-    }
-
-    if (!mongoose.connection.readyState) {
-        mongoose.connect(connectionString, {
-                db: {nativeParser: true}
-            }
-        );
-    }
-}
 
 function connectToDb() {
     let mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
         mongoURLLabel = "";
+    let dbName = 'whitelotus';
 
     let connectionString = mongoURL + ':27017/' + dbName;
 
     if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
         console.info('Running in production.');
-        var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+        let mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
             mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
             mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
             mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
@@ -55,9 +26,6 @@ function connectToDb() {
             if (mongoUser && mongoPassword) {
                 mongoURL += mongoUser + ':' + mongoPassword + '@';
             }
-            // Provide UI label that excludes user id and pw
-            mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-            mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
         }
 
         connectionString = "mongodb://";

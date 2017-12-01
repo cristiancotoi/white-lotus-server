@@ -1,54 +1,54 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var Digits = require('./../../psquare_module/digits');
+let Digits = require('./../../psquare_module/digits');
 
 describe('Pythagorean Square digits tests', function () {
     it('basic digits initialization', function () {
-        var digits = Digits();
-        var len = digits.length;
+        let digits = Digits();
+        let len = digits.length;
         expect(len).to.equal(10);
-        for (var i = 0; i < len; i++) {
+        for (let i = 0; i < len; i++) {
             expect(digits.get(i).count).to.equal(0);
         }
     });
 
     it('basic digits incrementation', function () {
-        var digits = Digits();
-        var len = digits.length;
+        let digits = Digits();
+        let len = digits.length;
         digits.increment(2);
-        for (var i = 0; i < len; i++) {
-            var expected = i == 2 ? 1 : 0;
+        for (let i = 0; i < len; i++) {
+            let expected = i == 2 ? 1 : 0;
             expect(digits.get(i).count).to.equal(expected);
         }
     });
 
     it('double digits incrementation', function () {
-        var digits = Digits();
-        var len = digits.length;
+        let digits = Digits();
+        let len = digits.length;
         digits.increment(2);
         digits.increment(2);
-        for (var i = 0; i < len; i++) {
-            var expected = i == 2 ? 2 : 0;
+        for (let i = 0; i < len; i++) {
+            let expected = i == 2 ? 2 : 0;
             expect(digits.get(i).count).to.equal(expected);
         }
     });
 
     it('clearing digits', function () {
-        var digits = Digits();
-        var len = digits.length;
+        let digits = Digits();
+        let len = digits.length;
         digits.increment(2);
         digits.increment(4);
         digits.clear();
-        for (var i = 0; i < len; i++) {
+        for (let i = 0; i < len; i++) {
             expect(digits.get(i).count).to.equal(0);
         }
     });
 
     it('get long text', function () {
-        var digits = Digits();
+        let digits = Digits();
         digits.increment(2);
         digits.increment(2);
         digits.increment(5);
@@ -58,7 +58,7 @@ describe('Pythagorean Square digits tests', function () {
     });
 
     it('line weight invalid parameter', function () {
-        var digits = Digits();
+        let digits = Digits();
         try {
             digits.getLineWeight();
             expect(true).to.equal('Validation for undefined value failed')
@@ -68,8 +68,8 @@ describe('Pythagorean Square digits tests', function () {
     });
 
     it('combo matching per digit', function () {
-        var digits = Digits();
-        var combo = {
+        let digits = Digits();
+        let combo = {
             description: 'Înclinație spre actorie.',
             max9: 2,
             min9: 2,
@@ -92,8 +92,8 @@ describe('Pythagorean Square digits tests', function () {
     });
 
     it('combo not matching square', function () {
-        var digits = Digits();
-        var combo = {
+        let digits = Digits();
+        let combo = {
             description: 'Înclinație spre actorie.',
             max9: 2,
             min9: 2,
@@ -113,8 +113,8 @@ describe('Pythagorean Square digits tests', function () {
     });
 
     it('combo matching square', function () {
-        var digits = Digits();
-        var combo = {
+        let digits = Digits();
+        let combo = {
             max9: 2,
             min9: 2,
             max6: 3,

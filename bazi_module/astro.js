@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require("underscore");
-var moment = require("moment-timezone");
+let _ = require("underscore");
+let moment = require("moment-timezone");
 
-var CommonUtils = require('../common_module/utils');
+let CommonUtils = require('../common_module/utils');
 
-var astro = function () {
+let astro = function () {
     function normalizeAngle(angle) {
         // reduce the angle
         angle = angle % 360;
@@ -16,7 +16,7 @@ var astro = function () {
     }
 
     function subtractHour(dateObj, hours, minutes) {
-        var result = CommonUtils().getMoment(dateObj);
+        let result = CommonUtils().getMoment(dateObj);
         result.subtract(hours, 'hour');
         result.subtract(minutes, 'minute');
         dateObj.year = result.year();
@@ -29,10 +29,10 @@ var astro = function () {
     }
 
     function getAstroData(person) {
-        var date, d, birthDateMoment;
+        let date, d, birthDateMoment;
         date = person.date;
 
-        var result = {
+        let result = {
             year: date.year,
             month: date.month,
             day: date.day,
@@ -52,13 +52,13 @@ var astro = function () {
         } else {
             result.timeZone = _.isUndefined(person.tz) ? 0 : person.tz;
             result.longitude = _.isUndefined(person.longitude) ? 0 : person.longitude;
-            var dst = person.dst_active_at_birth ? 1 : 0;
+            let dst = person.dst_active_at_birth ? 1 : 0;
             result.longitude = normalizeAngle(result.longitude + 180) - 180;
             result = subtractHour(result, dst, 0);
         }
         birthDateMoment = CommonUtils().getMoment(result);
 
-        var A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
+        let A, AAA, DL, J1, julianDay, trueLongitude, L0, M, S, T;
 
         result.hour = result.hour + (result.minute / 60);
 
@@ -100,7 +100,7 @@ var astro = function () {
     }
 
     function nextHSIndex(hsIndex, step) {
-        var resultIndex = hsIndex;
+        let resultIndex = hsIndex;
         resultIndex += step;
         if ((resultIndex > 10) || (resultIndex < 0)) {
             resultIndex -= 10 * step;
@@ -109,7 +109,7 @@ var astro = function () {
     }
 
     function nextEBIndex(ebIndex, step) {
-        var resultIndex = ebIndex;
+        let resultIndex = ebIndex;
         resultIndex += step;
         if ((resultIndex > 12) || (resultIndex < 0)) {
             resultIndex -= 12 * step;
@@ -118,19 +118,19 @@ var astro = function () {
     }
 
     function getMonthBranchData(trueLongitude, FW) {
-        var resultData = {};
-        var sector = getSector(trueLongitude);
+        let resultData = {};
+        let sector = getSector(trueLongitude);
         resultData.index = (sector + 4) % 12;
 
-        var incr = resultData.index - 3;
+        let incr = resultData.index - 3;
         resultData.increment = incr < 1 ? incr + 12 : incr;
         resultData.increment = resultData.increment % 12;
 
-        var min = sector * 30 - 15;
+        let min = sector * 30 - 15;
         min = min < 0 ? min + 360 : min;
-        var max = sector * 30 + 15;
+        let max = sector * 30 + 15;
 
-        var LP;
+        let LP;
         if (FW == 1) {
             LP = ((max - trueLongitude) / 3);
         } else {
@@ -156,8 +156,8 @@ var astro = function () {
     }
 
     function isLongitudeInBetweenSeasons(trueLong) {
-        var result;
-        var intervals = [
+        let result;
+        let intervals = [
             'Senin stralucitor.',
             'Inceputul verii.',
             'Semanatul de primavara.',
@@ -171,7 +171,7 @@ var astro = function () {
             'Inceputul primaverii.',
             'Trezirea insectelor.'
         ];
-        for (var i = 0; i < 12; i++) {
+        for (let i = 0; i < 12; i++) {
             if (isNearNumber(trueLong, i * 30 + 15, 0.05)) {
                 result = intervals[i];
             }
