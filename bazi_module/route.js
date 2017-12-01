@@ -15,7 +15,7 @@ function getIdRoute(req, res) {
                 .getUser(person.analystId)
                 .then(function (user) {
                     let userLevel = _.isUndefined(user) ? 1 : user.level;
-                    BaZiMain(person, res).make(userLevel);
+                    BaZiMain(person).make(userLevel, res);
                 }, function (err) {
                     res.send(err);
                 });

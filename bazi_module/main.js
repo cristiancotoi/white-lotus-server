@@ -122,7 +122,7 @@ let baziModule = function (person, response) {
         }
     }
 
-    function calculate(options) {
+    function calculate(options, response) {
         let rules = Rules(options);
 
         let chartData = Calculator(person).compute();
