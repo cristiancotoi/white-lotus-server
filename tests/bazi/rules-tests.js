@@ -3,7 +3,7 @@ let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 let expect = chai.expect; // we are using the "expect" style of Chai
 
-let Rules = require('./../../bazi_module/rules');
+let Rules = require('../../bazi_module/report/rules');
 
 describe('BaZi rules tests', function () {
     it('Undefined options & undefined rule name', function () {

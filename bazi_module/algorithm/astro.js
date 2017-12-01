@@ -3,7 +3,7 @@
 let _ = require("lodash");
 let moment = require("moment-timezone");
 
-let CommonUtils = require('../common_module/utils');
+let CommonUtils = require('../../common_module/utils');
 
 let astro = function () {
     function normalizeAngle(angle) {

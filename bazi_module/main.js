@@ -1,9 +1,9 @@
 'use strict';
 
-let DateUtils = require('./date-utils');
-let BaZiCalculator = require('./bazi-calculator');
-let Retriever = require('./data-retriever');
-let Rules = require('./rules');
+let DateUtils = require('./algorithm/date-utils');
+let BaZiCalculator = require('./algorithm/bazi-calculator');
+let Retriever = require('./report/data-retriever');
+let Rules = require('./report/rules');
 let _ = require("lodash");
 
 let baziModule = function (person, response) {

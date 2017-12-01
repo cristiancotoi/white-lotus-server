@@ -3,7 +3,7 @@ let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 let expect = chai.expect; // we are using the "expect" style of Chai
 
-let BaZiCalculator = require('./../../bazi_module/bazi-calculator');
+let BaZiCalculator = require('../../bazi_module/algorithm/bazi-calculator');
 
 describe('BaZi calculator math', function () {
     this.timeout(2000);

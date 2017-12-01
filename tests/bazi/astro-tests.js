@@ -4,7 +4,7 @@ chai.use(chaiSubset);
 let expect = chai.expect; // we are using the "expect" style of Chai
 
 let moment = require('moment');
-let AstroCalc = require('./../../bazi_module/astro');
+let AstroCalc = require('../../bazi_module/algorithm/astro');
 
 describe('BaZi astrology calculations', function () {
     this.timeout(2000);

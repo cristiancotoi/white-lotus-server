@@ -4,7 +4,7 @@ let _ = require("lodash");
 let moment = require("moment");
 let AstroCalc = require('./astro');
 let ChartUtils = require('./chart-utils');
-let Rules = require('./rules');
+let Rules = require('../report/rules');
 
 
 function BaZiCalculator(person) {
