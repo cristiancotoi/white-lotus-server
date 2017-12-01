@@ -179,16 +179,10 @@ let binomial = function () {
         });
     }
 
-
-
-
     function aggregate(resultData, rules) {
         let promises = [];
         let chart = resultData.chart.chart;
-        let luck = resultData.chart.luck;
         resultData.detailedChart = {};
-        resultData.detailedLuck = [];
-        let luckLen = luck.length;
 
         promises.push(getPhases(resultData));
         promises.push(getHS(resultData));
@@ -207,11 +201,6 @@ let binomial = function () {
             promises.push(getBinomial(
                 resultData.detailedChart, 'hour',
                 chart.hour));
-        }
-        for (let i = 0; i < luckLen; i++) {
-            promises.push(getBinomial(
-                resultData.detailedLuck, i,
-                luck[i]));
         }
 
         if (rules.includes('dm')) {

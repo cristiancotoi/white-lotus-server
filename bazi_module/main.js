@@ -8,7 +8,8 @@ let DateUtils = require('./algorithm/date-utils');
 let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
-let Retriever = require('./report/data-retriever');
+let DataRetriever = require('./report/data-retriever');
+let LuckRetriever = require('./report/luck-retriever');
 let RelationsRetriever = require('./report/relations-retriever');
 let Rules = require('./report/rules');
 let _ = require("lodash");
@@ -19,8 +20,6 @@ let baziModule = function (person, response) {
     }
 
     let utils = DateUtils(person.date);
-    let retriever = Retriever();
-    let relationsRetriever = RelationsRetriever();
     let godsCalculator = GodsCalculator();
 
     function applyGodsStrengthMultiplier(resultData) {
@@ -147,9 +146,14 @@ let baziModule = function (person, response) {
         // Append data about phases, hs, eb to the result.
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis
-        let retrieveReport = retriever.getAll(resultData, rules);
-        let retrieveRelations = relationsRetriever.getAll(resultData, rules);
-        return Promise.all([retrieveReport, retrieveRelations]).then(function () {
+        let retrieveReport = DataRetriever().getAll(resultData, rules);
+        let retrieveRelations = RelationsRetriever().getAll(resultData, rules);
+        let retrieveLuckInfo = LuckRetriever().getAll(resultData);
+        return Promise.all([
+            retrieveReport,
+            retrieveRelations,
+            retrieveLuckInfo
+        ]).then(function () {
             postProcessing(resultData, rules);
             let utils = CommonUtils();
             utils.stripDbIds(resultData);
