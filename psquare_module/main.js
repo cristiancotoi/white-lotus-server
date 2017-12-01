@@ -1,29 +1,29 @@
 'use strict';
 
-//var User = require('../models/user');
+//let User = require('../models/user');
 
-var Utils = require('./utils');
-var Digits = require('./digits');
-var Retriever = require('./data-retriever');
+let Utils = require('./utils');
+let Digits = require('./digits');
+let Retriever = require('./data-retriever');
 
 
-var pSquare = function (person, response) {
+let pSquare = function (person, response) {
     if (person === null || person === undefined) {
         throw 'Invalid person';
     }
 
-    var date = person.date;
-    var digitsSquare = [];
-    var op = [
+    let date = person.date;
+    let digitsSquare = [];
+    let op = [
         {position: 1, number: -1},
         {position: 2, number: -1},
         {position: 3, number: -1},
         {position: 4, number: -1}
     ];
 
-    var utils = Utils(date, person.tz);
-    var digits = Digits();
-    var retriever = Retriever(utils, digits, response);
+    let utils = Utils(date, person.tz);
+    let digits = Digits();
+    let retriever = Retriever(utils, digits, response);
 
     function computeSquareDigits() {
         digits.clear();
@@ -35,8 +35,8 @@ var pSquare = function (person, response) {
     function aggregate(userLevel) {
         computeSquareDigits();
 
-        var luckChartDigits = utils.getLuckChartDigits();
-        var resultData = {
+        let luckChartDigits = utils.getLuckChartDigits();
+        let resultData = {
             dateStr: '' + date.day + date.month + date.year,
             date: date,
             op: op,

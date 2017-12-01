@@ -1,14 +1,14 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the 'expect' style of Chai
+let expect = chai.expect; // we are using the 'expect' style of Chai
 
-var Stars = require('./../../bazi_module/stars');
+let Stars = require('./../../bazi_module/stars');
 
 describe('BaZi stars starsUtils verifications', function () {
 
     it('check binomial star no match', function () {
-        var chart = {
+        let chart = {
             month: {
                 eb: '丑 chǒu'
             },
@@ -18,7 +18,7 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var stars = [
+        let stars = [
             {
                 season: '酉 yǒu',
                 hs: '乙 L-',
@@ -27,13 +27,13 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         ];
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.getBinomialStarOfDay(chart, stars))
             .to.eql({});
     });
 
     it('check binomial star without season', function () {
-        var chart = {
+        let chart = {
             month: {
                 eb: '丑 chǒu'
             },
@@ -43,7 +43,7 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var stars = [
+        let stars = [
             {
                 hs: '乙 L-',
                 eb: '酉 yǒu',
@@ -51,7 +51,7 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         ];
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.getBinomialStarOfDay(chart, stars))
             .to.eql({
             'blah': {
@@ -63,7 +63,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check binomial star with season', function () {
-        var chart = {
+        let chart = {
             month: {
                 eb: '丑 chǒu'
             },
@@ -73,7 +73,7 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var stars = [
+        let stars = [
             {
                 season: '丑 chǒu',
                 hs: '乙 L-',
@@ -88,7 +88,7 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         ];
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.getBinomialStarOfDay(chart, stars))
             .to.eql({
             'blah 1': {
@@ -107,7 +107,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star with bad type', function () {
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         try {
             starsUtils.isSymbolicStarPresent(undefined, undefined, 'dn bad type');
             expect('Should have thrown a bad type exception');
@@ -118,7 +118,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for DM', function () {
-        var chart = {
+        let chart = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -137,9 +137,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '丑 chǒu';
+        let star = '丑 chǒu';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'dayMaster'))
             .to.eql({
             star: '丑 chǒu',
@@ -149,7 +149,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for DM everywhere', function () {
-        var chart = {
+        let chart = {
             year: {
                 eb: '酉 yǒu'
             },
@@ -164,9 +164,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '酉 yǒu';
+        let star = '酉 yǒu';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'dayMaster'))
             .to.eql({
             'star': '酉 yǒu',
@@ -176,7 +176,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for day branch not found', function () {
-        var chart = {
+        let chart = {
             year: {
                 eb: '酉 yǒu'
             },
@@ -191,9 +191,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '未 wèi';
+        let star = '未 wèi';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'dayBranch'))
             .to.eql({
             'star': '未 wèi',
@@ -203,7 +203,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for day branch found', function () {
-        var chart = {
+        let chart = {
             year: {
                 eb: '未 wèi'
             },
@@ -218,9 +218,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '未 wèi';
+        let star = '未 wèi';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'dayBranch'))
             .to.eql({
             'star': '未 wèi',
@@ -230,7 +230,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for season found', function () {
-        var chart = {
+        let chart = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -249,9 +249,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '己 P-';
+        let star = '己 P-';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'season'))
             .to.eql({
             'star': '己 P-',
@@ -261,7 +261,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check symbolic star for season not found', function () {
-        var chart = {
+        let chart = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -280,9 +280,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '丁 F-';
+        let star = '丁 F-';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'season'))
             .to.eql({
             'star': '丁 F-',
@@ -292,7 +292,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check heavenly doctor symbolic star found', function () {
-        var chart = {
+        let chart = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -311,9 +311,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '酉 yǒu';
+        let star = '酉 yǒu';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'heavenlyDoctor'))
             .to.eql({
             'star': '酉 yǒu',
@@ -323,7 +323,7 @@ describe('BaZi stars starsUtils verifications', function () {
     });
 
     it('check heavenly doctor symbolic star found', function () {
-        var chart = {
+        let chart = {
             year: {
                 hs: '己 P-',
                 eb: '未 wèi'
@@ -342,9 +342,9 @@ describe('BaZi stars starsUtils verifications', function () {
             }
         };
 
-        var star = '酉 yǒu';
+        let star = '酉 yǒu';
 
-        var starsUtils = Stars();
+        let starsUtils = Stars();
         expect(starsUtils.isSymbolicStarPresent(chart, star, 'extPeachBlossom'))
             .to.eql({
             'star': '酉 yǒu',

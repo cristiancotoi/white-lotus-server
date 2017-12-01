@@ -1,35 +1,35 @@
 'use strict';
 
-var Promise = require("bluebird");
-var _ = require("underscore");
+let Promise = require("bluebird");
+let _ = require("lodash");
 
-var User = require('../models/user');
+let User = require('../models/user');
 
-var OperationalNumber = require('../models/psquare/op-number');
-var SpiritLevel = require('../models/psquare/spirit-level');
-var Destiny = require('../models/psquare/destiny');
-var InteriorVibration = require('../models/psquare/int-vibration');
-var ExteriorVibration = require('../models/psquare/ext-vibration');
-var CosmicVibration = require('../models/psquare/cosmic-vibration');
+let OperationalNumber = require('../models/psquare/op-number');
+let SpiritLevel = require('../models/psquare/spirit-level');
+let Destiny = require('../models/psquare/destiny');
+let InteriorVibration = require('../models/psquare/int-vibration');
+let ExteriorVibration = require('../models/psquare/ext-vibration');
+let CosmicVibration = require('../models/psquare/cosmic-vibration');
 
-var GeneralNumbers = require('../models/psquare/general');
-var Line = require('../models/psquare/lines');
-var LineWeight = require('../models/psquare/lines-weight');
+let GeneralNumbers = require('../models/psquare/general');
+let Line = require('../models/psquare/lines');
+let LineWeight = require('../models/psquare/lines-weight');
 
-var SquareMeaning = require('../models/psquare/sq-meaning');
-var SquareCombo = require('../models/psquare/sq-combo');
+let SquareMeaning = require('../models/psquare/sq-meaning');
+let SquareCombo = require('../models/psquare/sq-combo');
 
-var Challenge = require('../models/psquare/challenges');
-var Opportunity = require('../models/psquare/opportunities');
-var LifeCycle = require('../models/psquare/life-cycles');
-var LifeCycleDesc = require('../models/psquare/life-cycles-description');
+let Challenge = require('../models/psquare/challenges');
+let Opportunity = require('../models/psquare/opportunities');
+let LifeCycle = require('../models/psquare/life-cycles');
+let LifeCycleDesc = require('../models/psquare/life-cycles-description');
 
-var LuckChart = require('../models/psquare/luck-chart');
+let LuckChart = require('../models/psquare/luck-chart');
 
-var dataRetriever = function (utils, digits, response) {
+let dataRetriever = function (utils, digits, response) {
 
     function getSpiritLevel(result, level) {
-        var spiritPromise = SpiritLevel.find({
+        let spiritPromise = SpiritLevel.find({
             "min": {
                 $lte: level
             },
@@ -80,17 +80,17 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getOpDigitsDescriptions(op) {
-        var opPromise = OperationalNumber.find().exec();
+        let opPromise = OperationalNumber.find().exec();
 
         return opPromise.then(function (operationalNumbers) {
-            for (var i = 0; i < op.length; i++) {
+            for (let i = 0; i < op.length; i++) {
                 op[i].details = operationalNumbers[i];
             }
         });
     }
 
     function getSqMeaning(resultSqMeaning, digit, count) {
-        var promise = SquareMeaning.find({
+        let promise = SquareMeaning.find({
             "number": digit,
             "min": {$lte: count},
             "max": {$gte: count}
@@ -102,17 +102,17 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getCombos(result) {
-        var digits = result.digits;
+        let digits = result.digits;
         // As we can't match the whole onto the part, we have to pull
         // all the combos and match the combo over the whole
         return SquareCombo
             .find()
             .exec()
             .then(function (allCombos) {
-                var matchingCombos = [];
-                var len = _.size(allCombos);
-                for (var i = 0; i < len; i++) {
-                    var combo = allCombos[i];
+                let matchingCombos = [];
+                let len = _.size(allCombos);
+                for (let i = 0; i < len; i++) {
+                    let combo = allCombos[i];
                     if (digits.comboMatchesSquare(combo)) {
                         matchingCombos.push(combo);
                     }
@@ -123,7 +123,7 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getLineWeight(lineName, result) {
-        var lWeight = digits.getLineWeight(lineName);
+        let lWeight = digits.getLineWeight(lineName);
         return LineWeight
             .find({
                 line: lineName,
@@ -146,7 +146,7 @@ var dataRetriever = function (utils, digits, response) {
             .exec()
             .then(function (data) {
                 result.lines = {};
-                for (var i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     result.lines[data[i].line] = data[i];
                 }
             });
@@ -181,9 +181,9 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getLifeCycleDescriptions(result) {
-        var promises = [];
+        let promises = [];
         result.lifeCycleDesc = {};
-        var deduper = {};
+        let deduper = {};
         deduper[utils.getMonthSum()] = '';
         deduper[utils.getDaySum()] = '';
         deduper[utils.getYearFullSum()] = '';
@@ -201,9 +201,9 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getChallenges(result) {
-        var promises = [];
+        let promises = [];
         result.challengesDesc = {};
-        var deduper = {};
+        let deduper = {};
         deduper[result.challenges[0].value] = '';
         deduper[result.challenges[1].value] = '';
         deduper[result.challenges[2].value] = '';
@@ -222,9 +222,9 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function getOpportunities(result) {
-        var promises = [];
+        let promises = [];
         result.opportunitiesDesc = {};
-        var deduper = {};
+        let deduper = {};
         deduper[result.opportunities[0].value] = '';
         deduper[result.opportunities[1].value] = '';
         deduper[result.opportunities[2].value] = '';
@@ -288,7 +288,7 @@ var dataRetriever = function (utils, digits, response) {
     }
 
     function aggregate(resultData, op, userLevel) {
-        var promises = [];
+        let promises = [];
 
         promises.push(getSpiritLevel(resultData, op[0].number));
         promises.push(getOpDigitsDescriptions(op));
@@ -306,23 +306,23 @@ var dataRetriever = function (utils, digits, response) {
             promises.push(getLines(resultData));
             promises.push(getCombos(resultData));
 
-            var digits = resultData.digits;
-            var digitLen = digits.length;
+            let digits = resultData.digits;
+            let digitLen = digits.length;
             // Start from 1, as we don't have 0 yet
             resultData.sqMeaning = [];
-            for (var i = 1; i < digitLen; i++) {
-                var digit = digits.get(i);
+            for (let i = 1; i < digitLen; i++) {
+                let digit = digits.get(i);
                 promises.push(getSqMeaning(resultData.sqMeaning, digit.id, digit.count));
             }
 
-            var lines = [
+            let lines = [
                 '123', '456', '789',
                 '147', '258', '369',
                 '159', '357'
             ];
             resultData.linesWeight = {};
-            for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-                var lineName = lines[lineIndex];
+            for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                let lineName = lines[lineIndex];
                 // We push down the line index, because for some lines
                 // some intervals have no descriptions
                 promises.push(

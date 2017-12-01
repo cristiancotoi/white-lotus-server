@@ -1,14 +1,14 @@
 'use strict';
 
-var moment = require('moment-timezone');
-var _ = require('underscore');
+let moment = require('moment-timezone');
+let _ = require('lodash');
 
-var stars = function () {
+let stars = function () {
     function getBinomialStarOfDay(chart, stars) {
-        var result = {};
-        var seasonId = chart.month.eb;
-        var dm = chart.day.hs;
-        var dayBranch = chart.day.eb;
+        let result = {};
+        let seasonId = chart.month.eb;
+        let dm = chart.day.hs;
+        let dayBranch = chart.day.eb;
         // SteleBinomZi
         _.each(stars, function (star) {
             if ((star.season === seasonId && star.hs == dm && star.eb == dayBranch) ||
@@ -29,7 +29,7 @@ var stars = function () {
     }
 
     function isSymbolicStarPresent(chart, symStar, type) {
-        var result = {};
+        let result = {};
         switch (type) {
             case 'dayMaster':
                 // SteleSimbSZ

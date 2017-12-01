@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
 /**
  * Verify if a collection exists
@@ -7,11 +7,11 @@ var mongoose = require('mongoose');
  * @returns {boolean} true if collection exists
  */
 function collectionExists(collName) {
-    var result = false;
+    let result = false;
     // Doesn't seem to work
     // db is always undefined...
     // without this mocha can't use --watch
-    var db = mongoose.connection.db;
+    let db = mongoose.connection.db;
     if (!db) return false;
     db
         .listCollections({name: collName})

@@ -1,13 +1,13 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var Utils = require('./../../psquare_module/utils');
+let Utils = require('./../../psquare_module/utils');
 
 describe('Pythagorean Square utility tests', function () {
     it('simple calculations for single digits sum', function () {
-        var utils = Utils({});
+        let utils = Utils({});
         expect(utils.sumDigits(1)).to.equal(1);
         expect(utils.sumDigits(11)).to.equal(2);
         expect(utils.sumDigits(19)).to.equal(10);
@@ -15,7 +15,7 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('simple calculations for double digits sum', function () {
-        var utils = Utils({});
+        let utils = Utils({});
         expect(utils.doubleSumDigits(1)).to.equal(1);
         expect(utils.doubleSumDigits(11)).to.equal(2);
         expect(utils.doubleSumDigits(19)).to.equal(1);
@@ -96,12 +96,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check years matrix with 5 columns', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1950,
             month: 12,
             day: 1
         });
-        var matrix = utils.getYearsMatrix(5);
+        let matrix = utils.getYearsMatrix(5);
         expect(matrix.length).to.equal(16);
         expect(matrix[0].length).to.equal(5);
         expect(matrix)
@@ -126,12 +126,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check years matrix with 6 columns', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 12,
             day: 1
         });
-        var matrix = utils.getYearsMatrix(6, 80);
+        let matrix = utils.getYearsMatrix(6, 80);
         expect(matrix.length).to.equal(14);
         expect(matrix[0].length).to.equal(6);
         expect(matrix)
@@ -154,7 +154,7 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check years matrix error handling', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 12,
             day: 1
@@ -168,12 +168,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check challenges for pre-2000', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 12,
             day: 1
         });
-        var challenges = utils.getChallenges();
+        let challenges = utils.getChallenges();
         expect(challenges).to.containSubset([
             {position: 1, value: 2},
             {position: 2, value: 3},
@@ -183,12 +183,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check challenges for post-2000', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 2000,
             month: 12,
             day: 29
         });
-        var challenges = utils.getChallenges();
+        let challenges = utils.getChallenges();
         expect(challenges).to.containSubset([
             {position: 1, value: 1},
             {position: 2, value: 0},
@@ -198,12 +198,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check challenges interval for destiny number 1', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 4,
             day: 23
         });
-        var chIntervals = utils.getChallengeAndOpportunityIntervals(1);
+        let chIntervals = utils.getChallengeAndOpportunityIntervals(1);
         expect(chIntervals).to.containSubset([
             {position: 1, min: 0, max: 35},
             {position: 2, min: 36, max: 44},
@@ -213,12 +213,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check challenges interval for destiny number 5', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 4,
             day: 23
         });
-        var chIntervals = utils.getChallengeAndOpportunityIntervals(5);
+        let chIntervals = utils.getChallengeAndOpportunityIntervals(5);
         expect(chIntervals).to.containSubset([
             {position: 1, min: 0, max: 31},
             {position: 2, min: 32, max: 40},
@@ -228,12 +228,12 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check opportunities', function () {
-        var utils = Utils({
+        let utils = Utils({
             year: 1984,
             month: 4,
             day: 23
         });
-        var opportunities = utils.getOpportunities();
+        let opportunities = utils.getOpportunities();
         expect(opportunities).to.containSubset([
             {position: 1, value: 9},
             {position: 2, value: 9},
@@ -243,11 +243,11 @@ describe('Pythagorean Square utility tests', function () {
     });
 
     it('check moment', function () {
-        var utils = Utils({
+        let utils = Utils({
             day: 5, month: 1, year: 1956,
             hour: 5, minutes: 30
         });
-        var moment = utils.getMoment();
+        let moment = utils.getMoment();
         expect(moment.toISOString()).to.equal('1956-01-05T05:30:00.000Z');
 
         expect(moment.toISOString()).to.equal('1956-01-05T05:30:00.000Z');

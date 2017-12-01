@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require("underscore");
+let _ = require("lodash");
 
-var digits = function () {
-    var numbers = {
+let digits = function () {
+    let numbers = {
         0: {id: 0, count: 0},
         1: {id: 1, count: 0},
         2: {id: 2, count: 0},
@@ -15,10 +15,10 @@ var digits = function () {
         8: {'id': 8, count: 0},
         9: {'id': 9, count: 0}
     };
-    var len = Object.keys(numbers).length;
+    let len = Object.keys(numbers).length;
 
     function clearNumbers() {
-        for (var i = 0; i < len; i += 1) {
+        for (let i = 0; i < len; i += 1) {
             numbers[i].count = 0;
         }
     }
@@ -26,29 +26,29 @@ var digits = function () {
 
     function multiplyNumber(number, count) {
         if (count == 0) return '';
-        var output = '';
-        for (var i = 0; i < count; i += 1) {
+        let output = '';
+        for (let i = 0; i < count; i += 1) {
             output += number;
         }
         return output;
     }
 
     function getLongText(digit) {
-        var digitObj = numbers[digit];
+        let digitObj = numbers[digit];
         return multiplyNumber(digitObj.id, digitObj.count);
     }
 
     function getAllDigitsLongNames() {
-        var digitsSquare = [];
-        for (var i = 0, len = 10; i < len; i += 1) {
+        let digitsSquare = [];
+        for (let i = 0, len = 10; i < len; i += 1) {
             digitsSquare.push(getLongText(i));
         }
         return digitsSquare;
     }
 
     function comboMatchesDigit(combo, digitId) {
-        var count = numbers[digitId].count;
-        var result;
+        let count = numbers[digitId].count;
+        let result;
         if (_.isUndefined(combo['min' + digitId]) || _.isUndefined(combo['min' + digitId])) {
             // If no rule is present we consider this a whildcard '*' so it matches
             result = true;
@@ -59,9 +59,9 @@ var digits = function () {
     }
 
     function comboMatchesSquare(combo) {
-        var result = true;
-        for (var i = 0; i <= 9; i++) {
-            var matchDigit = comboMatchesDigit(combo, i);
+        let result = true;
+        for (let i = 0; i <= 9; i++) {
+            let matchDigit = comboMatchesDigit(combo, i);
             if (!matchDigit) {
                 result = false;
                 break;
@@ -71,7 +71,7 @@ var digits = function () {
     }
 
     function getDigits() {
-        var result = [];
+        let result = [];
         _.each(numbers, function (n) {
             result[n.id] = n.count;
         });
@@ -85,10 +85,10 @@ var digits = function () {
         if (_.isUndefined(line)) {
             throw 'Line name cannot be undefined';
         }
-        var word = '' + line;
-        var result = {count: 0, sum: 0, line: ''};
-        for (var i = 0, len = word.length; i < len; i++) {
-            var digit = numbers[word[i]];
+        let word = '' + line;
+        let result = {count: 0, sum: 0, line: ''};
+        for (let i = 0, len = word.length; i < len; i++) {
+            let digit = numbers[word[i]];
             result.count += digit.count;
             result.sum += digit.count * digit.id;
         }

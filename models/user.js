@@ -1,9 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var schema = new Schema({
+let schema = new Schema({
         analystId: String,
         roles: [String],
         level: {type: Number, min: 1, max: 99},

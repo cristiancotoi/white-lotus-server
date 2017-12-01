@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require("underscore");
-var moment = require("moment-timezone");
+let _ = require("lodash");
+let moment = require("moment-timezone");
 
-var utils = function () {
+let utils = function () {
     function stripDbIds(obj) {
         if (_.isArray(obj)) {
             _.each(obj, stripDbIds);
@@ -18,7 +18,7 @@ var utils = function () {
 
     /* istanbul ignore next */
     function getUser(analystId) {
-        var User = require('../models/user');
+        let User = require('../models/user');
 
         return User
             .find({analystId: analystId})
@@ -31,19 +31,18 @@ var utils = function () {
     function getMoment(dateObj) {
         moment.tz.setDefault('UTC');
 
-        var dateArr = [
+        let dateArr = [
             dateObj.year,
             dateObj.month - 1,
             dateObj.day
         ];
 
         if (!_.isUndefined(dateObj.hour) && dateObj.hour != null) {
-            var min = _.isUndefined(dateObj.minutes) ? dateObj.minute : dateObj.minutes;
+            let min = _.isUndefined(dateObj.minutes) ? dateObj.minute : dateObj.minutes;
             dateArr.push(dateObj.hour, min);
         }
 
-        var result = moment(dateArr);
-        return result;
+        return moment(dateArr);
     }
 
     return {

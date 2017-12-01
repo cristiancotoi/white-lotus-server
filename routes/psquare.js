@@ -1,12 +1,12 @@
 'use strict';
 
-var _ = require('underscore');
-var express = require('express');
+let _ = require('lodash');
+let express = require('express');
 
-var mainRoute = require('../psquare_module/route');
-var calendarRoute = require('../psquare_module/route-calendar');
+let mainRoute = require('../psquare_module/route');
+let calendarRoute = require('../psquare_module/route-calendar');
 
-var router = express.Router();
+let router = express.Router();
 
 router.route('/psquare/:id')
     .get(mainRoute);

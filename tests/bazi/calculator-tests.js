@@ -1,9 +1,9 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
+let chai = require('chai');
+let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
-var expect = chai.expect; // we are using the "expect" style of Chai
+let expect = chai.expect; // we are using the "expect" style of Chai
 
-var BaZiCalculator = require('./../../bazi_module/bazi-calculator');
+let BaZiCalculator = require('./../../bazi_module/bazi-calculator');
 
 describe('BaZi calculator math', function () {
     this.timeout(2000);
@@ -27,15 +27,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 22 4 1984 22 50', function () {
-        var person = {
+        let person = {
             date: {
                 day: 22, month: 4, year: 1984, hour: 22, minute: 50
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '甲 L+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']},
@@ -54,15 +54,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 22 4 1984 X X', function () {
-        var person = {
+        let person = {
             date: {
                 day: 22, month: 4, year: 1984
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '甲 L+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']},
@@ -80,15 +80,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 28 1 1985 0 5', function () {
-        var person = {
+        let person = {
             date: {
                 day: 28, month: 1, year: 1985, hour: 0, minute: 5
             },
             tz: 2, longitude: 28, gender: 'F'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '甲 L+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']},
@@ -107,15 +107,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 24 12 1948 1 20', function () {
-        var person = {
+        let person = {
             date: {
                 day: 24, month: 12, year: 1948, hour: 1, minute: 20
             },
             tz: 2, longitude: 28, gender: 'F'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '戊 P+', eb: '子 zǐ', hidStems: ['癸 A-', '', '']},
@@ -143,15 +143,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 24 1 2004 3 40', function () {
-        var person = {
+        let person = {
             date: {
                 day: 24, month: 1, year: 2004, hour: 3, minute: 40
             },
             tz: 2, longitude: 28, gender: 'F'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '癸 A-', eb: '未 wèi', hidStems: ['己 P-', '丁 F-', '乙 L-']},
@@ -178,15 +178,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 1 4 1980 23:18', function () {
-        var person = {
+        let person = {
             date: {
                 day: 1, month: 4, year: 1980, hour: 23, minute: 18
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '庚 M+', eb: '申 shēn', hidStems: ['庚 M+', '壬 A+', '戊 P+']},
@@ -210,15 +210,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 30 11 1990 3:4 Magnus Carlsen', function () {
-        var person = {
+        let person = {
             date: {
                 day: 30, month: 11, year: 1990, hour: 3, minute: 4
             },
             tz: 1, longitude: 10, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             startYear: 2.46,
             chart: {
@@ -243,15 +243,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 7 6 1955 17:30', function () {
-        var person = {
+        let person = {
             date: {
                 day: 7, month: 6, year: 1955, hour: 17, minute: 30
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '乙 L-', eb: '未 wèi', hidStems: ['己 P-', '丁 F-', '乙 L-']},
@@ -275,7 +275,7 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 7 6 1955 17:30 (prod data)', function () {
-        var person = {
+        let person = {
             date: {minutes: 30, hour: 17, year: 1955, month: 6, day: 7},
             gender: 'M',
             longitude: 28,
@@ -284,8 +284,8 @@ describe('BaZi calculator math', function () {
             name: 'Cotoi'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result).to.containSubset({
             chart: {
                 year: {hs: '乙 L-', eb: '未 wèi', hidStems: ['己 P-', '丁 F-', '乙 L-']},
@@ -309,29 +309,29 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 22 4 1984 22 50', function () {
-        var person = {
+        let person = {
             date: {
                 day: 22, month: 4, year: 1984, hour: 22, minute: 50
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result.luck[1].start).to.equal('22-04-1998');
         expect(result.luck[1].end).to.equal('22-04-2008');
     });
 
     it('calculate for 26 6 1986', function () {
-        var person = {
+        let person = {
             date: {
                 day: 26, month: 6, year: 1986
             },
             tz: 2, longitude: 28, gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result.luck[0].start).to.equal('26-01-1990');
         expect(result.luck[0].end).to.equal('26-01-2000');
         expect(result.luck[1].start).to.equal('26-01-2000');
@@ -339,15 +339,15 @@ describe('BaZi calculator math', function () {
     });
 
     it('calculate for 26 6 1986 with hour and without tz', function () {
-        var person = {
+        let person = {
             date: {
                 day: 26, month: 6, year: 1986, hour: 15, minute: 50
             },
             gender: 'M'
         };
 
-        var calculator = BaZiCalculator(person);
-        var result = calculator.compute();
+        let calculator = BaZiCalculator(person);
+        let result = calculator.compute();
         expect(result.luck.length).to.be.above(8);
     });
 });

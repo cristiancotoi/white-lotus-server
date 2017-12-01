@@ -1,9 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var schema = new Schema({
+let schema = new Schema({
         min1: {type: Number, min: 0, max: 9},
         max1: {type: Number, min: 0, max: 99},
         min2: {type: Number, min: 0, max: 9},

@@ -1,11 +1,11 @@
 'use strict';
 
-var User = require('../models/user');
-var Person = require('../models/person');
-var express = require('express');
+let User = require('../models/user');
+let Person = require('../models/person');
+let express = require('express');
 
 //configure routes
-var router = express.Router();
+let router = express.Router();
 
 router.route('/persons')
     .get(function (req, res) {
@@ -18,7 +18,7 @@ router.route('/persons')
     })
 
     .post(function (req, res) {
-        var person = new Person(req.body);
+        let person = new Person(req.body);
         person.save(function (err) {
             if (err)
                 res.send(err);
@@ -29,7 +29,7 @@ router.route('/persons')
 
 router.route('/portfolio')
     .post(function (req, res) {
-        var body = req.body;
+        let body = req.body;
         if (body.analystId == undefined) {
             res.send("Bad request: " + JSON.stringify(body));
             return;
@@ -39,10 +39,10 @@ router.route('/portfolio')
             .find({analystId: body.analystId})
             .exec()
             .then(function (users) {
-                var user = users[0];
+                let user = users[0];
                 if (!users.length) {
                     // If user doesn't exist, create a new one
-                    var newUser = new User();
+                    let newUser = new User();
                     newUser.analystId = body.analystId;
                     newUser.roles = ['apprentice'];
                     newUser.level = 1;

@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require("underscore");
+let _ = require("lodash");
 
-var strengthCalculator = function () {
+let strengthCalculator = function () {
     function getStemsStrength(detailedChart, stems, branches) {
-        var stemsScores = {};
+        let stemsScores = {};
         // Prepare the output
         _.each(stems, function (stem) {
             stemsScores[stem.presc] = {
@@ -17,7 +17,7 @@ var strengthCalculator = function () {
         });
 
         _.each(detailedChart, function (pillar) {
-            var eb = branches[pillar.eb];
+            let eb = branches[pillar.eb];
             stemsScores[pillar.hs].visible += 100;
             if (!_.isUndefined(eb.h3)) {
                 stemsScores[eb.h1].mainHidden += 60;
@@ -34,7 +34,7 @@ var strengthCalculator = function () {
         stemsScores[detailedChart.day.hs].visible -= 100;
 
         _.each(stems, function (stem) {
-            var st = stemsScores[stem.presc];
+            let st = stemsScores[stem.presc];
             st.total = st.visible + st.mainHidden + st.prison + st.grave;
         });
 
@@ -55,7 +55,7 @@ var strengthCalculator = function () {
      * @returns {*[]}
      */
     function chartHasBranch(chart, branchName) {
-        var resultArray = [];
+        let resultArray = [];
         appendIfPillarHasBranch(chart, 'hour', branchName, resultArray);
         appendIfPillarHasBranch(chart, 'day', branchName, resultArray);
         appendIfPillarHasBranch(chart, 'month', branchName, resultArray);
@@ -77,7 +77,7 @@ var strengthCalculator = function () {
     }
 
     function chartHas2AdjacentBranches(chart, branchName1, branchName2) {
-        var resultArray = [];
+        let resultArray = [];
         appendIf2PillarsHaveBranches(chart, ['hour', 'day'], [branchName1, branchName2], resultArray);
         appendIf2PillarsHaveBranches(chart, ['month', 'day'], [branchName1, branchName2], resultArray);
         appendIf2PillarsHaveBranches(chart, ['month', 'year'], [branchName1, branchName2], resultArray);
@@ -152,7 +152,7 @@ var strengthCalculator = function () {
      * @returns {Array}
      */
     function chartHas3AdjacentBranches(chart, branchName1, branchName2, branchName3) {
-        var resultArray = [];
+        let resultArray = [];
         appendIf3PillarsHaveBranches(chart, ['hour', 'day', 'month'],
             [branchName1, branchName2, branchName3], resultArray
         );
@@ -173,7 +173,7 @@ var strengthCalculator = function () {
             if (!_.isUndefined(relation.toObject)) {
                 relation = relation.toObject();
             }
-            var output = {
+            let output = {
                 relation: relation,
                 matchingPillars: matchingPillars
             };
@@ -188,7 +188,7 @@ var strengthCalculator = function () {
      * @returns {Array}
      */
     function getMatchingRelations(chart, relationsArray) {
-        var matchingRelationsArr = [];
+        let matchingRelationsArr = [];
         _.each(relationsArray, function (relation) {
             if (_.isUndefined(relation.eb2)) {
                 // Single branch description

@@ -1,10 +1,10 @@
 'use strict';
 
-var User = require('../models/user');
+let User = require('../models/user');
 
-var Utils = require('./utils');
+let Utils = require('./utils');
 
-var users = function (response) {
+let users = function (response) {
     function getUser(userId) {
         return User
             .find({analystId: userId})

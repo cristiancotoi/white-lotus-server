@@ -1,10 +1,10 @@
 'use strict';
 
-var moment = require('moment-timezone');
-var _ = require('underscore');
+let moment = require('moment-timezone');
+let _ = require('lodash');
 
-var utils = function (options) {
-    var rules = options;
+let utils = function (options) {
+    let rules = options;
 
     if (isNumeric(options)) {
         rules = expandNumericOption(options);
@@ -20,7 +20,7 @@ var utils = function (options) {
      * @returns {{}}
      */
     function expandNumericOption(userLevel) {
-        var expandedRules = {};
+        let expandedRules = {};
         if (userLevel === 0) {
             return expandedRules;
         }
@@ -48,8 +48,8 @@ var utils = function (options) {
     }
 
     function includes(item) {
-        var generateAll = _.isUndefined(rules);
-        var ruleIsValid = !!rules && !!rules[item];
+        let generateAll = _.isUndefined(rules);
+        let ruleIsValid = !!rules && !!rules[item];
         //console.log(item);
         //console.log(generateAll + ' || ' + ruleIsValid + ' -->' + (generateAll || ruleIsValid) + '\n');
         return generateAll || ruleIsValid;
