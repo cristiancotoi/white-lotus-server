@@ -20,7 +20,7 @@ describe('Pythagorean Square digits tests', function () {
         let len = digits.length;
         digits.increment(2);
         for (let i = 0; i < len; i++) {
-            let expected = i == 2 ? 1 : 0;
+            let expected = i === 2 ? 1 : 0;
             expect(digits.get(i).count).to.equal(expected);
         }
     });
@@ -31,7 +31,7 @@ describe('Pythagorean Square digits tests', function () {
         digits.increment(2);
         digits.increment(2);
         for (let i = 0; i < len; i++) {
-            let expected = i == 2 ? 2 : 0;
+            let expected = i === 2 ? 2 : 0;
             expect(digits.get(i).count).to.equal(expected);
         }
     });

@@ -4,7 +4,7 @@ chai.use(chaiSubset);
 let expect = chai.expect; // we are using the 'expect' style of Chai
 
 let _ = require('lodash');
-let StrengthsCalculator = require('./../../bazi_module/gods-calculator');
+let StrengthsCalculator = require('../../bazi_module/report/gods-calculator');
 
 describe('BaZi utils age calculation', function () {
     let calculator = StrengthsCalculator();

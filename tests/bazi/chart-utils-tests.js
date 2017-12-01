@@ -3,7 +3,7 @@ let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 let expect = chai.expect; // we are using the 'expect' style of Chai
 
-let Utils = require('./../../bazi_module/chart-utils');
+let Utils = require('../../bazi_module/algorithm/chart-utils');
 
 describe('BaZi chart utils verifications', function () {
 

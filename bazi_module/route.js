@@ -1,7 +1,6 @@
 'use strict';
 
 let _ = require('lodash');
-let moment = require('moment-timezone');
 
 let Person = require('../models/person');
 let BaZiMain = require('./main');

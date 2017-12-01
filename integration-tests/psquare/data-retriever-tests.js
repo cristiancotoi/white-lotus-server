@@ -15,7 +15,7 @@ describe('Data retriever tests', function () {
         connectToDb();
     });
 
-    xit('Data retrieving for max level', function (done) {
+    it('Data retrieving for max level', function (done) {
         let date = {
             day: 23, month: 4, year: 1984
         };

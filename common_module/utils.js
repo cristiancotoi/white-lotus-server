@@ -37,12 +37,29 @@ let utils = function () {
             dateObj.day
         ];
 
-        if (!_.isUndefined(dateObj.hour) && dateObj.hour != null) {
+        if (!_.isUndefined(dateObj.hour) && dateObj.hour !== null) {
             let min = _.isUndefined(dateObj.minutes) ? dateObj.minute : dateObj.minutes;
             dateArr.push(dateObj.hour, min);
         }
 
         return moment(dateArr);
+    }
+
+    function makePersonFromDate(dateString) {
+        /*        date: {
+            year: {type: Number, min: 1, max: 9999},
+            month: {type: Number, min: 1, max: 12},
+            day: {type: Number, min: 1, max: 31},
+            hour: {type: Number, min: 0, max: 23},
+            minutes: {type: Number, min: 0, max: 59}
+        },
+        tz: Number,
+        birth_city: String,
+        dst_active_at_birth: Boolean,
+        longitude: {type: Number, min: -360.0, max: 360.0},
+        analystId: String,
+        gender: String,*/
+        
     }
 
     return {

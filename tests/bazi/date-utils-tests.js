@@ -5,7 +5,7 @@ let expect = chai.expect; // we are using the "expect" style of Chai
 
 let moment = require('moment');
 
-let Utils = require('./../../bazi_module/date-utils');
+let Utils = require('../../bazi_module/algorithm/date-utils');
 
 describe('BaZi utils age calculation', function () {
     this.timeout(2000);

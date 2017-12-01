@@ -25,7 +25,7 @@ let digits = function () {
 
 
     function multiplyNumber(number, count) {
-        if (count == 0) return '';
+        if (count === 0) return '';
         let output = '';
         for (let i = 0; i < count; i += 1) {
             output += number;
