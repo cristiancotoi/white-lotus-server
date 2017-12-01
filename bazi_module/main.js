@@ -9,8 +9,10 @@ let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
 let DataRetriever = require('./report/retrievers/data-retriever');
-let LuckRetriever = require('./report/retrievers/luck-retriever');
-let RelationsRetriever = require('./report/retrievers/relations-retriever');
+let LuckRetriever = require('./report/retrievers/luck');
+let RelationsRetriever = require('./report/retrievers/relations');
+let ShenShaRetriever = require('./report/retrievers/shen-sha');
+
 let Rules = require('./report/rules');
 let _ = require("lodash");
 
@@ -146,13 +148,11 @@ let baziModule = function (person, response) {
         // Append data about phases, hs, eb to the result.
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis
-        let retrieveReport = DataRetriever().getAll(resultData, rules);
-        let retrieveRelations = RelationsRetriever().getAll(resultData, rules);
-        let retrieveLuckInfo = LuckRetriever().getAll(resultData);
         return Promise.all([
-            retrieveReport,
-            retrieveRelations,
-            retrieveLuckInfo
+            DataRetriever().getAll(resultData, rules),
+            RelationsRetriever().getAll(resultData, rules),
+            LuckRetriever().getAll(resultData),
+            ShenShaRetriever().getAll(resultData, rules)
         ]).then(function () {
             postProcessing(resultData, rules);
             let utils = CommonUtils();
