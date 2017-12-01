@@ -16,7 +16,7 @@ describe('BaZi route tests', function () {
 
         spy = res.send = sinon.spy();
 
-        baZiGetRoute(req, res);
+        baZiGetRoute.getId(req, res);
         expect(spy.calledOnce).to.equal(false);
     });
 
@@ -30,7 +30,7 @@ describe('BaZi route tests', function () {
 
         spy = res.send = sinon.spy();
 
-        baZiGetRoute(req, res);
+        baZiGetRoute.getId(req, res);
         expect(spy.calledOnce).to.equal(false);
     });
 
@@ -50,7 +50,7 @@ describe('BaZi route tests', function () {
             done();
         };
 
-        baZiGetRoute(req, res);
+        baZiGetRoute.getId(req, res);
     });
 
 });
