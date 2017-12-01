@@ -1,7 +1,7 @@
 'use strict';
 
 let moment = require('moment-timezone');
-let _ = require('underscore');
+let _ = require('lodash');
 
 let utils = function () {
     function getVisibleStems(chart) {
@@ -63,11 +63,11 @@ let utils = function () {
     }
 
     function isStem(itemName) {
-        return _.contains(getStems(), itemName);
+        return _.includes(getStems(), itemName);
     }
 
     function isBranch(itemName) {
-        return _.contains(getBranches(), itemName);
+        return _.includes(getBranches(), itemName);
     }
 
     return {

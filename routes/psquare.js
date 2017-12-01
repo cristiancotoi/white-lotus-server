@@ -1,6 +1,6 @@
 'use strict';
 
-let _ = require('underscore');
+let _ = require('lodash');
 let express = require('express');
 
 let mainRoute = require('../psquare_module/route');

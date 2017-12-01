@@ -1,6 +1,6 @@
 'use strict';
 
-let _ = require("underscore");
+let _ = require("lodash");
 
 let strengthCalculator = function () {
     function getStemsStrength(detailedChart, stems, branches) {

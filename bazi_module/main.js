@@ -4,7 +4,7 @@ let DateUtils = require('./date-utils');
 let BaZiCalculator = require('./bazi-calculator');
 let Retriever = require('./data-retriever');
 let Rules = require('./rules');
-let _ = require("underscore");
+let _ = require("lodash");
 
 let baziModule = function (person, response) {
     if (person === null || person === undefined) {

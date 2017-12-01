@@ -1,7 +1,7 @@
 'use strict';
 
 let Promise = require("bluebird");
-let _ = require("underscore");
+let _ = require("lodash");
 
 let User = require('../models/user');
 

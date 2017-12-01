@@ -7,7 +7,7 @@ let connectToDb = require('../../utils/db-utils');
 
 let BaZiMain = require('../../bazi_module/main');
 
-let _ = require("underscore");
+let _ = require("lodash");
 let moment = require("moment");
 
 describe('BaZiMain basic calculations', function () {

@@ -3,7 +3,7 @@ let chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 let expect = chai.expect; // we are using the "expect" style of Chai
 
-let _ = require('underscore');
+let _ = require('lodash');
 
 let connectToDb = require('../../utils/db-utils');
 

@@ -1,12 +1,11 @@
 'use strict';
 
-var baZiGetRoute = require('../bazi_module/route');
-var Person = require('../models/person');
+let baZiGetRoute = require('../bazi_module/route');
 
-var express = require('express');
-var _ = require('underscore');
+let express = require('express');
+let _ = require('lodash');
 
-var router = express.Router();
+let router = express.Router();
 
 router.route('/bazi/:id')
     .get(baZiGetRoute);

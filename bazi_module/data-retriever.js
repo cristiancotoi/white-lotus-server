@@ -1,6 +1,6 @@
 'use strict';
 
-let _ = require("underscore");
+let _ = require("lodash");
 
 let CommonUtils = require('../common_module/utils');
 let ChartUtils = require('./chart-utils');
@@ -273,7 +273,7 @@ let binomial = function (response) {
             let presentStarsDesc = {};
             let shenShaDesc = resultData.shenShaDesc;
 
-            _.mapObject(outputShenSha, function (stars, pillarName) {
+            _.mapValues(outputShenSha, function (stars, pillarName) {
                 if (pillarName === 'the3marvel') {
                     shenShaChart[pillarName] = stars;
                     presentStarsDesc['the3marvel'] = shenShaDesc['the3marvel'];
@@ -282,7 +282,7 @@ let binomial = function (response) {
                 shenShaChart[pillarName] = _.groupBy(outputShenSha[pillarName], function (shensha) {
                     return shensha.star;
                 });
-                _.mapObject(shenShaChart[pillarName], function (starsGroup, name) {
+                _.mapValues(shenShaChart[pillarName], function (starsGroup, name) {
                     let property = ChartUtils().isStem(name) ? 'hs' : 'eb';
                     shenShaChart[pillarName][property] = starsGroup;
                     _.each(starsGroup, function (star) {

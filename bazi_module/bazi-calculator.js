@@ -1,6 +1,6 @@
 'use strict';
 
-let _ = require("underscore");
+let _ = require("lodash");
 let moment = require("moment");
 let AstroCalc = require('./astro');
 let ChartUtils = require('./chart-utils');

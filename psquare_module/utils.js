@@ -1,7 +1,7 @@
 'use strict';
 
 let moment = require("moment-timezone");
-let _ = require('underscore');
+let _ = require('lodash');
 
 let CommonUtils = require('../common_module/utils');
 

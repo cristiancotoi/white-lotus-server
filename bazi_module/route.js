@@ -1,19 +1,21 @@
 'use strict';
 
-var _ = require('underscore');
+let _ = require('lodash');
+let moment = require('moment-timezone');
 
-var Person = require('../models/person');
-var BaZiMain = require('./main');
-var CommonUtils = require('../common_module/utils');
+let Person = require('../models/person');
+let BaZiMain = require('./main');
+let CommonUtils = require('../common_module/utils');
 
-function baZiGetRoute(req, res) {
+function getIdRoute(req, res) {
     Person.findOne({_id: req.params.id}, function (err, person) {
         if (err) {
             res.send(err);
         } else {
-            CommonUtils().getUser(person.analystId)
+            CommonUtils()
+                .getUser(person.analystId)
                 .then(function (user) {
-                    var userLevel = _.isUndefined(user) ? 1 : user.level;
+                    let userLevel = _.isUndefined(user) ? 1 : user.level;
                     BaZiMain(person, res).make(userLevel);
                 }, function (err) {
                     res.send(err);
@@ -22,4 +24,14 @@ function baZiGetRoute(req, res) {
     });
 }
 
-module.exports = baZiGetRoute;
+/**
+ * Return a simple chart
+ */
+function getChartRoute(req, res) {
+    BaZiMain(req.params.date, res).make(1);
+}
+
+module.exports = {
+    "getId": getIdRoute,
+    "getChart": getChartRoute
+};

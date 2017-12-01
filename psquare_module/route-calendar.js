@@ -4,7 +4,7 @@ let User = require('../models/user');
 let Person = require('../models/person');
 let OperationalNumber = require('../models/psquare/op-number');
 
-let _ = require('underscore');
+let _ = require('lodash');
 let pSquare = require('../psquare_module/main');
 
 let CommonUtils = require('../common_module/utils');
