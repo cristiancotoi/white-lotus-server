@@ -12,7 +12,7 @@ function connectToDb() {
 
     let connectionString = mongoURL + ':27017/' + dbName;
 
-    if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+    if (mongoURL === null && process.env.DATABASE_SERVICE_NAME) {
         console.info('Running in production.');
         let mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
             mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],

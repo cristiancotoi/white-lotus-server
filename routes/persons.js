@@ -30,7 +30,7 @@ router.route('/persons')
 router.route('/portfolio')
     .post(function (req, res) {
         let body = req.body;
-        if (body.analystId == undefined) {
+        if (body.analystId === undefined) {
             res.send("Bad request: " + JSON.stringify(body));
             return;
         }

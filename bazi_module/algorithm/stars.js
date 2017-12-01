@@ -11,8 +11,8 @@ let stars = function () {
         let dayBranch = chart.day.eb;
         // SteleBinomZi
         _.each(stars, function (star) {
-            if ((star.season === seasonId && star.hs == dm && star.eb == dayBranch) ||
-                (_.isUndefined(star.season) && star.hs == dm && star.eb == dayBranch)) {
+            if ((star.season === seasonId && star.hs === dm && star.eb === dayBranch) ||
+                (_.isUndefined(star.season) && star.hs === dm && star.eb === dayBranch)) {
                 result[star.category] = star;
             }
         });

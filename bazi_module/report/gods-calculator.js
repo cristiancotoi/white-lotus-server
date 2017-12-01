@@ -42,7 +42,7 @@ let strengthCalculator = function () {
     }
 
     function appendIfPillarHasBranch(chart, pillarName, branchName, resultArray) {
-        if (chart[pillarName].eb == branchName) {
+        if (chart[pillarName].eb === branchName) {
             resultArray.push([{pillar: pillarName, branch: branchName}]);
         }
     }
@@ -64,14 +64,14 @@ let strengthCalculator = function () {
     }
 
     function appendIf2PillarsHaveBranches(chart, pillarNames, branchName, resultArray) {
-        if ((chart[pillarNames[1]].eb == branchName[1] && chart[pillarNames[0]].eb == branchName[0]) ||
-            (chart[pillarNames[0]].eb == branchName[1] && chart[pillarNames[1]].eb == branchName[0])) {
+        if ((chart[pillarNames[1]].eb === branchName[1] && chart[pillarNames[0]].eb === branchName[0]) ||
+            (chart[pillarNames[0]].eb === branchName[1] && chart[pillarNames[1]].eb === branchName[0])) {
             resultArray.push([{
                 pillar: pillarNames[1],
-                branch: chart[pillarNames[1]].eb == branchName[1] ? branchName[1] : branchName[0]
+                branch: chart[pillarNames[1]].eb === branchName[1] ? branchName[1] : branchName[0]
             }, {
                 pillar: pillarNames[0],
-                branch: chart[pillarNames[0]].eb == branchName[1] ? branchName[1] : branchName[0]
+                branch: chart[pillarNames[0]].eb === branchName[1] ? branchName[1] : branchName[0]
             }]);
         }
     }
@@ -87,54 +87,54 @@ let strengthCalculator = function () {
     function appendIf3PillarsHaveBranches(chart, pillarNames, branchName, resultArray) {
         if (
             (
-            chart[pillarNames[0]].eb == branchName[0] &&
-            chart[pillarNames[1]].eb == branchName[1] &&
-            chart[pillarNames[2]].eb == branchName[2]) ||
+            chart[pillarNames[0]].eb === branchName[0] &&
+            chart[pillarNames[1]].eb === branchName[1] &&
+            chart[pillarNames[2]].eb === branchName[2]) ||
             (
-            chart[pillarNames[0]].eb == branchName[0] &&
-            chart[pillarNames[1]].eb == branchName[2] &&
-            chart[pillarNames[2]].eb == branchName[1]) ||
+            chart[pillarNames[0]].eb === branchName[0] &&
+            chart[pillarNames[1]].eb === branchName[2] &&
+            chart[pillarNames[2]].eb === branchName[1]) ||
 
             (
-            chart[pillarNames[0]].eb == branchName[1] &&
-            chart[pillarNames[1]].eb == branchName[0] &&
-            chart[pillarNames[2]].eb == branchName[2]) ||
+            chart[pillarNames[0]].eb === branchName[1] &&
+            chart[pillarNames[1]].eb === branchName[0] &&
+            chart[pillarNames[2]].eb === branchName[2]) ||
             (
-            chart[pillarNames[0]].eb == branchName[1] &&
-            chart[pillarNames[1]].eb == branchName[2] &&
-            chart[pillarNames[2]].eb == branchName[0]) ||
+            chart[pillarNames[0]].eb === branchName[1] &&
+            chart[pillarNames[1]].eb === branchName[2] &&
+            chart[pillarNames[2]].eb === branchName[0]) ||
 
             (
-            chart[pillarNames[0]].eb == branchName[2] &&
-            chart[pillarNames[1]].eb == branchName[0] &&
-            chart[pillarNames[2]].eb == branchName[1]) ||
+            chart[pillarNames[0]].eb === branchName[2] &&
+            chart[pillarNames[1]].eb === branchName[0] &&
+            chart[pillarNames[2]].eb === branchName[1]) ||
             (
-            chart[pillarNames[0]].eb == branchName[2] &&
-            chart[pillarNames[1]].eb == branchName[1] &&
-            chart[pillarNames[2]].eb == branchName[0])
+            chart[pillarNames[0]].eb === branchName[2] &&
+            chart[pillarNames[1]].eb === branchName[1] &&
+            chart[pillarNames[2]].eb === branchName[0])
         ) {
             resultArray.push([
                 {
                     pillar: pillarNames[0],
-                    branch: chart[pillarNames[0]].eb == branchName[0] ?
+                    branch: chart[pillarNames[0]].eb === branchName[0] ?
                         branchName[0] :
-                        chart[pillarNames[0]].eb == branchName[1] ?
+                        chart[pillarNames[0]].eb === branchName[1] ?
                             branchName[1] :
                             branchName[2]
                 },
                 {
                     pillar: pillarNames[1],
-                    branch: chart[pillarNames[1]].eb == branchName[0] ?
+                    branch: chart[pillarNames[1]].eb === branchName[0] ?
                         branchName[0] :
-                        chart[pillarNames[1]].eb == branchName[1] ?
+                        chart[pillarNames[1]].eb === branchName[1] ?
                             branchName[1] :
                             branchName[2]
                 },
                 {
                     pillar: pillarNames[2],
-                    branch: chart[pillarNames[2]].eb == branchName[0] ?
+                    branch: chart[pillarNames[2]].eb === branchName[0] ?
                         branchName[0] :
-                        chart[pillarNames[2]].eb == branchName[1] ?
+                        chart[pillarNames[2]].eb === branchName[1] ?
                             branchName[1] :
                             branchName[2]
                 }

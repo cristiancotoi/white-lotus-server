@@ -37,7 +37,7 @@ let utils = function () {
             dateObj.day
         ];
 
-        if (!_.isUndefined(dateObj.hour) && dateObj.hour != null) {
+        if (!_.isUndefined(dateObj.hour) && dateObj.hour !== null) {
             let min = _.isUndefined(dateObj.minutes) ? dateObj.minute : dateObj.minutes;
             dateArr.push(dateObj.hour, min);
         }

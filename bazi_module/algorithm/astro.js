@@ -41,9 +41,9 @@ let astro = function () {
             skipHour: false
         };
 
-        result.gender = person.gender == 'M' ? 1 : -1;
+        result.gender = person.gender === 'M' ? 1 : -1;
 
-        if (_.isUndefined(result.hour) || result.hour == null) {
+        if (_.isUndefined(result.hour) || result.hour === null) {
             result.hour = 0;
             result.minute = 0;
             result.timeZone = 0;
@@ -131,7 +131,7 @@ let astro = function () {
         let max = sector * 30 + 15;
 
         let LP;
-        if (FW == 1) {
+        if (FW === 1) {
             LP = ((max - trueLongitude) / 3);
         } else {
             LP = ((trueLongitude - min) / 3);
