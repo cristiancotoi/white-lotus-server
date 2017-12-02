@@ -1,12 +1,13 @@
 'use strict';
 
-let moment = require('moment-timezone');
 let _ = require('lodash');
 
 let utils = function (options) {
     let rules = options;
 
-    if (isNumeric(options)) {
+    if (!_.isUndefined(options) && !_.isUndefined(options.level) &&
+        isNumeric(options.level)) {
+
         rules = expandNumericOption(options);
     }
 
@@ -16,31 +17,29 @@ let utils = function (options) {
 
     /**
      * Expand user level into rules.
-     * @param userLevel user level
+     * @param optionslevel user level
      * @returns {{}}
      */
-    function expandNumericOption(userLevel) {
-        let expandedRules = {};
-        if (userLevel === 0) {
+    function expandNumericOption(options) {
+        let expandedRules = options;
+        if (options.level <= 0) {
             return expandedRules;
         }
 
-        expandedRules = {
-            'current luck pillar': true,
-            'dm': true
-        };
+        expandedRules['current luck pillar'] = true;
+        expandedRules['dm'] = true;
 
-        if (userLevel >= 3) {
+        if (options.level >= 3) {
             expandedRules['gods strength for season'] = true;
             expandedRules['normal life type'] = true;
             expandedRules['gods strength'] = true;
         }
 
-        if (userLevel >= 5) {
+        if (options.level >= 5) {
             expandedRules['branch relations'] = true;
         }
 
-        if (userLevel >= 8) {
+        if (options.level >= 8) {
             expandedRules['shen sha'] = true;
             expandedRules['day star binomial'] = true;
         }
@@ -48,10 +47,13 @@ let utils = function (options) {
     }
 
     function includes(item) {
+        // undefined = no rules are generated
+        // consider everything has to be generated
         let generateAll = _.isUndefined(rules);
+        // Rule exists
         let ruleIsValid = !!rules && !!rules[item];
-        //console.log(item);
-        //console.log(generateAll + ' || ' + ruleIsValid + ' -->' + (generateAll || ruleIsValid) + '\n');
+        // console.log(item);
+        // console.log(generateAll + ' || ' + ruleIsValid + ' -->' + (generateAll || ruleIsValid) + '\n');
         return generateAll || ruleIsValid;
     }
 
