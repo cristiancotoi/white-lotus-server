@@ -46,8 +46,13 @@ describe('BaZi rules tests', function () {
 
     it('Options is integer = 1', function () {
         let rules = Rules({level: 1});
-        expect(rules.includes('dm')).to.equal(true);
+        expect(rules.includes('dm')).to.equal(false);
         expect(rules.includes('current luck pillar')).to.equal(true);
+    });
+
+    it('Level 99 includes dm', function () {
+        let rules = Rules({level: 99});
+        expect(rules.includes('dm')).to.equal(true);
     });
 
     it('Options is user level 3', function () {

@@ -4,22 +4,12 @@ let _ = require("lodash");
 
 let ChartUtils = require('../../algorithm/chart-utils');
 
-let DM = require('../../../models/bazi/day-master');
 let NormalLifeType = require('../../../models/bazi/normal-life-type');
 let GodsStrength = require('../../../models/bazi/gods-strength');
 
 let StarBinomial = require('../../../models/bazi/star-binomial');
 
 let coreDescriptions = function () {
-    function getDM(resultData) {
-        let dmName = resultData.chart.chart.day.hs;
-        let promise = DM.find({id: dmName}).exec();
-
-        return promise.then(function (dm) {
-            resultData.dm = dm[0].toObject();
-        });
-    }
-
     function getNormalLifeType(resultData) {
         let dmName = resultData.chart.chart.day.hs;
         let normalLifeTypeStem = ChartUtils().getNormalLifeTypeStem(resultData.chart.chart);
@@ -60,10 +50,6 @@ let coreDescriptions = function () {
 
     function aggregate(resultData, rules) {
         let promises = [];
-
-        if (rules.includes('dm')) {
-            promises.push(getDM(resultData));
-        }
 
         if (rules.includes('gods strength for season')) {
             promises.push(getGodsStrengthsForSeason(resultData));

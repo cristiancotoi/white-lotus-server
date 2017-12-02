@@ -17,7 +17,7 @@ let utils = function (options) {
 
     /**
      * Expand user level into rules.
-     * @param optionslevel user level
+     * @param options rules including user level
      * @returns {{}}
      */
     function expandNumericOption(options) {
@@ -26,13 +26,16 @@ let utils = function (options) {
             return expandedRules;
         }
 
-        expandedRules['current luck pillar'] = true;
-        expandedRules['dm'] = true;
+        if (options.level >= 1) {
+            expandedRules['current luck pillar'] = true;
+        }
 
         if (options.level >= 3) {
+            expandedRules['dm'] = true;
             expandedRules['gods strength for season'] = true;
             expandedRules['normal life type'] = true;
             expandedRules['gods strength'] = true;
+            expandedRules['day star binomial'] = true;
         }
 
         if (options.level >= 5) {
@@ -41,7 +44,6 @@ let utils = function (options) {
 
         if (options.level >= 8) {
             expandedRules['shen sha'] = true;
-            expandedRules['day star binomial'] = true;
         }
         return expandedRules;
     }

@@ -8,8 +8,9 @@ let DateUtils = require('./algorithm/date-utils');
 let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
-let DataRetriever = require('./report/retrievers/core-descriptions');
+let CoreDecriptionsRetriever = require('./report/retrievers/core-descriptions');
 let CoreElementsRetriever = require('./report/retrievers/core-elements');
+let DMRetriever = require('./report/retrievers/dm');
 let ChartRetriever = require('./report/retrievers/chart');
 let LuckRetriever = require('./report/retrievers/luck');
 let RelationsRetriever = require('./report/retrievers/relations');
@@ -153,7 +154,8 @@ let baziModule = function (person, response) {
         return Promise.all([
             CoreElementsRetriever().getAll(resultData),
             ChartRetriever().getAll(resultData),
-            DataRetriever().getAll(resultData, rules),
+            DMRetriever().getAll(resultData, rules),
+            CoreDecriptionsRetriever().getAll(resultData, rules),
             RelationsRetriever().getAll(resultData, rules),
             LuckRetriever().getAll(resultData),
             ShenShaRetriever().getAll(resultData, rules)
