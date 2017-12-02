@@ -4,10 +4,6 @@ let _ = require("lodash");
 
 let ChartUtils = require('../../algorithm/chart-utils');
 
-let Phases = require('../../../models/bazi/phase');
-let HS = require('../../../models/bazi/heavenly-stem');
-let EB = require('../../../models/bazi/earthly-branch');
-
 let DM = require('../../../models/bazi/day-master');
 let NormalLifeType = require('../../../models/bazi/normal-life-type');
 let GodsStrength = require('../../../models/bazi/gods-strength');
@@ -15,38 +11,6 @@ let GodsStrength = require('../../../models/bazi/gods-strength');
 let StarBinomial = require('../../../models/bazi/star-binomial');
 
 let binomial = function () {
-    function arrToMap(arr, keyName) {
-        let result = {};
-        _.each(arr, function (element) {
-            result[element[keyName]] = element.toObject();
-        });
-        return result;
-    }
-
-    function getPhases(resultData) {
-        let promise = Phases.find().exec();
-
-        return promise.then(function (phases) {
-            resultData.phases = arrToMap(phases, "presc");
-        });
-    }
-
-    function getHS(resultData) {
-        let promise = HS.find().exec();
-
-        return promise.then(function (heavenlyStems) {
-            resultData.heavenlyStems = arrToMap(heavenlyStems, "presc");
-        });
-    }
-
-    function getEB(resultData) {
-        let promise = EB.find().exec();
-
-        return promise.then(function (earthlyBranches) {
-            resultData.earthlyBranches = arrToMap(earthlyBranches, "presc");
-        });
-    }
-
     function getDM(resultData) {
         let dmName = resultData.chart.chart.day.hs;
         let promise = DM.find({id: dmName}).exec();
@@ -96,10 +60,6 @@ let binomial = function () {
 
     function aggregate(resultData, rules) {
         let promises = [];
-
-        promises.push(getPhases(resultData));
-        promises.push(getHS(resultData));
-        promises.push(getEB(resultData));
 
         if (rules.includes('dm')) {
             promises.push(getDM(resultData));
