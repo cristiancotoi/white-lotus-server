@@ -10,7 +10,7 @@ let GodsStrength = require('../../../models/bazi/gods-strength');
 
 let StarBinomial = require('../../../models/bazi/star-binomial');
 
-let binomial = function () {
+let coreDescriptions = function () {
     function getDM(resultData) {
         let dmName = resultData.chart.chart.day.hs;
         let promise = DM.find({id: dmName}).exec();
@@ -84,4 +84,4 @@ let binomial = function () {
     };
 };
 
-module.exports = binomial;
+module.exports = coreDescriptions;

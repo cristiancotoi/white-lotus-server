@@ -6,7 +6,7 @@ let BranchRelation = require('../../../models/bazi/branch-relation');
 
 let GodsCalculator = require('../gods-calculator');
 
-let binomial = function () {
+let relations = function () {
     let calculator = GodsCalculator();
 
     function getBranchRelations(resultData) {
@@ -36,4 +36,4 @@ let binomial = function () {
     };
 };
 
-module.exports = binomial;
+module.exports = relations;

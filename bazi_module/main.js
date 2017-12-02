@@ -8,7 +8,7 @@ let DateUtils = require('./algorithm/date-utils');
 let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
-let DataRetriever = require('./report/retrievers/data-retriever');
+let DataRetriever = require('./report/retrievers/core-descriptions');
 let CoreElementsRetriever = require('./report/retrievers/core-elements');
 let ChartRetriever = require('./report/retrievers/chart');
 let LuckRetriever = require('./report/retrievers/luck');

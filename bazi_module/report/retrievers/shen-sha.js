@@ -10,7 +10,7 @@ let ShenShaHeavenlyDoctor = require('../../../models/bazi/shensha-heavenly-docto
 let ShenShaExternalPeachBlossom = require('../../../models/bazi/shensha-ext-peach-blossom');
 let ShenSha3Marvels = require('../../../models/bazi/shensha-3-marvels');
 
-let binomial = function () {
+let shensha = function () {
     function getShenShaDescription(resultData) {
         let promise = ShenShaDescription.find().exec();
 
@@ -105,4 +105,4 @@ let binomial = function () {
     };
 };
 
-module.exports = binomial;
+module.exports = shensha;
