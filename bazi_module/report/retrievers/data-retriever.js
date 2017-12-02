@@ -7,7 +7,6 @@ let ChartUtils = require('../../algorithm/chart-utils');
 let Phases = require('../../../models/bazi/phase');
 let HS = require('../../../models/bazi/heavenly-stem');
 let EB = require('../../../models/bazi/earthly-branch');
-let Binomial = require('../../../models/bazi/binomial');
 
 let DM = require('../../../models/bazi/day-master');
 let NormalLifeType = require('../../../models/bazi/normal-life-type');
@@ -45,14 +44,6 @@ let binomial = function () {
 
         return promise.then(function (earthlyBranches) {
             resultData.earthlyBranches = arrToMap(earthlyBranches, "presc");
-        });
-    }
-
-    function getBinomial(resultChart, position, pillar) {
-        let promise = Binomial.find({hs: pillar.hs, eb: pillar.eb}).exec();
-
-        return promise.then(function (binomial) {
-            resultChart[position] = binomial[0].toObject()
         });
     }
 
@@ -105,27 +96,10 @@ let binomial = function () {
 
     function aggregate(resultData, rules) {
         let promises = [];
-        let chart = resultData.chart.chart;
-        resultData.detailedChart = {};
 
         promises.push(getPhases(resultData));
         promises.push(getHS(resultData));
         promises.push(getEB(resultData));
-
-        promises.push(getBinomial(
-            resultData.detailedChart, 'year',
-            chart.year));
-        promises.push(getBinomial(
-            resultData.detailedChart, 'month',
-            chart.month));
-        promises.push(getBinomial(
-            resultData.detailedChart, 'day',
-            chart.day));
-        if (!_.isUndefined(chart.hour.hs)) {
-            promises.push(getBinomial(
-                resultData.detailedChart, 'hour',
-                chart.hour));
-        }
 
         if (rules.includes('dm')) {
             promises.push(getDM(resultData));

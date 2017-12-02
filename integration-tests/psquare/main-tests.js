@@ -236,7 +236,6 @@ describe('Pythagorean Square basic calculations', function () {
                     result['interior vibration'].number + ' = ' +
                     result['exterior vibration'].number + ' = ' +
                     result['cosmic vibration'].number;
-                console.log(dayId);
             }
 
             pSquare({date: date}, {json: asserts}).make(99);

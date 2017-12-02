@@ -9,6 +9,7 @@ let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
 let DataRetriever = require('./report/retrievers/data-retriever');
+let ChartRetriever = require('./report/retrievers/chart');
 let LuckRetriever = require('./report/retrievers/luck');
 let RelationsRetriever = require('./report/retrievers/relations');
 let ShenShaRetriever = require('./report/retrievers/shen-sha');
@@ -149,6 +150,7 @@ let baziModule = function (person, response) {
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis
         return Promise.all([
+            ChartRetriever().getAll(resultData),
             DataRetriever().getAll(resultData, rules),
             RelationsRetriever().getAll(resultData, rules),
             LuckRetriever().getAll(resultData),

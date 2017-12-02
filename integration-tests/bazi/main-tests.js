@@ -442,7 +442,6 @@ describe('BaZiMain basic calculations', function () {
         };
 
         function asserts(result) {
-            console.log(result.godsScore);
             expect(result.godsScore).to.exist;
             expect(result.branchRelations).to.be.undefined;
             done();
