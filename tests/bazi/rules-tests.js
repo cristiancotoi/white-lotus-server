@@ -46,7 +46,7 @@ describe('BaZi rules tests', function () {
 
     it('Options is integer = 1', function () {
         let rules = Rules({level: 1});
-        expect(rules.includes('dm')).to.equal(false);
+        expect(rules.includes('dm')).to.equal(true);
         expect(rules.includes('current luck pillar')).to.equal(true);
     });
 

@@ -152,12 +152,12 @@ let baziModule = function (person, response) {
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis
         return Promise.all([
-            CoreElementsRetriever().getAll(resultData),
+            CoreElementsRetriever().getAll(resultData, rules),
             ChartRetriever().getAll(resultData),
             DMRetriever().getAll(resultData, rules),
             CoreDecriptionsRetriever().getAll(resultData, rules),
             RelationsRetriever().getAll(resultData, rules),
-            LuckRetriever().getAll(resultData),
+            LuckRetriever().getAll(resultData, rules),
             ShenShaRetriever().getAll(resultData, rules)
         ]).then(function () {
             postProcessing(resultData, rules);

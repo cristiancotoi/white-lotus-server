@@ -39,12 +39,14 @@ let coreElements = function () {
         });
     }
 
-    function aggregate(resultData) {
+    function aggregate(resultData, rules) {
         let promises = [];
 
-        promises.push(getPhases(resultData));
-        promises.push(getHS(resultData));
-        promises.push(getEB(resultData));
+        if (rules.includes('core elements')) {
+            promises.push(getPhases(resultData));
+            promises.push(getHS(resultData));
+            promises.push(getEB(resultData));
+        }
 
         return Promise.all(promises);
     }

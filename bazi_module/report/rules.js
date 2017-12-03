@@ -27,14 +27,16 @@ let utils = function (options) {
         }
 
         if (options.level >= 1) {
+            expandedRules['core elements'] = true;
+            expandedRules['luck'] = true;
             expandedRules['current luck pillar'] = true;
+            expandedRules['dm'] = true;
         }
 
         if (options.level >= 3) {
-            expandedRules['dm'] = true;
-            expandedRules['gods strength for season'] = true;
             expandedRules['normal life type'] = true;
             expandedRules['gods strength'] = true;
+            expandedRules['gods strength for season'] = true;
             expandedRules['day star binomial'] = true;
         }
 

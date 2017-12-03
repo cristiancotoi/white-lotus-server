@@ -448,8 +448,7 @@ describe('BaZiMain basic calculations', function () {
         }
 
         BaZiMain(person).make({
-            'gods strength': true,
-            'gods strength for season': true
+            'level': 3
         }, {json: asserts});
     });
 
