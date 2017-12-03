@@ -13,9 +13,9 @@ const http = require('http'),
 let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-let persons = require('./routes/persons');
-let pSquare = require('./routes/psquare');
-let bazi = require('./routes/bazi');
+let personsRoutes = require('./routes/persons');
+let pSquareRoutes = require('./routes/psquare');
+let baziRoutes = require('./routes/bazi');
 
 let app = express();
 
@@ -23,9 +23,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/api', persons);
-app.use('/api', pSquare);
-app.use('/api', bazi);
+app.use('/api', personsRoutes);
+app.use('/api', pSquareRoutes);
+app.use('/api', baziRoutes);
 app.use(express.static('static'));
 app.get('/health', function(req, res) {
     res.writeHead(200);

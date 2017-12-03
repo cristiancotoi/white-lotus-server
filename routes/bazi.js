@@ -7,9 +7,9 @@ let express = require('express');
 let router = express.Router();
 
 router.route('/bazi/:id')
-    .get(baZiGetRoute.getId());
+    .get(baZiGetRoute.getId);
 
 router.route('/bazi/simple-chart/:date')
-    .get(baZiGetRoute.getChart());
+    .get(baZiGetRoute.getChart);
 
 module.exports = router;
