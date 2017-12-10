@@ -4,17 +4,15 @@ let _ = require("lodash");
 
 let BranchRelation = require('../../../models/bazi/branch-relation');
 
-let GodsCalculator = require('../gods-calculator');
+let BranchRelationsCalculator = require('../relations/branch');
 
 let relations = function () {
-    let calculator = GodsCalculator();
-
     function getBranchRelations(resultData) {
         let promise = BranchRelation.find().exec();
 
         return promise.then(function (allRelations) {
             resultData.branchRelations =
-                calculator.getMatchingRelations(
+                BranchRelationsCalculator().getMatchingRelationsInChart(
                     resultData.chart.chart,
                     allRelations
                 );
