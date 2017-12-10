@@ -56,7 +56,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(1);
+        BaZiMain(person).make({level:1},{json: asserts});
     });
 
     it('check reduced output values contains only calculated info (user level = 0)', function (done) {
@@ -82,7 +82,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(0);
+        BaZiMain(person).make({level:0},{json: asserts});
     });
 
     it('check basic output values with simple rules', function (done) {
@@ -102,9 +102,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99, {
-            'current luck pillar': true
-        });
+        BaZiMain(person).make({level:99}, {json: asserts});
     });
 
     it('check basic output values with rules not including current luck pillar', function (done) {
@@ -124,9 +122,9 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make({
+        BaZiMain(person).make({
             'current luck pillar': false
-        });
+        }, {json: asserts});
     });
 
     it('check chart data quality for 24 12 1948', function (done) {
@@ -145,7 +143,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check chart calculations for date without hour and minutes', function (done) {
@@ -165,7 +163,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check chart contents after calculations', function (done) {
@@ -202,7 +200,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check chart contents for 30 11 1990 3:4 Magnus Carlsen', function (done) {
@@ -324,7 +322,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check luck', function (done) {
@@ -341,7 +339,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check dm', function (done) {
@@ -367,7 +365,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check relations', function (done) {
@@ -413,7 +411,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(99);
+        BaZiMain(person).make({level:99},{json: asserts});
     });
 
     it('check relations are not present for user level 1', function (done) {
@@ -431,7 +429,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(1);
+        BaZiMain(person).make({level:1},{json: asserts});
     });
 
     it('check relations are not present for user level 3', function (done) {
@@ -449,9 +447,9 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(3, {
-            'gods strength for season': true
-        });
+        BaZiMain(person).make({
+            'level': 3
+        }, {json: asserts});
     });
 
     it('check shen sha 7/6/1955 (level 8)', function (done) {
@@ -504,7 +502,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(8);
+        BaZiMain(person).make({level:8},{json: asserts});
     });
 
     it('check shen sha for 26/6/1986 (level 8)', function (done) {
@@ -552,7 +550,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(8);
+        BaZiMain(person).make({level:8},{json: asserts});
     });
 
     it('check date with shen sha 3 marvels', function (done) {
@@ -581,7 +579,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(8);
+        BaZiMain(person).make({level:8},{json: asserts});
     });
 
     it('check star binomial', function (done) {
@@ -606,7 +604,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(8);
+        BaZiMain(person).make({level:8},{json: asserts});
     });
 
     it('check missing star binomial', function (done) {
@@ -623,7 +621,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(8);
+        BaZiMain(person).make({level:8},{json: asserts});
     });
 
     it('check normal life type', function (done) {
@@ -644,7 +642,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person, {json: asserts}).make(3);
+        BaZiMain(person).make({level:3},{json: asserts});
     });
 
     /**
@@ -680,7 +678,7 @@ describe('BaZiMain basic calculations', function () {
                 console.log(dayId);
             }
 
-            BaZiMain(person, {json: asserts}).make(8);
+            BaZiMain(person).make({level:8},{json: asserts});
             m = m.add(1, 'day');
         }
         setTimeout(done, timeout - 3000);

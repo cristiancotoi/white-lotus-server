@@ -45,7 +45,6 @@ describe('BaZi route tests', function () {
             id: '573e91ceeef6e5181d2a3d42'
         };
         req.send = function(param) {
-            console.log(param);
             expect(true).to.equal(true);
             done();
         };

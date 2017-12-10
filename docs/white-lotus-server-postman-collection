@@ -1,0 +1,96 @@
+{
+	"variables": [],
+	"info": {
+		"name": "White lotus server",
+		"_postman_id": "087a823d-18c9-aac0-9bab-9f338392c023",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"description": "",
+			"item": [
+				{
+					"name": "/api/persons",
+					"request": {
+						"url": "localhost:8080/api/persons",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/health",
+					"request": {
+						"url": "localhost:8080/health",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/bazi/chart",
+					"request": {
+						"url": "localhost:8080/api/bazi/chart",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"date\":\"2016-01-01T00:00:00+02:00\",\n\"longitude\":27.35,\n\"gender\":\"M\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/portfolio",
+					"request": {
+						"url": "localhost:8080/api/portfolio",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"analystId\":\"cristian.cotoi@gmail.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prod",
+			"description": "",
+			"item": [
+				{
+					"name": "/api/persons",
+					"request": {
+						"url": "http://white-lotus-server-whitelotus.7e14.starter-us-west-2.openshiftapps.com/api/persons",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

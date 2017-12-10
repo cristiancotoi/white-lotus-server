@@ -14,16 +14,17 @@ let luckRetriever = function () {
         });
     }
 
-    function aggregate(resultData) {
+    function aggregate(resultData, rules) {
         let promises = [];
         let luck = resultData.chart.luck;
-        resultData.detailedLuck = [];
-        let luckLen = luck.length;
-
-        for (let i = 0; i < luckLen; i++) {
-            promises.push(getBinomial(
-                resultData.detailedLuck, i,
-                luck[i]));
+        if (rules.includes('luck')) {
+            resultData.detailedLuck = [];
+            let luckLen = luck.length;
+            for (let i = 0; i < luckLen; i++) {
+                promises.push(getBinomial(
+                    resultData.detailedLuck, i,
+                    luck[i]));
+            }
         }
 
         return Promise.all(promises);

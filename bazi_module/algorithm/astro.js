@@ -117,15 +117,7 @@ let astro = function () {
         return resultIndex;
     }
 
-    function getMonthBranchData(trueLongitude, FW) {
-        let resultData = {};
-        let sector = getSector(trueLongitude);
-        resultData.index = (sector + 4) % 12;
-
-        let incr = resultData.index - 3;
-        resultData.increment = incr < 1 ? incr + 12 : incr;
-        resultData.increment = resultData.increment % 12;
-
+    function getFirstLuckPillar(sector, FW, trueLongitude) {
         let min = sector * 30 - 15;
         min = min < 0 ? min + 360 : min;
         let max = sector * 30 + 15;
@@ -143,7 +135,23 @@ let astro = function () {
         if (LP < 0) {
             LP = LP + 120
         }
-        resultData.LP = LP;
+        return LP;
+    }
+
+    function getMonthBranchData(trueLongitude, FW) {
+        let resultData = {};
+        let sector = getSector(trueLongitude);
+        resultData.index = (sector + 4) % 12;
+
+        let incr = resultData.index - 3;
+        resultData.increment = incr < 1 ? incr + 12 : incr;
+        resultData.increment = resultData.increment % 12;
+
+        // In case chart is calculated for an arbitrary date, not a person
+        if(!_.isUndefined(FW)) {
+            resultData.LP = getFirstLuckPillar(sector, FW, trueLongitude);
+        }
+
         return resultData;
     }
 

@@ -8,7 +8,10 @@ let DateUtils = require('./algorithm/date-utils');
 let ChartUtils = require('./algorithm/chart-utils');
 let CommonUtils = require('../common_module/utils');
 
-let DataRetriever = require('./report/retrievers/data-retriever');
+let CoreDecriptionsRetriever = require('./report/retrievers/core-descriptions');
+let CoreElementsRetriever = require('./report/retrievers/core-elements');
+let DMRetriever = require('./report/retrievers/dm');
+let ChartRetriever = require('./report/retrievers/chart');
 let LuckRetriever = require('./report/retrievers/luck');
 let RelationsRetriever = require('./report/retrievers/relations');
 let ShenShaRetriever = require('./report/retrievers/shen-sha');
@@ -122,7 +125,7 @@ let baziModule = function (person, response) {
         }
     }
 
-    function calculate(options) {
+    function calculate(options, response) {
         let rules = Rules(options);
 
         let chartData = Calculator(person).compute();
@@ -149,9 +152,12 @@ let baziModule = function (person, response) {
         // All these are appended based on the fact
         // that eventually all appear in chart/analysis
         return Promise.all([
-            DataRetriever().getAll(resultData, rules),
+            CoreElementsRetriever().getAll(resultData, rules),
+            ChartRetriever().getAll(resultData),
+            DMRetriever().getAll(resultData, rules),
+            CoreDecriptionsRetriever().getAll(resultData, rules),
             RelationsRetriever().getAll(resultData, rules),
-            LuckRetriever().getAll(resultData),
+            LuckRetriever().getAll(resultData, rules),
             ShenShaRetriever().getAll(resultData, rules)
         ]).then(function () {
             postProcessing(resultData, rules);

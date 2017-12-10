@@ -45,13 +45,18 @@ describe('BaZi rules tests', function () {
     });
 
     it('Options is integer = 1', function () {
-        let rules = Rules(1);
+        let rules = Rules({level: 1});
         expect(rules.includes('dm')).to.equal(true);
         expect(rules.includes('current luck pillar')).to.equal(true);
     });
 
+    it('Level 99 includes dm', function () {
+        let rules = Rules({level: 99});
+        expect(rules.includes('dm')).to.equal(true);
+    });
+
     it('Options is user level 3', function () {
-        let rules = Rules(3);
+        let rules = Rules({level: 3});
         expect(rules.includes('gods strength for season')).to.equal(true);
         expect(rules.includes('normal life type')).to.equal(true);
         expect(rules.includes('gods strength')).to.equal(true);
@@ -59,8 +64,20 @@ describe('BaZi rules tests', function () {
     });
 
     it('Options is integer = 0', function () {
-        let rules = Rules(0);
+        let rules = Rules({level: 0});
         expect(rules.includes('dm')).to.equal(false);
         expect(rules.includes('current luck pillar')).to.equal(false);
     });
+
+    it('Options level append to existing ones', function () {
+        let rules = Rules({
+            level: 3,
+            'branch relations': true
+        });
+        expect(rules.includes('gods strength for season')).to.equal(true);
+        expect(rules.includes('normal life type')).to.equal(true);
+        expect(rules.includes('gods strength')).to.equal(true);
+        expect(rules.includes('branch relations')).to.equal(true);
+    });
+
 });
