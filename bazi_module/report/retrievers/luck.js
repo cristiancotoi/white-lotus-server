@@ -17,10 +17,9 @@ let luckRetriever = function () {
     function aggregate(resultData, rules) {
         let promises = [];
         let luck = resultData.chart.luck;
-        resultData.detailedLuck = [];
-        let luckLen = luck.length;
-
         if (rules.includes('luck')) {
+            resultData.detailedLuck = [];
+            let luckLen = luck.length;
             for (let i = 0; i < luckLen; i++) {
                 promises.push(getBinomial(
                     resultData.detailedLuck, i,

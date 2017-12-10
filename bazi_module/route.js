@@ -1,6 +1,7 @@
 'use strict';
 
 let _ = require('lodash');
+let moment = require('moment-timezone');
 
 let Person = require('../models/person');
 let BaZiMain = require('./main');
@@ -26,11 +27,28 @@ function getIdRoute(req, res) {
 /**
  * Return a simple chart
  */
-function getChartRoute(req, res) {
-    BaZiMain(req.params.date).make({level: 0}, res);
+function getChart(req, res) {
+    let body = req.body;
+    let mom = moment(body.date);
+    let person = {
+        date: {
+            year: mom.year(),
+            month: mom.month(),
+            day: mom.date(),
+            hour: mom.hour(),
+            minutes: mom.minutes()
+        },
+        tz: mom.utcOffset() / 60,
+        dst_active_at_birth: body.dst,
+        longitude: body.longitude,
+        gender: body.gender
+    };
+    BaZiMain(person).make({
+        'core elements': false
+    }, res);
 }
 
 module.exports = {
     "getId": getIdRoute,
-    "getChart": getChartRoute
+    "getChart": getChart
 };

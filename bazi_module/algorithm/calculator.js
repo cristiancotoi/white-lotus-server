@@ -113,6 +113,15 @@ function BaZiCalculator(person) {
         return luck;
     }
 
+    function getSimplifiedAstroData(astroData) {
+        let result = {};
+        result.year = astroData.year;
+        result.month = astroData.month;
+        result.hour = astroData.hour_int;
+        result.minute = astroData.minute;
+        return result;
+    }
+
     return {
         compute: function () {
             if (_.isUndefined(person) ||
@@ -209,7 +218,7 @@ function BaZiCalculator(person) {
             yearHidS = getHiddenStems(yearBranch);
 
             result.luck = getLuckPillars(mb.index, moment(astroData.moment));
-            result.astroData = astroData;
+            result.astroData = getSimplifiedAstroData(astroData);
             result.chart = {
                 year: {hs: yearStem, eb: yearBranch, hidStems: yearHidS},
                 month: {hs: monthStem, eb: monthBranch, hidStems: monthHidS},
