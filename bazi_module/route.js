@@ -24,26 +24,13 @@ function getIdRoute(req, res) {
     });
 }
 
+
+
 /**
  * Return a simple chart
  */
 function getChart(req, res) {
-    let body = req.body;
-    let mom = moment(body.date);
-    let person = {
-        date: {
-            year: mom.year(),
-            month: mom.month(),
-            day: mom.date(),
-            hour: mom.hour(),
-            minutes: mom.minutes()
-        },
-        tz: mom.utcOffset() / 60,
-        dst_active_at_birth: body.dst,
-        longitude: body.longitude,
-        gender: body.gender
-    };
-    BaZiMain(person).make({
+    BaZiMain(req.body).make({
         'core elements': false
     }, res);
 }
