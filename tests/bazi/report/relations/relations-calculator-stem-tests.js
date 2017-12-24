@@ -93,10 +93,6 @@ describe('BaZi pillar HS relations calculator', function () {
 
     it('check 2 pillars has a 2-stem set', function () {
         let inputChart = {
-            /*            month: {
-                            hs: '壬 A+',
-                            eb: '午 wǔ'
-                        },*/
             day: {
                 hs: '癸 A-',
                 eb: '卯 mǎo'
@@ -552,7 +548,6 @@ describe('BaZi pillar HS relations calculator', function () {
         let lookForStems = ['癸 A-', '壬 A+', '甲 L+'];
 
         let result = calculator.chartHasRelationsWithExternalChart(inputChart, externalChart, lookForStems);
-        console.log(result);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -612,7 +607,6 @@ describe('BaZi pillar HS relations calculator', function () {
         let lookForStems = ['癸 A-', '甲 L+'];
 
         let result = calculator.chartHasRelationsWithExternalChart(inputChart, externalChart, lookForStems);
-        console.log(result);
         expect(result.length).to.equal(2);
         expect(result[0]).to.containSubset([
             {
