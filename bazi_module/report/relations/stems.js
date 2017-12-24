@@ -1,7 +1,7 @@
 'use strict';
 
 let _ = require("lodash");
-let RelationsCalculator = require('../../../../bazi_module/report/relations/relations-calculator');
+let RelationsCalculator = require('./relations-calculator');
 
 let strengthCalculator = function () {
     let calculator = RelationsCalculator("hs");

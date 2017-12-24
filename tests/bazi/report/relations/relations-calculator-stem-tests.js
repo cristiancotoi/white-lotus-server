@@ -6,8 +6,8 @@ let expect = chai.expect; // we are using the 'expect' style of Chai
 let _ = require('lodash');
 let RelationsCalculator = require('../../../../bazi_module/report/relations/relations-calculator');
 
-describe('BaZi pillar relations calculator', function () {
-    let calculator = RelationsCalculator();
+describe('BaZi pillar HS relations calculator', function () {
+    let calculator = RelationsCalculator("hs");
 
     it('check a 2 pillars DON\'T have a stem pair', function () {
         let inputChart = {

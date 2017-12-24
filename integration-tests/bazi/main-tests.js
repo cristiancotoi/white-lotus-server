@@ -56,7 +56,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:1},{json: asserts});
+        BaZiMain(person).make({level: 1}, {json: asserts});
     });
 
     it('check reduced output values contains only calculated info (user level = 0)', function (done) {
@@ -82,7 +82,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:0},{json: asserts});
+        BaZiMain(person).make({level: 0}, {json: asserts});
     });
 
     it('check basic output values with simple rules', function (done) {
@@ -102,7 +102,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99}, {json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check basic output values with rules not including current luck pillar', function (done) {
@@ -143,7 +143,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check chart calculations for date without hour and minutes', function (done) {
@@ -163,7 +163,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check chart contents after calculations', function (done) {
@@ -200,7 +200,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check chart contents for 30 11 1990 3:4 Magnus Carlsen', function (done) {
@@ -322,7 +322,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check luck', function (done) {
@@ -339,7 +339,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check dm', function (done) {
@@ -365,7 +365,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check relations', function (done) {
@@ -379,21 +379,10 @@ describe('BaZiMain basic calculations', function () {
         let output = [
             {
                 "relation": {
-                    "eb1": "亥 hài",
-                    "category": "Origine",
-                    "categoryDescription": "Reprezintă punctul de pornire al elementelor. Oamenii cu aceste ramuri în hartă sunt aventurieri și nomazi în interior. Nu se opresc din dezvoltare și sunt mereu tineri în inima lor."
-                }, "matchingPillars": [
-                [{
-                    "pillar": "day",
-                    "branch": "亥 hài"
-                }]]
-            },
-            {
-                "relation": {
                     "eb1": "未 wèi",
                     "eb2": "午 wǔ",
                     "category": "Armonie",
-                    "description": "Cele două produc Foc",
+                    // "description": "Cele două produc Foc",
                     "result": "F",
                     "categoryDescription": "Combinații interne, apar în stâlpul de noroc sau anul curent. Acestea când se combină formează un element, care poate fi favorabil sau nu SZ."
                 }, "matchingPillars": [
@@ -411,7 +400,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:99},{json: asserts});
+        BaZiMain(person).make({level: 99}, {json: asserts});
     });
 
     it('check relations are not present for user level 1', function (done) {
@@ -429,7 +418,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:1},{json: asserts});
+        BaZiMain(person).make({level: 1}, {json: asserts});
     });
 
     it('check relations are not present for user level 3', function (done) {
@@ -502,7 +491,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:8},{json: asserts});
+        BaZiMain(person).make({level: 8}, {json: asserts});
     });
 
     it('check shen sha for 26/6/1986 (level 8)', function (done) {
@@ -550,7 +539,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:8},{json: asserts});
+        BaZiMain(person).make({level: 8}, {json: asserts});
     });
 
     it('check date with shen sha 3 marvels', function (done) {
@@ -579,7 +568,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:8},{json: asserts});
+        BaZiMain(person).make({level: 8}, {json: asserts});
     });
 
     it('check star binomial', function (done) {
@@ -604,7 +593,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:8},{json: asserts});
+        BaZiMain(person).make({level: 8}, {json: asserts});
     });
 
     it('check missing star binomial', function (done) {
@@ -621,7 +610,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:8},{json: asserts});
+        BaZiMain(person).make({level: 8}, {json: asserts});
     });
 
     it('check normal life type', function (done) {
@@ -642,7 +631,7 @@ describe('BaZiMain basic calculations', function () {
             done();
         }
 
-        BaZiMain(person).make({level:3},{json: asserts});
+        BaZiMain(person).make({level: 3}, {json: asserts});
     });
 
     /**
@@ -678,7 +667,7 @@ describe('BaZiMain basic calculations', function () {
                 console.log(dayId);
             }
 
-            BaZiMain(person).make({level:8},{json: asserts});
+            BaZiMain(person).make({level: 8}, {json: asserts});
             m = m.add(1, 'day');
         }
         setTimeout(done, timeout - 3000);

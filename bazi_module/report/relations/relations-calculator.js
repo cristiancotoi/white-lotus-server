@@ -19,11 +19,13 @@ let strengthCalculator = function (searchFor) {
     }
 
     function eq(pillar, item) {
-        let hsFound = true, ebFound = true;
-        if (searchForBranchOrStem === 'mix' || searchForBranchOrStem === 'hs') {
+        let hsFound = false, ebFound = false;
+        if (searchForBranchOrStem === 'hs') {
             hsFound = pillar.hs === item;
-        }
-        if (searchForBranchOrStem === 'mix' || searchForBranchOrStem === 'eb') {
+        } else if (searchForBranchOrStem === 'eb') {
+            ebFound = pillar.eb === item;
+        } else {
+            hsFound = pillar.hs === item;
             ebFound = pillar.eb === item;
         }
         return hsFound || ebFound;
@@ -112,7 +114,7 @@ let strengthCalculator = function (searchFor) {
             pillarsHave3StemRelation(pillars, stemsList);
     }
 
-    function chartHasStemRelation(chart, stemsList) {
+    function chartHasRelation(chart, stemsList) {
         let relationSize = _.size(stemsList);
         let chartArray = pillarsObjectToArray(chart);
         let chartSize = _.size(chartArray);
@@ -170,7 +172,7 @@ let strengthCalculator = function (searchFor) {
         pillarsHave2StemRelation: pillarsHave2StemRelation,
         pillarsHave3StemRelation: pillarsHave3StemRelation,
         pillarsHaveStemRelation: pillarsHaveStemRelation,
-        chartHasStemRelation: chartHasStemRelation,
+        chartHasStemRelation: chartHasRelation,
         chartAndExternalPillarHasStemRelation: chartAndExternalPillarHasStemRelation,
         chartHasRelationsWithExternalChart: chartHasRelationsWithExternalChart
     };
