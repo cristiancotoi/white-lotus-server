@@ -23,7 +23,7 @@ describe('BaZi pillar EB relations calculator', function () {
 
         let lookForStems = ['卯 mǎo', '午 wǔ'];
 
-        let result = calculator.pillarsHave2StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave2ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(0);
     });
 
@@ -41,7 +41,7 @@ describe('BaZi pillar EB relations calculator', function () {
 
         let lookForStems = ['丑 chǒu', '午 wǔ'];
 
-        let result = calculator.pillarsHave2StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave2ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {

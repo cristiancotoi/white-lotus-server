@@ -23,7 +23,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+'];
 
-        let result = calculator.pillarsHave2StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave2ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(0);
     });
 
@@ -41,7 +41,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['乙 L-', '壬 A+'];
 
-        let result = calculator.pillarsHave2StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave2ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -73,7 +73,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '乙 L-'];
 
-        let result = calculator.pillarsHave3StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave3ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -105,7 +105,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '乙 L-'];
 
-        let result = calculator.pillarsHave2StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave2ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -134,7 +134,7 @@ describe('BaZi pillar HS relations calculator', function () {
         let lookForStems = ['癸 A-'];
 
         try {
-            calculator.pillarsHaveStemRelation(inputChart, lookForStems);
+            calculator.pillarsHaveRelation(inputChart, lookForStems);
             expect(result.length).to.equal(1);
         } catch (error) {
             expect(error.message).to.contain(
@@ -156,7 +156,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '乙 L-'];
 
-        let result = calculator.pillarsHaveStemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHaveRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -188,7 +188,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '乙 L-'];
 
-        let result = calculator.pillarsHave3StemRelation(inputChart, lookForStems);
+        let result = calculator.pillarsHave3ItemsInRelation(inputChart, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -228,7 +228,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+'];
 
-        let result = calculator.chartHasStemRelation(inputChart, lookForStems);
+        let result = calculator.chartHasRelation(inputChart, lookForStems);
         expect(result.length).to.equal(2);
         expect(result[0]).to.containSubset([
             {
@@ -272,7 +272,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+'];
 
-        let result = calculator.chartHasStemRelation(inputChart, lookForStems);
+        let result = calculator.chartHasRelation(inputChart, lookForStems);
         expect(result.length).to.equal(2);
         expect(result[0]).to.containSubset([
             {
@@ -316,7 +316,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '乙 L-'];
 
-        let result = calculator.chartHasStemRelation(inputChart, lookForStems);
+        let result = calculator.chartHasRelation(inputChart, lookForStems);
         expect(result.length).to.equal(2);
         expect(result[0]).to.containSubset([
             {
@@ -356,7 +356,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '乙 L-'];
 
-        let result = calculator.chartHasStemRelation(inputChart, lookForStems);
+        let result = calculator.chartHasRelation(inputChart, lookForStems);
         expect(result.length).to.equal(2);
         expect(result[0]).to.containSubset([
             {
@@ -414,7 +414,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '乙 L-'];
 
-        let result = calculator.chartAndExternalPillarHasStemRelation(inputChart, pillar, lookForStems);
+        let result = calculator.chartAndExternalPillarHaveRelation(inputChart, pillar, lookForStems);
         expect(result.length).to.equal(0);
     });
 
@@ -446,7 +446,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['壬 A+', '甲 L+'];
 
-        let result = calculator.chartAndExternalPillarHasStemRelation(inputChart, pillar, lookForStems);
+        let result = calculator.chartAndExternalPillarHaveRelation(inputChart, pillar, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {
@@ -488,7 +488,7 @@ describe('BaZi pillar HS relations calculator', function () {
 
         let lookForStems = ['癸 A-', '壬 A+', '甲 L+'];
 
-        let result = calculator.chartAndExternalPillarHasStemRelation(inputChart, pillar, lookForStems);
+        let result = calculator.chartAndExternalPillarHaveRelation(inputChart, pillar, lookForStems);
         expect(result.length).to.equal(1);
         expect(result[0]).to.containSubset([
             {

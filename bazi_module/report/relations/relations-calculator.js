@@ -1,10 +1,14 @@
 'use strict';
 
 let _ = require("lodash");
-
+/**
+ *
+ * @param searchFor "eb" or "hs"
+ */
 let strengthCalculator = function (searchFor) {
-    let searchForBranchOrStem = _.isUndefined(searchFor) ?
-        "mix" :
+    let searchForBranchOrStem =
+        _.isUndefined(searchFor) || (searchFor !== "eb" && searchFor !== "hs") ?
+        "eb" :
         searchFor;
 
     function pillarsObjectToArray(pillars) {
@@ -44,12 +48,12 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
-    function pillarsHave2StemRelation(pillars, stemsList) {
+    function pillarsHave2ItemsInRelation(pillars, itemsList) {
         let result = [];
         let pillarsArray = pillarsObjectToArray(pillars);
         if (
-            (eq(pillarsArray[0], stemsList[0]) && eq(pillarsArray[1], stemsList[1])) ||
-            (eq(pillarsArray[0], stemsList[1]) && eq(pillarsArray[1], stemsList[0]))
+            (eq(pillarsArray[0], itemsList[0]) && eq(pillarsArray[1], itemsList[1])) ||
+            (eq(pillarsArray[0], itemsList[1]) && eq(pillarsArray[1], itemsList[0]))
         ) {
             result.push([
                 makePillarResult(pillarsArray[0]),
@@ -59,41 +63,41 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
-    function pillarsHave3StemRelation(pillars, stemsList) {
+    function pillarsHave3ItemsInRelation(pillars, itemsList) {
         let result = [];
         let pillarsArray = pillarsObjectToArray(pillars);
         if (
             (
-                eq(pillarsArray[0], stemsList[0]) &&
-                eq(pillarsArray[1], stemsList[1]) &&
-                eq(pillarsArray[2], stemsList[2])
+                eq(pillarsArray[0], itemsList[0]) &&
+                eq(pillarsArray[1], itemsList[1]) &&
+                eq(pillarsArray[2], itemsList[2])
             ) || (
-                eq(pillarsArray[0], stemsList[0]) &&
-                eq(pillarsArray[2], stemsList[1]) &&
-                eq(pillarsArray[1], stemsList[2])
+                eq(pillarsArray[0], itemsList[0]) &&
+                eq(pillarsArray[2], itemsList[1]) &&
+                eq(pillarsArray[1], itemsList[2])
             ) || (
-                eq(pillarsArray[1], stemsList[0]) &&
-                eq(pillarsArray[0], stemsList[1]) &&
-                eq(pillarsArray[2], stemsList[2])
+                eq(pillarsArray[1], itemsList[0]) &&
+                eq(pillarsArray[0], itemsList[1]) &&
+                eq(pillarsArray[2], itemsList[2])
             ) || (
-                eq(pillarsArray[1], stemsList[0]) &&
-                eq(pillarsArray[2], stemsList[1]) &&
-                eq(pillarsArray[0], stemsList[2])
+                eq(pillarsArray[1], itemsList[0]) &&
+                eq(pillarsArray[2], itemsList[1]) &&
+                eq(pillarsArray[0], itemsList[2])
             ) || (
-                eq(pillarsArray[2], stemsList[0]) &&
-                eq(pillarsArray[0], stemsList[1]) &&
-                eq(pillarsArray[1], stemsList[2])
+                eq(pillarsArray[2], itemsList[0]) &&
+                eq(pillarsArray[0], itemsList[1]) &&
+                eq(pillarsArray[1], itemsList[2])
             ) || (
-                eq(pillarsArray[2], stemsList[0]) &&
-                eq(pillarsArray[1], stemsList[1]) &&
-                eq(pillarsArray[0], stemsList[2])
+                eq(pillarsArray[2], itemsList[0]) &&
+                eq(pillarsArray[1], itemsList[1]) &&
+                eq(pillarsArray[0], itemsList[2])
             )
         ) {
             let group = [makePillarResult(pillarsArray[0])];
-            if (!_.isUndefined(stemsList[1])) {
+            if (!_.isUndefined(itemsList[1])) {
                 group.push(makePillarResult(pillarsArray[1]))
             }
-            if (!_.isUndefined(stemsList[2])) {
+            if (!_.isUndefined(itemsList[2])) {
                 group.push(makePillarResult(pillarsArray[2]))
             }
             result.push(group);
@@ -101,21 +105,21 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
-    function pillarsHaveStemRelation(pillars, stemsList) {
+    function pillarsHaveRelation(pillars, itemsList) {
         let pillarsSize = _.size(pillars);
-        let relationSize = _.size(stemsList);
+        let relationSize = _.size(itemsList);
         console.assert(pillarsSize === relationSize,
             'Pillars set should have the same number of elements as the relation. ' +
             'pillars [' + pillarsSize + '], relation [' + relationSize + ']');
         console.assert(pillarsSize > 1 && pillarsSize < 4,
             'Function can only handle 2 or 3 elements in a relation. relation [' + relationSize + ']');
         return relationSize === 2 ?
-            pillarsHave2StemRelation(pillars, stemsList) :
-            pillarsHave3StemRelation(pillars, stemsList);
+            pillarsHave2ItemsInRelation(pillars, itemsList) :
+            pillarsHave3ItemsInRelation(pillars, itemsList);
     }
 
-    function chartHasRelation(chart, stemsList) {
-        let relationSize = _.size(stemsList);
+    function chartHasRelation(chart, itemsList) {
+        let relationSize = _.size(itemsList);
         let chartArray = pillarsObjectToArray(chart);
         let chartSize = _.size(chartArray);
         if (relationSize === 3) chartSize--;
@@ -126,7 +130,7 @@ let strengthCalculator = function (searchFor) {
             let chartSubArray = [chartArray[i], chartArray[i + 1]];
             if (relationSize === 3) chartSubArray.push(chartArray[i + 2]);
 
-            let chartSubArrayRelation = pillarsHaveStemRelation(chartSubArray, stemsList);
+            let chartSubArrayRelation = pillarsHaveRelation(chartSubArray, itemsList);
             if (_.size(chartSubArrayRelation) > 0) {
                 result = _.concat(result, chartSubArrayRelation);
             }
@@ -134,8 +138,8 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
-    function chartAndExternalPillarHasStemRelation(chart, pillar, stemsList) {
-        let relationSize = _.size(stemsList);
+    function chartAndExternalPillarHasRelation(chart, pillar, itemsList) {
+        let relationSize = _.size(itemsList);
         let chartArray = pillarsObjectToArray(chart);
         let chartSize = _.size(chartArray);
         if (relationSize === 3) chartSize--;
@@ -146,7 +150,7 @@ let strengthCalculator = function (searchFor) {
             let chartSubArray = [pillar, chartArray[i]];
             if (relationSize === 3) chartSubArray.push(chartArray[i + 1]);
 
-            let chartSubArrayRelation = pillarsHaveStemRelation(chartSubArray, stemsList);
+            let chartSubArrayRelation = pillarsHaveRelation(chartSubArray, itemsList);
             if (_.size(chartSubArrayRelation) > 0) {
                 result = _.concat(result, chartSubArrayRelation);
             }
@@ -154,13 +158,13 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
-    function chartHasRelationsWithExternalChart(chart, externalChart, stemsList) {
+    function chartHasRelationsWithExternalChart(chart, externalChart, itemsList) {
         let extChartArray = pillarsObjectToArray(externalChart);
         let result = [];
         _.each(extChartArray, function (pillar) {
             pillar.name = "external-" + pillar.name;
             let chartAndPillarRelation =
-                chartAndExternalPillarHasStemRelation(chart, pillar, stemsList);
+                chartAndExternalPillarHasRelation(chart, pillar, itemsList);
             if (_.size(chartAndPillarRelation) > 0) {
                 result = _.concat(result, chartAndPillarRelation);
             }
@@ -168,13 +172,59 @@ let strengthCalculator = function (searchFor) {
         return result;
     }
 
+    /**
+     * Identify matching relations in a chart
+     * @returns {Array}
+     */
+    function getMatchingRelationsInChart(chart, relationsArray) {
+        let matchingRelationsArr = [];
+
+        _.each(relationsArray, function (relation) {
+            let rel1;
+            if (_.isUndefined(relation[searchForBranchOrStem + "2"])) {
+                // Single branch description
+                // ignored
+            } else if (_.isUndefined(relation[searchForBranchOrStem + "3"])) {
+                // Relation between 2 branches
+                rel1 = chartHasRelation(
+                    chart,
+                    [relation[searchForBranchOrStem + "1"], relation[searchForBranchOrStem + "2"]]);
+                if(_.size(rel1) > 0) {
+                    matchingRelationsArr = _.concat(
+                        matchingRelationsArr,
+                        {
+                            relation: relation,
+                            matchingPillars: rel1
+                        });
+                }
+            } else {
+                // Relation between 3 branches
+                rel1 = chartHasRelation(
+                    chart,
+                    [relation[searchForBranchOrStem + "1"], relation[searchForBranchOrStem + "2"], relation[searchForBranchOrStem + "3"]]);
+                if(_.size(rel1) > 0) {
+                    matchingRelationsArr = _.concat(
+                        matchingRelationsArr,
+                        {
+                            relation: relation,
+                            matchingPillars: rel1
+                        });
+                }
+
+            }
+        });
+        return matchingRelationsArr;
+    }
+    
     return {
-        pillarsHave2StemRelation: pillarsHave2StemRelation,
-        pillarsHave3StemRelation: pillarsHave3StemRelation,
-        pillarsHaveStemRelation: pillarsHaveStemRelation,
-        chartHasStemRelation: chartHasRelation,
-        chartAndExternalPillarHasStemRelation: chartAndExternalPillarHasStemRelation,
-        chartHasRelationsWithExternalChart: chartHasRelationsWithExternalChart
+        pillarsHave2ItemsInRelation: pillarsHave2ItemsInRelation,
+        pillarsHave3ItemsInRelation: pillarsHave3ItemsInRelation,
+        pillarsHaveRelation: pillarsHaveRelation,
+        chartHasRelation: chartHasRelation,
+        chartAndExternalPillarHaveRelation: chartAndExternalPillarHasRelation,
+        chartHasRelationsWithExternalChart: chartHasRelationsWithExternalChart,
+
+        getMatchingRelationsInChart: getMatchingRelationsInChart
     };
 };
 
