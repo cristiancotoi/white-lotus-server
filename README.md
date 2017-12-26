@@ -29,3 +29,6 @@ Node.js backend for a numerology and chinese astrology application
 | :---                              | :---                    |
 | Create project                    | `oc new-project whitelotus --description="Backend for a numerology and chinese astrology application" --display-name="White Lotus"` |
 | Create application                | `oc new-app -f openshift/templates/nodejs-mongodb-persistent.json` |
+| Get active pods                   | `oc get pods` |
+| SSH on pod                        | `oc rsh <pod_name>` |
+| Connect to mongo shell            | `mongo whitelotus --username $MONGODB_USER --password $MONGODB_PASSWORD` |
