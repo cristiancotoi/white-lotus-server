@@ -37,8 +37,8 @@ function connectToDb() {
 
     let options = {
         useMongoClient: true,
-        reconnectTries: 500,
-        reconnectInterval: 500
+        reconnectTries: Number.MAX_VALUE,
+        reconnectInterval: 1000
     };
     connectWithRetry(connectionString, options)
 }
