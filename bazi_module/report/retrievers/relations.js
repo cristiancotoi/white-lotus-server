@@ -3,6 +3,7 @@
 let _ = require("lodash");
 
 let BranchRelation = require('../../../models/bazi/branch-relation');
+let StemRelation = require('../../../models/bazi/stem-relation');
 
 let BranchRelationsCalculator = require('../relations/branch');
 
@@ -10,11 +11,11 @@ let relations = function () {
     function getBranchRelations(resultData) {
         let promise = BranchRelation.find().exec();
 
-        return promise.then(function (allRelations) {
+        return promise.then(function (allBranchRelations) {
             resultData.branchRelations =
                 BranchRelationsCalculator().getMatchingRelationsInChart(
                     resultData.chart.chart,
-                    allRelations
+                    allBranchRelations
                 );
         });
     }
